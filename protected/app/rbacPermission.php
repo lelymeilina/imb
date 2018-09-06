@@ -1,0 +1,30 @@
+<?php
+
+namespace App;
+
+use Illuminate\Database\Eloquent\Model;
+
+class rbacPermission extends Model
+{
+    //
+     /**
+     * The database table used by the model.
+     *
+     * @var string
+     */
+    protected $table = 'rbac_permissions';
+    /*
+    |--------------------------------------------------------------------------
+    | Relationship Methods
+    |--------------------------------------------------------------------------
+    */
+    /**
+     * many-to-many relationship method
+     *
+     * @return QueryBuilder
+     */
+    public function roles()
+    {
+        return $this->belongsToMany('App\rbacRole');
+    }
+}

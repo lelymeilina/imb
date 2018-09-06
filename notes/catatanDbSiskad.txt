@@ -1,0 +1,70 @@
+daftar tabel asli siskad
+dosen
+dtl_kls
+dtl_krs
+du
+jurusan
+kelas
+krs
+mhs
+
+field user jadi kaprodi di reg_ta dan reg_kp
+
+query update data
+UPDATE reg_ta SET semester = 2 WHERE semester = 'genap'
+UPDATE reg_ta SET semester = 1 WHERE semester = 'ganjil'
+UPDATE reg_ta SET id_topik = RIGHT(id_topik,2) WHERE id_topik >= '010'
+UPDATE reg_ta SET id_topik = RIGHT(id_topik,1) WHERE id_topik <= '009'
+UPDATE reg_ta SET tahun_ajaran = LEFT(tahun_ajaran,4)
+UPDATE m_dosen t INNER JOIN dosen d ON d.nidn = t.nidn SET t.dsnid = d.dsnid
+UPDATE `t_reg_kp` SET tahun_ajaran = LEFT(tahun_ajaran,4),semester=IF(semester="Ganjil",1,2) 
+
+UPDATE `t_reg_kp` SET tahun_ajaran = LEFT(tahun_ajaran,4),semester=IF(semester="Ganjil",1,2) 
+UPDATE m_dosen SET status_dosen=IF(status_dosen="Tetap",'1',IF(status_dosen="Tidak Tetap",0,"")),
+is_pembimbing = IF(is_pembimbing="TA",'1',IF(is_pembimbing="KP",1,IF(is_pembimbing="TA dan KP",2,"")))
+
+UPDATE m_dosen m
+INNER JOIN dosen  d ON m.nidn = d.nidn
+SET m.no_telp = d.telp
+
+UPDATE m_dosen m
+INNER JOIN dosen  d ON m.dsnid = d.dsnid
+SET m.no_telp = d.telp
+
+
+======================================================================
+QUERY CLEAN DATA AND MIGRATE SEED
+======================================================================
+INSERT INTO `t_reg_ta`
+SELECT id_skripsi,nosurat,nim,LEFT(tahun_ajaran,4),IF(semester="Genap","2","1"),judul,
+id_topik,pembimbing1,pembimbing2,STATUS,tanggal,tanggalexp,tglupdate,
+lastmonth,USER,nilai1,nilai2,nilai3,nilai4,nilai_rata,bobot_nilai,s.keterangan,status_uji,tanggal,tglupdate
+FROM s_reg_skripsi s
+INNER JOIN s_topik_skripsi t ON t.kode_topik = s.topik
+
+
+INSERT INTO `t_reg_kp`
+SELECT id_kp,nosurat,nim,pembimbing,tempat_kp,LEFT(tahun_ajaran,4),IF(semester="Genap","2","1"),STATUS,tanggal,tglupdate,
+USER,lastmonth,judul,nilai1,nilai2,nilai3,nilai4,nilai_rata_ext,nilai_rata,bobot_nilai,keterangan,tanggal,tglupdate
+FROM s_reg_kp 
+
+INSERT INTO `t_uji_proposal`
+SELECT p.*,p.tanggal_prop,p.tanggal_prop FROM `s_uji_proposal` p
+
+INSERT INTO `t_uji_sidang`
+SELECT s.*,s.tanggal_sidang,s.tanggal_sidang FROM `s_uji_sidang` s
+
+
+UPDATE t_reg_ta 
+SET kaprodi = IF(kaprodi=13,"1",IF(kaprodi=23,"3",IF(kaprodi=24,"2","0")))
+
+UPDATE t_reg_kp
+SET kaprodi = IF(kaprodi=13,"1",IF(kaprodi=23,"3",IF(kaprodi=24,"2","0")))
+
+
+UPDATE m_dosen d
+INNER JOIN `s_dosen_pembimbing` p ON d.id = p.id_dosen
+SET d.quota_ta = p.quota, d.quota_uji = p.quotauji,d.quota_kp = p.quotakp
+
+
+UPDATE t_reg_ta SET STATUS = 2 WHERE STATUS = 3
