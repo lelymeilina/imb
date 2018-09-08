@@ -132,4 +132,10 @@ Route::get('/admin/tbsurveyor', 'SurveyorController@getData');
 Route::get('/admin/surveyor/{id}/hapus', 'SurveyorController@hapus');
 
 
+//Pengajuan
+Route::resource('admin/pengajuan', 'PengajuanController');
+Route::get('/admin/tbpengajuan', 'PengajuanController@getData');
+Route::get('/admin/pengajuan/{id}/hapus', 'PengajuanController@hapus');
+
+
 
