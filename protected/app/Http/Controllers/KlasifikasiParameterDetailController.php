@@ -8,11 +8,15 @@ use App\Http\Requests;
 use DB;
 use Datatables;
 use App\KlasifikasiParameterDetail;
+use App\KlasifikasiParameter;
+        
+
+
 
 class KlasifikasiParameterDetailController extends Controller
 {
     //
-	 /**
+     /**
      * Create a new controller instance.
      *
      * @return void
@@ -25,7 +29,8 @@ class KlasifikasiParameterDetailController extends Controller
     public function index()
     {
         //
-        return view('admin.klasifikasiparameterdetail.index');
+        $kp = KlasifikasiParameter::where('flag_delete','=','0')->pluck('nama','id')->toArray();
+        return view('admin.klasifikasiparameterdetail.index',compact('kp'));
     }
 
     /**
@@ -46,7 +51,14 @@ class KlasifikasiParameterDetailController extends Controller
      */
     public function store(Request $request)
     {
-        admin::create($request->all());    		
+
+        $klasifikasiparameterdetail = new KlasifikasiParameterDetail();
+        $klasifikasiparameterdetail->nama = $request->nama;
+        $klasifikasiparameterdetail->id_klasifikasi_parameter = $request->id_klasifikasi_parameter;
+        $klasifikasiparameterdetail->indeks = $request->indeks;
+        $klasifikasiparameterdetail->flag_delete = 0;
+        $klasifikasiparameterdetail->save();
+        
     }
 
     /**
@@ -68,8 +80,9 @@ class KlasifikasiParameterDetailController extends Controller
      */
     public function edit($id)
     {
-        $admin = admin::find($id);
-        return view('admin.admin.edit', compact('admin'));
+        $kp = KlasifikasiParameter::where('flag_delete','=','0')->pluck('nama','id')->toArray();
+        $klasifikasiparameterdetail = KlasifikasiParameterDetail::find($id);
+        return view('admin.klasifikasiparameterdetail.edit', compact('klasifikasiparameterdetail','kp'));
     }
 
     /**
@@ -83,31 +96,33 @@ class KlasifikasiParameterDetailController extends Controller
     {
         //
         
-        $admin = admin::find($id);
-        $admin->update($request->all());
-        //return redirect('pegawai')->with('message', 'Data berhasil dirubah!');
+        $klasifikasiparameterdetail = KlasifikasiParameterDetail::find($id);
+        $klasifikasiparameterdetail->nama = $request->nama;
+        $klasifikasiparameterdetail->indeks = $request->indeks;
+        $klasifikasiparameterdetail->save();
     }
 
     public function hapus($id)
     {
         
-        $admin = admin::find($id);
-        return view('admin.admin.hapus', compact('admin'));
+        $klasifikasiparameterdetail = KlasifikasiParameterDetail::find($id);
+        return view('admin.klasifikasiparameterdetail.hapus', compact('klasifikasiparameterdetail'));
     }
 
     public function destroy($id)
     {
-        $admin = admin::find($id);
-        $admin->flag_delete = "1";
-        $admin->save();
+        $klasifikasiparameterdetail = KlasifikasiParameterDetail::find($id);
+        $klasifikasiparameterdetail->flag_delete = "1";
+        $klasifikasiparameterdetail->save();
     }
     
     
     public function getData(Request $request){
 
         DB::statement(DB::raw('set @rownum = 0'));
-        $data = DB::table('m_admin As a')
-        ->select([DB::raw('@rownum  := @rownum  + 1 AS no'),'a.id','a.email','a.nama','a.no_telp','a.foto'])
+        $data = DB::table('m_klasifikasi_parameter_detail As a')
+        ->join('m_klasifikasi_parameter as b','b.id','=','a.id_klasifikasi_parameter')
+        ->select([DB::raw('@rownum  := @rownum  + 1 AS no'),'a.id','a.nama','b.nama as id_klasifikasi_parameter','a.indeks'])
         ->where('a.flag_delete','=','0');
         //debug($data);
 
@@ -118,7 +133,7 @@ class KlasifikasiParameterDetailController extends Controller
         }
 
         return $datatables
-        ->addcolumn('action','<a title="Edit Data" href="#" data-toggle="modal" data-target="#modalUbahAdmin" data-id="{!! $id !!}" ><span class="label label-info"><span class="fa fa-edit"></span></span></a> &nbsp; <a title="Hapus Data" href="#" data-toggle="modal" data-target="#modalHapusAdmin" data-id="{!! $id !!}" ><span class="label label-danger"><span class="fa fa-trash"></span></span> </a>')
+        ->addcolumn('action','<a title="Edit Data" href="#" data-toggle="modal" data-target="#modalubahklasifikasiparameterdetail" data-id="{!! $id !!}" ><span class="label label-info"><span class="fa fa-edit"></span></span></a> &nbsp; <a title="Hapus Data" href="#" data-toggle="modal" data-target="#modalhapusklasifikasiparameterdetail" data-id="{!! $id !!}" ><span class="label label-danger"><span class="fa fa-trash"></span></span> </a>')
         ->make(true);
-	}
+    }
 }

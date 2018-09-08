@@ -71,17 +71,9 @@
             <div class="box-body">
 
                           <div class="form-group">
-                            {!! Form::label('nama', 'Level User',['class' => 'col-md-3 control-label']) !!}
+                            {!! Form::label('username', 'Nama',['class' => 'col-md-3 control-label username']) !!}
                             <div class="col-md-8">
-                              {!! Form::select('role_id[]',['0' => 'Pilih Level User'] + $lvluser, null, ['class' => 'form-control select2','multiple'=>'multiple', 'id' => 'roleid','style' => 'width:100%']) !!}
-                            </div>
-                          </div>
-
-                          <div class="form-group">
-                            {!! Form::label('nama', 'Nama',['class' => 'col-md-3 control-label']) !!}
-                            <div class="col-md-8">
-                            {!! Form::select('namePilih',['' => 'Pilih Nama User'], null, ['id' => 'namePilih', 'class' => 'selectNama form-control select2','style' => 'width:100%']) !!}
-                            {!! Form::hidden('name', null, ['class' => 'form-control', 'placeholder' => 'name', 'id' => 'name']) !!}
+                              {!! Form::text('name', null, ['class' => 'form-control', 'placeholder' => 'Nama']) !!}
                             </div>
                           </div>
                           
@@ -92,12 +84,6 @@
                             </div>
                           </div>
 
-                          <div class="form-group">
-                            {!! Form::label('username', 'Identifier',['class' => 'col-md-3 control-label username']) !!}
-                            <div class="col-md-8">
-                              {!! Form::text('identifier', null, ['class' => 'form-control','id'=>'identifier', 'placeholder' => 'Identifier','readonly'=>'readonly']) !!}
-                            </div>
-                          </div>
 
                           <div class="form-group">
                             {!! Form::label('username', 'Username',['class' => 'col-md-3 control-label username']) !!}

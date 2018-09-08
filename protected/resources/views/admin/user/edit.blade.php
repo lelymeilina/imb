@@ -7,20 +7,6 @@
   {!! Form::hidden('id', null, ['class' => 'form-control', 'placeholder' => 'Id User', 'id' => 'id']) !!}
 
                           <div class="form-group">
-                            {!! Form::label('nama', 'Level User',['class' => 'col-md-3 control-label']) !!}
-                            <div class="col-md-8">
-                              {!! Form::select('role_id[]',['' => 'Pilih Level User'] + $lvluser, $roleuser, ['class' => 'form-control select2','multiple'=>'multiple','style' => 'width:100%']) !!}
-                            </div>
-                          </div>
-
-                          <div class="form-group">
-                            {!! Form::label('username', 'Identifier',['class' => 'col-md-3 control-label username']) !!}
-                            <div class="col-md-8">
-                              {!! Form::text('identifier', null, ['class' => 'form-control','id'=>'identifier', 'placeholder' => 'Identifier','readonly'=>'readonly']) !!}
-                            </div>
-                          </div>
-
-                          <div class="form-group">
                             {!! Form::label('nama', 'Nama',['class' => 'col-md-3 control-label']) !!}
                             <div class="col-md-8">
                               {!! Form::text('name', null, ['class' => 'form-control', 'placeholder' => 'Nama']) !!}

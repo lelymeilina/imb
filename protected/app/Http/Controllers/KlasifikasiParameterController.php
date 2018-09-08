@@ -11,8 +11,8 @@ use App\KlasifikasiParameter;
 
 class KlasifikasiParameterController extends Controller
 {
-    //
-	 /**
+   //
+     /**
      * Create a new controller instance.
      *
      * @return void
@@ -46,7 +46,13 @@ class KlasifikasiParameterController extends Controller
      */
     public function store(Request $request)
     {
-        admin::create($request->all());    		
+
+        $klasifikasiparameter = new KlasifikasiParameter();
+        $klasifikasiparameter->nama = $request->nama;
+        $klasifikasiparameter->indeks = $request->indeks;
+        $klasifikasiparameter->flag_delete = 0;
+        $klasifikasiparameter->save();
+        
     }
 
     /**
@@ -68,8 +74,8 @@ class KlasifikasiParameterController extends Controller
      */
     public function edit($id)
     {
-        $admin = admin::find($id);
-        return view('admin.admin.edit', compact('admin'));
+        $klasifikasiparameter = KlasifikasiParameter::find($id);
+        return view('admin.klasifikasiparameter.edit', compact('klasifikasiparameter'));
     }
 
     /**
@@ -83,31 +89,32 @@ class KlasifikasiParameterController extends Controller
     {
         //
         
-        $admin = admin::find($id);
-        $admin->update($request->all());
-        //return redirect('pegawai')->with('message', 'Data berhasil dirubah!');
+        $klasifikasiparameter = KlasifikasiParameter::find($id);
+        $klasifikasiparameter->nama = $request->nama;
+        $klasifikasiparameter->indeks = $request->indeks;
+        $klasifikasiparameter->save();
     }
 
     public function hapus($id)
     {
         
-        $admin = admin::find($id);
-        return view('admin.admin.hapus', compact('admin'));
+        $klasifikasiparameter = KlasifikasiParameter::find($id);
+        return view('admin.klasifikasiparameter.hapus', compact('klasifikasiparameter'));
     }
 
     public function destroy($id)
     {
-        $admin = admin::find($id);
-        $admin->flag_delete = "1";
-        $admin->save();
+        $klasifikasiparameter = KlasifikasiParameter::find($id);
+        $klasifikasiparameter->flag_delete = "1";
+        $klasifikasiparameter->save();
     }
     
     
     public function getData(Request $request){
 
         DB::statement(DB::raw('set @rownum = 0'));
-        $data = DB::table('m_admin As a')
-        ->select([DB::raw('@rownum  := @rownum  + 1 AS no'),'a.id','a.email','a.nama','a.no_telp','a.foto'])
+        $data = DB::table('m_klasifikasi_parameter As a')
+        ->select([DB::raw('@rownum  := @rownum  + 1 AS no'),'a.id','a.nama','a.indeks'])
         ->where('a.flag_delete','=','0');
         //debug($data);
 
@@ -118,7 +125,7 @@ class KlasifikasiParameterController extends Controller
         }
 
         return $datatables
-        ->addcolumn('action','<a title="Edit Data" href="#" data-toggle="modal" data-target="#modalUbahAdmin" data-id="{!! $id !!}" ><span class="label label-info"><span class="fa fa-edit"></span></span></a> &nbsp; <a title="Hapus Data" href="#" data-toggle="modal" data-target="#modalHapusAdmin" data-id="{!! $id !!}" ><span class="label label-danger"><span class="fa fa-trash"></span></span> </a>')
+        ->addcolumn('action','<a title="Edit Data" href="#" data-toggle="modal" data-target="#modalubahklasifikasiparameter" data-id="{!! $id !!}" ><span class="label label-info"><span class="fa fa-edit"></span></span></a> &nbsp; <a title="Hapus Data" href="#" data-toggle="modal" data-target="#modalhapusklasifikasiparameter" data-id="{!! $id !!}" ><span class="label label-danger"><span class="fa fa-trash"></span></span> </a>')
         ->make(true);
-	}
+    }
 }

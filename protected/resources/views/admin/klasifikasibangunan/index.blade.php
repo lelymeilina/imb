@@ -24,7 +24,7 @@
       <div class="box box-danger" >
         <div class="box-header">
         	<div class="col-sm-8">
-          <h3 class="box-title">Data Jenis Imb</h3>
+          <h3 class="box-title">Data Klasifikasi Bangunan</h3>
           </div>
           <div class="col-sm-4">
           <div align="right">
@@ -57,7 +57,7 @@
       <div class="modal-content">
         <div class="modal-header ">
           <button type="reset" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title" id="myModalLabel">Formulir Tambah klasifikasibangunan</h4>
+          <h4 class="modal-title" id="myModalLabel">Formulir Tambah Klasifikasi Bangunan</h4>
         </div>
         
       
@@ -67,9 +67,9 @@
                           
 
                           <div class="form-group">
-                            {!! Form::label('nama', 'Nama',['class' => 'col-md-2 control-label']) !!}
-                            <div class="col-md-9">
-                                   {!! Form::text('nama', null, ['class' => 'form-control', 'placeholder' => 'Masukkan Jenis Imb']) !!}
+                            {!! Form::label('nama', 'Nama',['class' => 'col-md-3 control-label']) !!}
+                            <div class="col-md-8">
+                                   {!! Form::text('nama', null, ['class' => 'form-control', 'placeholder' => 'Masukkan Klasifikasi Bangunan']) !!}
                             </div>
                           </div>
 
@@ -105,7 +105,7 @@
       <div class="modal-content">
         <div class="modal-header ">
           <button type="reset" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title" id="myModalLabel">Formulir Ubah Data klasifikasibangunan</h4>
+          <h4 class="modal-title" id="myModalLabel">Formulir Ubah Data Klasifikasi Bangunan</h4>
         </div>
         
       
@@ -127,7 +127,7 @@
 			<div class="modal-content">
 				<div class="modal-header ">
 					<button type="reset" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					<h4 class="modal-title" id="myModalLabel">Formulir Hapus Data klasifikasibangunan</h4>
+					<h4 class="modal-title" id="myModalLabel">Formulir Hapus Data Klasifikasi Bangunan</h4>
 				</div>
 			  
 		  
@@ -154,7 +154,7 @@
                           columns: [
                               {data: 'no', name: 'no'},
                               {data: 'nama',name:'a.nama'},
-                              {data: 'bangunan', name:'bangunan'},
+                              {data: 'bangunan', name:'a.is_bangunan_tambahan'},
                               {data: 'action', name: 'id',orderable: false, searchable: false}
                           ],
                           rowCallback: function( row, data, iDisplayIndex ) {

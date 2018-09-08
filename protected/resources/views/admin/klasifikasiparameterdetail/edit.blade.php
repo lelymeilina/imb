@@ -2,30 +2,29 @@
 <!-- Modal -->
 
 
-{!! Form::model($admin, [ 'method' => 'PUT','id' => 'ubahadmin','class' => 'form-horizontal','role' => 'form']) !!}
+{!! Form::model($klasifikasiparameterdetail, [ 'method' => 'PUT','id' => 'ubahklasifikasiparameterdetail','class' => 'form-horizontal','role' => 'form']) !!}
 
-  {!! Form::hidden('id', null, ['class' => 'form-control', 'placeholder' => 'Id Topik', 'id' => 'id']) !!}
+  {!! Form::hidden('id', null, ['class' => 'form-control', 'placeholder' => 'Id klasifikasiparameterdetail', 'id' => 'id']) !!}
 
 
-                          <div class="form-group">
-                            {!! Form::label('nama', 'Nama Admin',['class' => 'col-md-3 control-label']) !!}
+                        <div class="form-group">
+                            {!! Form::label('nama', 'Nama',['class' => 'col-md-3 control-label']) !!}
                             <div class="col-md-8">
-                                   {!! Form::text('nama', null, ['class' => 'form-control', 'placeholder' => 'Nama Admin']) !!}
+                                   {!! Form::text('nama', null, ['class' => 'form-control', 'placeholder' => 'Masukkan Nama']) !!}
+                            </div>
+                          </div>
+
+                             <div class="form-group">
+                            {!! Form::label('nama', 'Klasifikasi Parameter',['class' => 'col-md-3 control-label']) !!}
+                            <div class="col-md-8">
+                              {!! Form::select('id_klasifikasi_parameter',['' => 'Pilih Klasifikasi Parameter'] + $kp, null, ['class' => 'form-control select2', 'id' => 'kbangunan','style' => 'width:100%']) !!}
                             </div>
                           </div>
 
                           <div class="form-group">
-                            {!! Form::label('nama', 'email',['class' => 'col-md-3 control-label']) !!}
+                            {!! Form::label('nama', 'Indeks',['class' => 'col-md-3 control-label']) !!}
                             <div class="col-md-8">
-                                   {!! Form::text('email', null, ['class' => 'form-control', 'placeholder' => 'e-mail Admin']) !!}
-                            </div>
-                          </div>
-
-
-                          <div class="form-group">
-                            {!! Form::label('notelp', 'No Telp',['class' => 'col-md-3 control-label']) !!}
-                            <div class="col-md-8">
-                                   {!! Form::text('no_telp', null, ['class' => 'form-control', 'placeholder' => 'No Telp']) !!}
+                                   {!! Form::text('indeks', null, ['class' => 'form-control', 'placeholder' => 'Masukkan Indeks']) !!}
                             </div>
                           </div>
 

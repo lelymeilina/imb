@@ -58,7 +58,7 @@
       <div class="modal-content">
         <div class="modal-header ">
           <button type="reset" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title" id="myModalLabel">Formulir Tambah surveyor</h4>
+          <h4 class="modal-title" id="myModalLabel">Formulir Tambah Surveyor</h4>
         </div>
         
       
@@ -113,7 +113,7 @@
       <div class="modal-content">
         <div class="modal-header ">
           <button type="reset" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title" id="myModalLabel">Formulir Ubah Data surveyor</h4>
+          <h4 class="modal-title" id="myModalLabel">Formulir Ubah Data Surveyor</h4>
         </div>
         
       
@@ -135,7 +135,7 @@
       <div class="modal-content">
         <div class="modal-header ">
           <button type="reset" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title" id="myModalLabel">Formulir Hapus Data surveyor</h4>
+          <h4 class="modal-title" id="myModalLabel">Formulir Hapus Data Surveyor</h4>
         </div>
         
       

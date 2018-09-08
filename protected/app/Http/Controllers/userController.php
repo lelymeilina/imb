@@ -63,26 +63,15 @@ class userController extends Controller
         $user->name = $request->name;
         $user->email = $request->email;
         $user->username = $request->username;
-        $user->identifier = $request->identifier;
         $user->password = bcrypt($request->password);
         $user->telp = $request->telp;
         $user->save();
 
-        foreach ($request->role_id as $key => $value) {
-            # code...
-            $leveluser = rbacRoleUser::where('role_id','=',$value)->where('user_id','=',$user->username)->first();
-            if(count($leveluser) >= 1){            
-                $leveluser::find($leveluser->id);
-                $leveluser->role_id = $value;
-                $leveluser->user_id = $user->username;
-                $leveluser->save();
-            }else{
-                $leveluser = new rbacRoleUser();
-                $leveluser->user_id = $user->username;
-                $leveluser->role_id = $value;
-                $leveluser->save();
-            }
-        }
+        $leveluser = new rbacRoleUser();
+        $leveluser->user_id = $user->username;
+        $leveluser->role_id = 1;
+        $leveluser->save();
+
 
 
     }
@@ -127,7 +116,6 @@ class userController extends Controller
     {
         
         $user = User::find($id);
-        $idRole = $user->getRbacRole->id;
         $user->name = $request->name;
         $user->email = $request->email;
         $user->telp = $request->telp;
@@ -145,21 +133,11 @@ class userController extends Controller
 
         rbacRoleUser::where('user_id', $user->username)->delete();
 
-        foreach ($request->role_id as $key => $value) {
-            # code...
-            $leveluser = rbacRoleUser::where('role_id','=',$value)->where('user_id','=',$user->username)->first();
-            if(count($leveluser) >= 1){            
-                $leveluser::find($leveluser->id);
-                $leveluser->role_id = $value;
-                $leveluser->user_id = $user->username;
-                $leveluser->save();
-            }else{
-                $leveluser = new rbacRoleUser();
-                $leveluser->user_id = $user->username;
-                $leveluser->role_id = $value;
-                $leveluser->save();
-            }
-        }
+        $leveluser = new rbacRoleUser();
+        $leveluser->user_id = $user->username;
+        $leveluser->role_id = 1;
+        $leveluser->save();
+            
 
     }
 
@@ -203,36 +181,6 @@ class userController extends Controller
         $user->password = bcrypt($request->password);
         $user->save();
     }
-
-    public function importDosen()
-    {
-        $dosen = dosen::where('flag_delete','=','0')->get();
-        $i = 1;
-        foreach ($dosen as $d) {
-            # code...
-            echo $i.". ".$d->nidn."<br/>";
-            $user = User::where('username','=',$d->nidn)->first();
-            if(count($user)<1){
-                $user = new User();
-                $user->username = $d->nidn;
-                $user->password = bcrypt($d->nidn);
-                $user->identifier = $d->nidn;
-                $user->name = $d->nama;
-                $user->email = $d->email;
-                $user->telp = $d->no_telp;
-                $user->save();
-
-                $leveluser = new rbacRoleUser();
-                $leveluser->role_id = '2';
-                $leveluser->user_id = $d->nidn;
-                $leveluser->save();
-            }
-            $i++;
-        }
-        echo "Sukses";
-        
-    }
-
 
 
     public function destroy($id)

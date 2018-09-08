@@ -8,11 +8,15 @@ use App\Http\Requests;
 use DB;
 use Datatables;
 use App\HargaBangunan;
+use App\Fungsi;
+use App\KlasifikasiBangunan;
+
+
 
 class HargaBangunanController extends Controller
 {
-    //
-	 /**
+     //
+     /**
      * Create a new controller instance.
      *
      * @return void
@@ -25,7 +29,9 @@ class HargaBangunanController extends Controller
     public function index()
     {
         //
-        return view('admin.hargabangunan.index');
+        $kb = KlasifikasiBangunan::where('flag_delete','=','0')->pluck('nama','id')->toArray();
+        $fungsi = Fungsi::where('flag_delete','=','0')->pluck('nama','id')->toArray();
+        return view('admin.hargabangunan.index',compact('kb','fungsi'));
     }
 
     /**
@@ -46,7 +52,16 @@ class HargaBangunanController extends Controller
      */
     public function store(Request $request)
     {
-        admin::create($request->all());    		
+
+        $hargabangunan = new HargaBangunan();
+        $hargabangunan->id_fungsi = $request->id_fungsi;
+        $hargabangunan->id_klasifikasi = $request->id_klasifikasi;
+        $hargabangunan->is_bertingkat = $request->is_bertingkat;
+        $hargabangunan->is_bangunan_tambahan = $request->is_bangunan_tambahan;
+        $hargabangunan->harga = $request->harga;
+        $hargabangunan->flag_delete = 0;
+        $hargabangunan->save();
+        
     }
 
     /**
@@ -68,8 +83,10 @@ class HargaBangunanController extends Controller
      */
     public function edit($id)
     {
-        $admin = admin::find($id);
-        return view('admin.admin.edit', compact('admin'));
+        $kb = KlasifikasiBangunan::where('flag_delete','=','0')->pluck('nama','id')->toArray();
+        $fungsi = Fungsi::where('flag_delete','=','0')->pluck('nama','id')->toArray();
+        $hargabangunan = HargaBangunan::find($id);
+        return view('admin.hargabangunan.edit', compact('hargabangunan','kb','fungsi'));
     }
 
     /**
@@ -83,31 +100,37 @@ class HargaBangunanController extends Controller
     {
         //
         
-        $admin = admin::find($id);
-        $admin->update($request->all());
-        //return redirect('pegawai')->with('message', 'Data berhasil dirubah!');
+        $hargabangunan = HargaBangunan::find($id);
+        $hargabangunan->id_fungsi = $request->id_fungsi;
+        $hargabangunan->id_klasifikasi = $request->id_klasifikasi;
+        $hargabangunan->is_bertingkat = $request->is_bertingkat;
+        $hargabangunan->is_bangunan_tambahan = $request->is_bangunan_tambahan;
+        $hargabangunan->harga = $request->harga;
+        $hargabangunan->save();
     }
 
     public function hapus($id)
     {
         
-        $admin = admin::find($id);
-        return view('admin.admin.hapus', compact('admin'));
+        $hargabangunan = HargaBangunan::find($id);
+        return view('admin.hargabangunan.hapus', compact('hargabangunan'));
     }
 
     public function destroy($id)
     {
-        $admin = admin::find($id);
-        $admin->flag_delete = "1";
-        $admin->save();
+        $hargabangunan = HargaBangunan::find($id);
+        $hargabangunan->flag_delete = "1";
+        $hargabangunan->save();
     }
     
     
     public function getData(Request $request){
 
         DB::statement(DB::raw('set @rownum = 0'));
-        $data = DB::table('m_admin As a')
-        ->select([DB::raw('@rownum  := @rownum  + 1 AS no'),'a.id','a.email','a.nama','a.no_telp','a.foto'])
+        $data = DB::table('m_harga_bangunan As a')
+        ->join('m_klasifikasi_bangunan as b','b.id','=','a.id_klasifikasi')
+        ->join('m_fungsi as c','c.id','=','a.id_fungsi')
+        ->select([DB::raw('@rownum  := @rownum  + 1 AS no'),'a.id','c.nama as id_fungsi','b.nama as id_klasifikasi','a.is_bangunan_tambahan as bangunan','a.is_bertingkat as bertingkat','a.harga'])
         ->where('a.flag_delete','=','0');
         //debug($data);
 
@@ -118,7 +141,17 @@ class HargaBangunanController extends Controller
         }
 
         return $datatables
-        ->addcolumn('action','<a title="Edit Data" href="#" data-toggle="modal" data-target="#modalUbahAdmin" data-id="{!! $id !!}" ><span class="label label-info"><span class="fa fa-edit"></span></span></a> &nbsp; <a title="Hapus Data" href="#" data-toggle="modal" data-target="#modalHapusAdmin" data-id="{!! $id !!}" ><span class="label label-danger"><span class="fa fa-trash"></span></span> </a>')
+        ->addcolumn('action','<a title="Edit Data" href="#" data-toggle="modal" data-target="#modalubahhargabangunan" data-id="{!! $id !!}" ><span class="label label-info"><span class="fa fa-edit"></span></span></a> &nbsp; <a title="Hapus Data" href="#" data-toggle="modal" data-target="#modalhapushargabangunan" data-id="{!! $id !!}" ><span class="label label-danger"><span class="fa fa-trash"></span></span> </a>')
+          ->editcolumn('bangunan','@if($bangunan == 0)
+                                        <span class="label" style="background-color:#138abb;"> Bangunan Utama </span>
+                                     @else
+                                        <span class="label" style="background-color:#018c6d;"> Bangunan Pendukung </span>
+                                     @endif')
+         ->editcolumn('bertingkat','@if($bertingkat == 0)
+                                        <span class="label" style="background-color:#cf2200;"> Tidak Bertingkat </span>
+                                     @else
+                                        <span class="label" style="background-color:#da8000;"> Bertingkat </span>
+                                     @endif')
         ->make(true);
-	}
+    }
 }
