@@ -3,7 +3,7 @@
 
 @include('admin/layouts/admin-head')
   
-    <body class="hold-transition skin-blue sidebar-mini sidebar-collapse">
+    <body class="hold-transition skin-blue sidebar-mini">
 
 
     <!-- Site wrapper -->
@@ -70,6 +70,7 @@
     
 
     @include('admin/layouts/admin-footer')
+    @yield('scripts')
   
     
   

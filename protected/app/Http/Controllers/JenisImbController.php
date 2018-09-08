@@ -7,12 +7,12 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use DB;
 use Datatables;
-use App\admin;
+use App\JenisImb;
 
-class adminController extends Controller
+class JenisImbController extends Controller
 {
-    //
-	 /**
+   //
+     /**
      * Create a new controller instance.
      *
      * @return void
@@ -25,7 +25,7 @@ class adminController extends Controller
     public function index()
     {
         //
-        return view('admin.admin.index');
+        return view('admin.jenisimb.index');
     }
 
     /**
@@ -46,7 +46,13 @@ class adminController extends Controller
      */
     public function store(Request $request)
     {
-        admin::create($request->all());    		
+
+        $jenisimb = new JenisImb();
+        $jenisimb->nama = $request->nama;
+        $jenisimb->indeks = $request->indeks;
+        $jenisimb->flag_delete = 0;
+        $jenisimb->save();
+        
     }
 
     /**
@@ -68,8 +74,8 @@ class adminController extends Controller
      */
     public function edit($id)
     {
-        $admin = admin::find($id);
-        return view('admin.admin.edit', compact('admin'));
+        $jenisimb = JenisImb::find($id);
+        return view('admin.jenisimb.edit', compact('jenisimb'));
     }
 
     /**
@@ -83,31 +89,32 @@ class adminController extends Controller
     {
         //
         
-        $admin = admin::find($id);
-        $admin->update($request->all());
-        //return redirect('pegawai')->with('message', 'Data berhasil dirubah!');
+        $jenisimb = JenisImb::find($id);
+        $jenisimb->nama = $request->nama;
+        $jenisimb->indeks = $request->indeks;
+        $jenisimb->save();
     }
 
     public function hapus($id)
     {
         
-        $admin = admin::find($id);
-        return view('admin.admin.hapus', compact('admin'));
+        $jenisimb = JenisImb::find($id);
+        return view('admin.jenisimb.hapus', compact('jenisimb'));
     }
 
     public function destroy($id)
     {
-        $admin = admin::find($id);
-        $admin->flag_delete = "1";
-        $admin->save();
+        $jenisimb = JenisImb::find($id);
+        $jenisimb->flag_delete = "1";
+        $jenisimb->save();
     }
     
     
     public function getData(Request $request){
 
         DB::statement(DB::raw('set @rownum = 0'));
-        $data = DB::table('m_admin As a')
-        ->select([DB::raw('@rownum  := @rownum  + 1 AS no'),'a.id','a.email','a.nama','a.no_telp','a.foto'])
+        $data = DB::table('m_jenis_imb As a')
+        ->select([DB::raw('@rownum  := @rownum  + 1 AS no'),'a.id','a.nama','a.indeks'])
         ->where('a.flag_delete','=','0');
         //debug($data);
 
@@ -118,7 +125,7 @@ class adminController extends Controller
         }
 
         return $datatables
-        ->addcolumn('action','<a title="Edit Data" href="#" data-toggle="modal" data-target="#modalUbahAdmin" data-id="{!! $id !!}" ><span class="label label-info"><span class="fa fa-edit"></span></span></a> &nbsp; <a title="Hapus Data" href="#" data-toggle="modal" data-target="#modalHapusAdmin" data-id="{!! $id !!}" ><span class="label label-danger"><span class="fa fa-trash"></span></span> </a>')
+        ->addcolumn('action','<a title="Edit Data" href="#" data-toggle="modal" data-target="#modalubahjenisimb" data-id="{!! $id !!}" ><span class="label label-info"><span class="fa fa-edit"></span></span></a> &nbsp; <a title="Hapus Data" href="#" data-toggle="modal" data-target="#modalhapusjenisimb" data-id="{!! $id !!}" ><span class="label label-danger"><span class="fa fa-trash"></span></span> </a>')
         ->make(true);
-	}
+    }
 }

@@ -86,4 +86,50 @@ Route::post('/admin/ajaximage','profileController@uploadimage');
 Route::post('/admin/ajaxdelimage','profileController@deleteImage');
 Route::get('/admin/profile/{id}/hapus', 'profileController@hapus');
 
+//fungsi
+Route::resource('admin/fungsi', 'FungsiController');
+Route::get('/admin/tbfungsi', 'FungsiController@getData');
+Route::get('/admin/fungsi/{id}/hapus', 'FungsiController@hapus');
+
+//hargabangunan
+Route::resource('admin/hargabangunan', 'HargaBangunanController');
+Route::get('/admin/tbhargabangunan', 'HargaBangunanController@getData');
+Route::get('/admin/hargabangunan/{id}/hapus', 'HargaBangunanController@hapus');
+
+//jenisimb
+Route::resource('admin/jenisimb', 'JenisImbController');
+Route::get('/admin/tbjenisimb', 'JenisImbController@getData');
+Route::get('/admin/jenisimb/{id}/hapus', 'JenisImbController@hapus');
+
+//klasifikasi bangunan
+Route::resource('admin/klasifikasibangunan', 'KlasifikasiBangunanController');
+Route::get('/admin/tbklasifikasibangunan', 'KlasifikasiBangunanController@getData');
+Route::get('/admin/klasifikasibangunan/{id}/hapus', 'KlasifikasiBangunanController@hapus');
+
+//klasifikasi Parameter
+Route::resource('admin/klasifikasiparameter', 'KlasifikasiParameterController');
+Route::get('/admin/tbklasifikasiparameter', 'KlasifikasiParameterController@getData');
+Route::get('/admin/klasifikasiparameter/{id}/hapus', 'KlasifikasiParameterController@hapus');
+
+//Parameter Detail
+Route::resource('admin/parameterdetail', 'KlasifikasiParameterDetailController');
+Route::get('/admin/tbparameterdetail', 'KlasifikasiParameterDetailController@getData');
+Route::get('/admin/parameterdetail/{id}/hapus', 'KlasifikasiParameterDetailController@hapus');
+
+//Persyaratan Teknis
+Route::resource('admin/persyaratanteknis', 'PersyaratanTeknisController');
+Route::get('/admin/tbpersyaratanteknis', 'PersyaratanTeknisController@getData');
+Route::get('/admin/persyaratanteknis/{id}/hapus', 'PersyaratanTeknisController@hapus');
+
+//Status Pengajuan
+Route::resource('admin/statuspengajuan', 'StatusPengajuanController');
+Route::get('/admin/tbstatuspengajuan', 'StatusPengajuanController@getData');
+Route::get('/admin/statuspengajuan/{id}/hapus', 'StatusPengajuanController@hapus');
+
+//Status Surveyor
+Route::resource('admin/surveyor', 'SurveyorController');
+Route::get('/admin/tbsurveyor', 'SurveyorController@getData');
+Route::get('/admin/surveyor/{id}/hapus', 'SurveyorController@hapus');
+
+
 
