@@ -2,30 +2,42 @@
 <!-- Modal -->
 
 
-{!! Form::model($admin, [ 'method' => 'PUT','id' => 'ubahadmin','class' => 'form-horizontal','role' => 'form']) !!}
+{!! Form::model($hargabangunan, [ 'method' => 'PUT','id' => 'ubahhargabangunan','class' => 'form-horizontal','role' => 'form']) !!}
 
-  {!! Form::hidden('id', null, ['class' => 'form-control', 'placeholder' => 'Id Topik', 'id' => 'id']) !!}
-
+  {!! Form::hidden('id', null, ['class' => 'form-control', 'placeholder' => 'Id hargabangunan', 'id' => 'id']) !!}
 
                           <div class="form-group">
-                            {!! Form::label('nama', 'Nama Admin',['class' => 'col-md-3 control-label']) !!}
+                            {!! Form::label('nama', 'Fungsi',['class' => 'col-md-3 control-label']) !!}
                             <div class="col-md-8">
-                                   {!! Form::text('nama', null, ['class' => 'form-control', 'placeholder' => 'Nama Admin']) !!}
+                              {!! Form::select('id_fungsi',['' => 'Pilih Fungsi'] + $fungsi, null, ['class' => 'form-control select2', 'id' => 'fungsi','style' => 'width:100%']) !!}
+                            </div>
+                          </div>
+
+                           <div class="form-group">
+                            {!! Form::label('nama', 'Nama Klasifikasi',['class' => 'col-md-3 control-label']) !!}
+                            <div class="col-md-8">
+                              {!! Form::select('id_klasifikasi',['' => 'Pilih Klasifikasi'] + $kb, null, ['class' => 'form-control select2', 'id' => 'klasifikasi','style' => 'width:100%']) !!}
                             </div>
                           </div>
 
                           <div class="form-group">
-                            {!! Form::label('nama', 'email',['class' => 'col-md-3 control-label']) !!}
+                            {!! Form::label('nama', 'Klasifikasi Bangunan',['class' => 'col-md-3 control-label']) !!}
                             <div class="col-md-8">
-                                   {!! Form::text('email', null, ['class' => 'form-control', 'placeholder' => 'e-mail Admin']) !!}
+                              {!! Form::select('is_bangunan_tambahan',['' => 'Pilih Klasifikasi Bangunan', '0' => 'Bangunan Utama', '1' => 'Bangunan Pendukung'], null, ['class' => 'form-control select2', 'id' => 'kbangunan','style' => 'width:100%']) !!}
                             </div>
                           </div>
 
+                          <div class="form-group">
+                            {!! Form::label('nama', 'Jenis Bangunan',['class' => 'col-md-3 control-label']) !!}
+                            <div class="col-md-8">
+                              {!! Form::select('is_bertingkat',['' => 'Pilih Jenis Bangunan', '0' => 'Tidak Bertingkat', '1' => 'Bertingkat'], null, ['class' => 'form-control select2', 'id' => 'jenisbangunan','style' => 'width:100%']) !!}
+                            </div>
+                          </div>
 
                           <div class="form-group">
-                            {!! Form::label('notelp', 'No Telp',['class' => 'col-md-3 control-label']) !!}
+                            {!! Form::label('nama', 'Harga',['class' => 'col-md-3 control-label']) !!}
                             <div class="col-md-8">
-                                   {!! Form::text('no_telp', null, ['class' => 'form-control', 'placeholder' => 'No Telp']) !!}
+                                   {!! Form::text('harga', null, ['class' => 'form-control', 'placeholder' => 'Masukkan Harga']) !!}
                             </div>
                           </div>
 

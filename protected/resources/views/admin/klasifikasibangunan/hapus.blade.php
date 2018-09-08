@@ -7,7 +7,7 @@
 
 <div class="form-group">
 	<div class="col-md-8">
-		Apakah Anda yakin ingin menghapus <b>{{ $klasifikasibangunan->nama }}</b> ?
+		Apakah Anda yakin ingin menghapus data ini ?
 	</div>	
 </div>
             
