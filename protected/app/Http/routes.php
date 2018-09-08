@@ -112,9 +112,9 @@ Route::get('/admin/tbklasifikasiparameter', 'KlasifikasiParameterController@getD
 Route::get('/admin/klasifikasiparameter/{id}/hapus', 'KlasifikasiParameterController@hapus');
 
 //Parameter Detail
-Route::resource('admin/parameterdetail', 'KlasifikasiParameterDetailController');
-Route::get('/admin/tbparameterdetail', 'KlasifikasiParameterDetailController@getData');
-Route::get('/admin/parameterdetail/{id}/hapus', 'KlasifikasiParameterDetailController@hapus');
+Route::resource('admin/klasifikasiparameterdetail', 'KlasifikasiParameterDetailController');
+Route::get('/admin/tbklasifikasiparameterdetail', 'KlasifikasiParameterDetailController@getData');
+Route::get('/admin/klasifikasiparameterdetail/{id}/hapus', 'KlasifikasiParameterDetailController@hapus');
 
 //Persyaratan Teknis
 Route::resource('admin/persyaratanteknis', 'PersyaratanTeknisController');

@@ -126,7 +126,6 @@ class KlasifikasiBangunanController extends Controller
 
         return $datatables
         ->addcolumn('action','<a title="Edit Data" href="#" data-toggle="modal" data-target="#modalubahklasifikasibangunan" data-id="{!! $id !!}" ><span class="label label-info"><span class="fa fa-edit"></span></span></a> &nbsp; <a title="Hapus Data" href="#" data-toggle="modal" data-target="#modalhapusklasifikasibangunan" data-id="{!! $id !!}" ><span class="label label-danger"><span class="fa fa-trash"></span></span> </a>')
-        ->editcolumn('bangunan','@if(is_bangunan_tambahan = 0) <span class="label label-info">Bangunan Utama</span>@endif')
         ->make(true);
     }
 }
