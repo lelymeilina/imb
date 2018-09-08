@@ -157,6 +157,68 @@
   </div>
 
 
+  <div class="modal fade bs-modal-lg" id="modalsetsurveyor" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+  <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header ">
+          <button type="reset" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title" id="myModalLabel">Formulir Set Surveyor</h4>
+        </div>
+        
+      
+        <div class="modal-body" id="isiSurveyor">
+
+
+        </div><!-- penutup body -->
+      
+        
+      </div>
+    </div>
+  </div>
+
+
+
+  <div class="modal fade bs-modal-lg" id="modalcekpersyaratan" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+  <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header ">
+          <button type="reset" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title" id="myModalLabel">Formulir Cek Persyaratan</h4>
+        </div>
+        
+      
+        <div class="modal-body" id="isiPersyaratan">
+
+
+        </div><!-- penutup body -->
+      
+        
+      </div>
+    </div>
+  </div>
+
+
+
+  <div class="modal fade bs-modal-lg" id="modalisisurvey" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+  <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header ">
+          <button type="reset" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title" id="myModalLabel">Formulir Pengisian Hasil Survey</h4>
+        </div>
+        
+      
+        <div class="modal-body" id="isiSurvey">
+
+
+        </div><!-- penutup body -->
+      
+        
+      </div>
+    </div>
+  </div>
+
+
 
 
 <div class="modal fade bs-modal-lg" id="modalhapuspengajuan" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
@@ -239,7 +301,7 @@
                   });
 
 
-                  $(document).on('submit', '#ubahpengajuan', function() {
+              $(document).on('submit', '#ubahpengajuan', function() {
                       $('#modalubahpengajuan').modal('hide');
                       $('.overlay').css('display','block');
                       var id = $("#id").val();
@@ -267,6 +329,97 @@
                           $('.overlay').css('display','none');
                   }, 1000);
               }); 
+
+
+              $(document).on('submit', '#setsurveyor', function() {
+                      $('#modalsetsurveyor').modal('hide');
+                      $('.overlay').css('display','block');
+                      var id = $("#id").val();
+                      $.put("pengajuan/"+ id +"/updatesurveyor", $(this).serialize())
+                          .done(function(data) {
+                                  tbpengajuan.api().ajax.reload();
+                                  setTimeout(function() {
+                                          $('.overlay').css('display','none');
+                                          $("#infotambah").fadeIn(300);
+                                  }, 1000);
+                                  setTimeout(function() {
+                                          $("#infotambah").fadeOut(2500);
+                                  }, 2500);
+                          });
+                      return false;
+              });
+
+                  
+              $('#modalsetsurveyor').on('shown.bs.modal', function (e) {
+                  //$('#id_jalur_masuk').val($(e.relatedTarget).data('id'));
+                  $('.overlay').css('display','block');
+                  var id = $(e.relatedTarget).data('id');
+                  $('#isiSurveyor').load('pengajuan/'+id+'/surveyor');
+                  setTimeout(function() {
+                          $('.overlay').css('display','none');
+                  }, 1000);
+              }); 
+
+
+              $(document).on('submit', '#cekpersyaratan', function() {
+                      $('#modalcekpersyaratan').modal('hide');
+                      $('.overlay').css('display','block');
+                      var id = $("#id").val();
+                      $.put("pengajuan/"+ id +"/updatepersyaratan", $(this).serialize())
+                          .done(function(data) {
+                                  tbpengajuan.api().ajax.reload();
+                                  setTimeout(function() {
+                                          $('.overlay').css('display','none');
+                                          $("#infotambah").fadeIn(300);
+                                  }, 1000);
+                                  setTimeout(function() {
+                                          $("#infotambah").fadeOut(2500);
+                                  }, 2500);
+                          });
+                      return false;
+              });
+
+                  
+              $('#modalcekpersyaratan').on('shown.bs.modal', function (e) {
+                  //$('#id_jalur_masuk').val($(e.relatedTarget).data('id'));
+                  $('.overlay').css('display','block');
+                  var id = $(e.relatedTarget).data('id');
+                  $('#isiPersyaratan').load('pengajuan/'+id+'/persyaratan');
+                  setTimeout(function() {
+                          $('.overlay').css('display','none');
+                  }, 1000);
+              }); 
+
+
+              $(document).on('submit', '#parameter', function() {
+                      $('#modalisisurvey').modal('hide');
+                      $('.overlay').css('display','block');
+                      var id = $("#id").val();
+                      $.put("pengajuan/"+ id +"/updateparameter", $(this).serialize())
+                          .done(function(data) {
+                                  tbpengajuan.api().ajax.reload();
+                                  setTimeout(function() {
+                                          $('.overlay').css('display','none');
+                                          $("#infotambah").fadeIn(300);
+                                  }, 1000);
+                                  setTimeout(function() {
+                                          $("#infotambah").fadeOut(2500);
+                                  }, 2500);
+                          });
+                      return false;
+              });
+
+                  
+              $('#modalisisurvey').on('shown.bs.modal', function (e) {
+                  //$('#id_jalur_masuk').val($(e.relatedTarget).data('id'));
+                  $('.overlay').css('display','block');
+                  var id = $(e.relatedTarget).data('id');
+                  $('#isiSurvey').load('pengajuan/'+id+'/parameter');
+                  setTimeout(function() {
+                          $('.overlay').css('display','none');
+                  }, 1000);
+              }); 
+
 
                $(document).on('submit', '#hapuspengajuan', function() {
                       $('#modalhapuspengajuan').modal('hide');
