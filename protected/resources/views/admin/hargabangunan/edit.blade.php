@@ -37,7 +37,7 @@
                           <div class="form-group">
                             {!! Form::label('nama', 'Harga',['class' => 'col-md-3 control-label']) !!}
                             <div class="col-md-8">
-                                   {!! Form::text('harga', null, ['class' => 'form-control', 'placeholder' => 'Masukkan Harga']) !!}
+                                   {!! Form::text('harga', null, ['class' => 'form-control currency', 'placeholder' => 'Masukkan Harga']) !!}
                             </div>
                           </div>
 
@@ -53,5 +53,15 @@
 <!-- Modal -->
 
 <script type="text/javascript">
-    $(".select2").select2();
+      $(document).ready(function(){
+            $(".select2").select2();
+            $('.currency').inputmask({
+                alias:"decimal",
+                digits:0,
+                groupSeparator: '.',
+                rightAlign: false,
+                autoGroup: true,
+                allowMinus:false   
+            });
+      });
 </script>
