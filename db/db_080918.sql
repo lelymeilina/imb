@@ -361,6 +361,7 @@ CREATE TABLE `t_pengajuan` (
   `jenis_bangunan` varchar(255) DEFAULT NULL,
   `lokasi` text COMMENT 'alamat',
   `tahun` int(11) DEFAULT NULL,
+  `luas` decimal(6,2) DEFAULT '0.00',
   `id_surveyor_1` int(11) DEFAULT NULL COMMENT 'm_surveyor',
   `id_surveyor_2` int(11) DEFAULT NULL COMMENT 'm_surveyor',
   `id_status_pengajuan` int(11) DEFAULT NULL COMMENT 'm_status_pengajuan',
