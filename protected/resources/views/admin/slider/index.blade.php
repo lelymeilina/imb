@@ -7,8 +7,8 @@
             <small>Karangasem</small>
           </h1>
           <ol class="breadcrumb">
-            <li><a href="#"><i class="fa fa-dashboard"></i> Master Data</a></li>
-            <li><a href="#">Master Slider</a></li>
+            <li><a href="#"><i class="fa fa-dashboard"></i> Frontend</a></li>
+            <li><a href="#">Slider</a></li>
             <li class="active">Data Slider</li>
           </ol>
 </section>

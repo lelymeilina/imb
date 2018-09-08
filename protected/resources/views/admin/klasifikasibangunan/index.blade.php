@@ -24,7 +24,7 @@
       <div class="box box-danger" >
         <div class="box-header">
         	<div class="col-sm-8">
-          <h3 class="box-title">Data Jenis Imb</h3>
+          <h3 class="box-title">Data Klasifikasi Bangunan</h3>
           </div>
           <div class="col-sm-4">
           <div align="right">

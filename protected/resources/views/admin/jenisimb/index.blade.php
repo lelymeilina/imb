@@ -57,7 +57,7 @@
       <div class="modal-content">
         <div class="modal-header ">
           <button type="reset" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title" id="myModalLabel">Formulir Tambah jenisimb</h4>
+          <h4 class="modal-title" id="myModalLabel">Formulir Tambah Jenis Imb</h4>
         </div>
         
       
@@ -105,7 +105,7 @@
       <div class="modal-content">
         <div class="modal-header ">
           <button type="reset" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title" id="myModalLabel">Formulir Ubah Data jenisimb</h4>
+          <h4 class="modal-title" id="myModalLabel">Formulir Ubah Data Jenis Imb</h4>
         </div>
         
       
@@ -127,7 +127,7 @@
 			<div class="modal-content">
 				<div class="modal-header ">
 					<button type="reset" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					<h4 class="modal-title" id="myModalLabel">Formulir Hapus Data jenisimb</h4>
+					<h4 class="modal-title" id="myModalLabel">Formulir Hapus Data Jenis Imb</h4>
 				</div>
 			  
 		  

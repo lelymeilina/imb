@@ -99,7 +99,7 @@
                           <div class="form-group">
                             {!! Form::label('nama', 'Harga',['class' => 'col-md-3 control-label']) !!}
                             <div class="col-md-8">
-                                   {!! Form::text('harga', null, ['class' => 'form-control', 'placeholder' => 'Masukkan Harga']) !!}
+                                   {!! Form::text('harga', null, ['class' => 'form-control currency', 'placeholder' => 'Masukkan Harga']) !!}
                             </div>
                           </div>
 
@@ -170,6 +170,15 @@
 @section('scripts')
       <script type="text/javascript">
       $(document).ready(function(){
+            $('.currency').inputmask({
+                alias:"decimal",
+                digits:0,
+                groupSeparator: '.',
+                rightAlign: false,
+                autoGroup: true,
+                allowMinus:false   
+            });
+
             var tbhargabangunan = $('#tbhargabangunan').dataTable( {
                           processing: true,
                           serverSide: true,

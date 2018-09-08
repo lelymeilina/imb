@@ -130,7 +130,7 @@ class HargaBangunanController extends Controller
         $data = DB::table('m_harga_bangunan As a')
         ->join('m_klasifikasi_bangunan as b','b.id','=','a.id_klasifikasi')
         ->join('m_fungsi as c','c.id','=','a.id_fungsi')
-        ->select([DB::raw('@rownum  := @rownum  + 1 AS no'),'a.id','c.nama as id_fungsi','b.nama as id_klasifikasi',DB::raw('if(a.is_bangunan_tambahan=0,"Bangunan Tambahan","Bangunan Pendukung") as bangunan'),DB::raw('if(a.is_bertingkat=0,"Tidak Bertingkat","Bertingkat") as bertingkat'),'a.harga'])
+        ->select([DB::raw('@rownum  := @rownum  + 1 AS no'),'a.id','c.nama as id_fungsi','b.nama as id_klasifikasi','a.is_bangunan_tambahan as bangunan','a.is_bertingkat as bertingkat','a.harga'])
         ->where('a.flag_delete','=','0');
         //debug($data);
 
@@ -142,6 +142,16 @@ class HargaBangunanController extends Controller
 
         return $datatables
         ->addcolumn('action','<a title="Edit Data" href="#" data-toggle="modal" data-target="#modalubahhargabangunan" data-id="{!! $id !!}" ><span class="label label-info"><span class="fa fa-edit"></span></span></a> &nbsp; <a title="Hapus Data" href="#" data-toggle="modal" data-target="#modalhapushargabangunan" data-id="{!! $id !!}" ><span class="label label-danger"><span class="fa fa-trash"></span></span> </a>')
+          ->editcolumn('bangunan','@if($bangunan == 0)
+                                        <span class="label" style="background-color:#138abb;"> Bangunan Utama </span>
+                                     @else
+                                        <span class="label" style="background-color:#018c6d;"> Bangunan Pendukung </span>
+                                     @endif')
+         ->editcolumn('bertingkat','@if($bertingkat == 0)
+                                        <span class="label" style="background-color:#cf2200;"> Tidak Bertingkat </span>
+                                     @else
+                                        <span class="label" style="background-color:#da8000;"> Bertingkat </span>
+                                     @endif')
         ->make(true);
     }
 }

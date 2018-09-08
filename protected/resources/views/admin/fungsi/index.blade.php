@@ -57,7 +57,7 @@
       <div class="modal-content">
         <div class="modal-header ">
           <button type="reset" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title" id="myModalLabel">Formulir Tambah fungsi</h4>
+          <h4 class="modal-title" id="myModalLabel">Formulir Tambah Fungsi</h4>
         </div>
         
       

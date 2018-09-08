@@ -114,7 +114,7 @@ class KlasifikasiBangunanController extends Controller
 
         DB::statement(DB::raw('set @rownum = 0'));
         $data = DB::table('m_klasifikasi_bangunan As a')
-        ->select([DB::raw('@rownum  := @rownum  + 1 AS no'),'a.id','a.nama',DB::raw('if(a.is_bangunan_tambahan=0,"Bangunan Tambahan","Bangunan Pendukung") as bangunan')])
+        ->select([DB::raw('@rownum  := @rownum  + 1 AS no'),'a.id','a.nama','a.is_bangunan_tambahan as bangunan'])
         ->where('a.flag_delete','=','0');
         //debug($data);
 
@@ -126,6 +126,11 @@ class KlasifikasiBangunanController extends Controller
 
         return $datatables
         ->addcolumn('action','<a title="Edit Data" href="#" data-toggle="modal" data-target="#modalubahklasifikasibangunan" data-id="{!! $id !!}" ><span class="label label-info"><span class="fa fa-edit"></span></span></a> &nbsp; <a title="Hapus Data" href="#" data-toggle="modal" data-target="#modalhapusklasifikasibangunan" data-id="{!! $id !!}" ><span class="label label-danger"><span class="fa fa-trash"></span></span> </a>')
+         ->editcolumn('bangunan','@if($bangunan == 0)
+                                        <span class="label" style="background-color:#138abb;"> Bangunan Utama </span>
+                                     @else
+                                        <span class="label" style="background-color:#018c6d;"> Bangunan Pendukung </span>
+                                     @endif')
         ->make(true);
     }
 }
