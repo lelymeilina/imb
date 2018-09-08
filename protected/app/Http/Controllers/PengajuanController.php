@@ -14,6 +14,7 @@ use App\JenisImb;
 use App\HargaBangunan;
 use App\PersyaratanTeknis;
 use App\KlasifikasiParameter;
+use App\Surveyor;
 
 class PengajuanController extends Controller
 {
@@ -127,8 +128,19 @@ class PengajuanController extends Controller
      */
     public function edit($id)
     {
+    	$jenisImb = JenisImb::where('flag_delete','=',0)->pluck('nama','id')->toArray();
+        $hargaBangunan = DB::table('m_harga_bangunan AS h')->where('h.flag_delete','=',0)
+        								->join('m_fungsi AS f','f.id','=','h.id_fungsi')
+        								->join('m_klasifikasi_bangunan AS k','k.id','=','h.id_klasifikasi')
+        								->pluck(DB::raw('CONCAT(f.nama," - ",k.nama," - ",IF(h.is_bertingkat = 0,"Tidak Bertingkat","Bertingkat")) AS fungsi_klasifikasi'),'h.id');
+        for($i=date('Y')+1; $i>=date('Y')-1; $i--){
+            // $tahuns = $i+1;
+            // $tahun[$i]=$i.'/'.$tahuns;
+            $tahun[$i]=$i;
+        }
+
         $pengajuan = Pengajuan::find($id);
-        return view('admin.pengajuan.edit', compact('pengajuan'));
+        return view('admin.pengajuan.edit', compact('pengajuan','jenisImb','hargaBangunan','tahun'));
     }
 
     /**
@@ -141,11 +153,8 @@ class PengajuanController extends Controller
     public function update(Request $request, $id)
     {
         //
-        
         $pengajuan = Pengajuan::find($id);
-        $pengajuan->nama = $request->nama;
-        $pengajuan->indeks = $request->indeks;
-        $pengajuan->save();
+        $pengajuan->update($request->all());
     }
 
     public function hapus($id)
@@ -160,6 +169,113 @@ class PengajuanController extends Controller
         $pengajuan = Pengajuan::find($id);
         $pengajuan->flag_delete = "1";
         $pengajuan->save();
+    }
+
+
+        /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function surveyor($id)
+    {
+    	$jenisImb = JenisImb::where('flag_delete','=',0)->pluck('nama','id')->toArray();
+        $hargaBangunan = DB::table('m_harga_bangunan AS h')->where('h.flag_delete','=',0)
+        								->join('m_fungsi AS f','f.id','=','h.id_fungsi')
+        								->join('m_klasifikasi_bangunan AS k','k.id','=','h.id_klasifikasi')
+        								->pluck(DB::raw('CONCAT(f.nama," - ",k.nama," - ",IF(h.is_bertingkat = 0,"Tidak Bertingkat","Bertingkat")) AS fungsi_klasifikasi'),'h.id');
+        for($i=date('Y')+1; $i>=date('Y')-1; $i--){
+            // $tahuns = $i+1;
+            // $tahun[$i]=$i.'/'.$tahuns;
+            $tahun[$i]=$i;
+        }
+
+        $pengajuan = Pengajuan::find($id);
+
+        $surveyor = Surveyor::where('flag_delete','=',0)->pluck('nama','id')->toArray();
+
+        return view('admin.pengajuan.surveyor', compact('pengajuan','jenisImb','hargaBangunan','tahun','surveyor'));
+    }
+
+    public function updatesurveyor(Request $request, $id)
+    {
+        //
+        $pengajuan = Pengajuan::find($id);
+        $pengajuan->update($request->all());
+    }
+
+
+     /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function persyaratan($id)
+    {
+    	$jenisImb = JenisImb::where('flag_delete','=',0)->pluck('nama','id')->toArray();
+        $hargaBangunan = DB::table('m_harga_bangunan AS h')->where('h.flag_delete','=',0)
+        								->join('m_fungsi AS f','f.id','=','h.id_fungsi')
+        								->join('m_klasifikasi_bangunan AS k','k.id','=','h.id_klasifikasi')
+        								->pluck(DB::raw('CONCAT(f.nama," - ",k.nama," - ",IF(h.is_bertingkat = 0,"Tidak Bertingkat","Bertingkat")) AS fungsi_klasifikasi'),'h.id');
+        for($i=date('Y')+1; $i>=date('Y')-1; $i--){
+            // $tahuns = $i+1;
+            // $tahun[$i]=$i.'/'.$tahuns;
+            $tahun[$i]=$i;
+        }
+
+        $pengajuan = Pengajuan::find($id);
+
+        $PengajuanPersyaratan = PengajuanPersyaratan::where('no_registrasi','=',$pengajuan->no_registrasi)->get();
+
+        return view('admin.pengajuan.persyaratan', compact('pengajuan','jenisImb','hargaBangunan','tahun','PengajuanPersyaratan'));
+    }
+
+
+    public function updatepersyaratan(Request $request, $id)
+    {
+        //
+        $pengajuan = Pengajuan::find($id);
+        foreach ($request->keterangan as $key => $value) {
+        	# code...
+        	// echo $request->is_memenuhi[$key];
+        	$PengajuanPersyaratan = PengajuanPersyaratan::where('no_registrasi','=',$pengajuan->no_registrasi)
+        												->where('id_persyaratan','=',$key)
+        												->update(['is_memenuhi'=>$request->is_memenuhi[$key],'keterangan'=>$value]);
+        }
+    }
+
+
+    public function parameter($id)
+    {
+    	$jenisImb = JenisImb::where('flag_delete','=',0)->pluck('nama','id')->toArray();
+        $hargaBangunan = DB::table('m_harga_bangunan AS h')->where('h.flag_delete','=',0)
+        								->join('m_fungsi AS f','f.id','=','h.id_fungsi')
+        								->join('m_klasifikasi_bangunan AS k','k.id','=','h.id_klasifikasi')
+        								->pluck(DB::raw('CONCAT(f.nama," - ",k.nama," - ",IF(h.is_bertingkat = 0,"Tidak Bertingkat","Bertingkat")) AS fungsi_klasifikasi'),'h.id');
+        for($i=date('Y')+1; $i>=date('Y')-1; $i--){
+            // $tahuns = $i+1;
+            // $tahun[$i]=$i.'/'.$tahuns;
+            $tahun[$i]=$i;
+        }
+
+        $pengajuan = Pengajuan::find($id);
+        $PengajuanParameter = PengajuanParameter::where('no_registrasi','=',$pengajuan->no_registrasi)->get();
+        return view('admin.pengajuan.parameter', compact('pengajuan','jenisImb','hargaBangunan','tahun','PengajuanParameter'));
+    }
+
+   	public function updateparameter(Request $request, $id)
+    {
+        //
+        $pengajuan = Pengajuan::find($id);
+        foreach ($request->keterangan as $key => $value) {
+        	# code...
+        	// echo $request->is_memenuhi[$key];
+        	$PengajuanParameter = PengajuanParameter::where('no_registrasi','=',$pengajuan->no_registrasi)
+        												->where('id_klasifikasi_parameter','=',$key)
+        												->update(['id_klasifikasi_parameter_detail'=>$request->id_klasifikasi_parameter_detail[$key],'keterangan'=>$value]);
+        }
     }
     
     

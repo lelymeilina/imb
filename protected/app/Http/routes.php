@@ -136,6 +136,12 @@ Route::get('/admin/surveyor/{id}/hapus', 'SurveyorController@hapus');
 Route::resource('admin/pengajuan', 'PengajuanController');
 Route::get('/admin/tbpengajuan', 'PengajuanController@getData');
 Route::get('/admin/pengajuan/{id}/hapus', 'PengajuanController@hapus');
+Route::get('/admin/pengajuan/{id}/surveyor', 'PengajuanController@surveyor');
+Route::put('/admin/pengajuan/{id}/updatesurveyor', 'PengajuanController@updatesurveyor');
+Route::get('/admin/pengajuan/{id}/persyaratan', 'PengajuanController@persyaratan');
+Route::put('/admin/pengajuan/{id}/updatepersyaratan', 'PengajuanController@updatepersyaratan');
+Route::get('/admin/pengajuan/{id}/parameter', 'PengajuanController@parameter');
+Route::put('/admin/pengajuan/{id}/updateparameter', 'PengajuanController@updateparameter');
 
 
 
