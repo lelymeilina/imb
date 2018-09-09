@@ -1,7 +1,7 @@
 @extends('home.layout')
 
 @section('title')
-    <title>Real Quick Count | Home</title>
+    <title>IMB Karangasem</title>
 @endsection
 @section('content')
         

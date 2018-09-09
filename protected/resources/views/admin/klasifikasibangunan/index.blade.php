@@ -74,9 +74,9 @@
                           </div>
 
                            <div class="form-group">
-                            {!! Form::label('nama', 'Klasifikasi Bangunan',['class' => 'col-md-3 control-label']) !!}
+                            {!! Form::label('nama', 'Retribusi Bangunan',['class' => 'col-md-3 control-label']) !!}
                             <div class="col-md-8">
-                              {!! Form::select('is_bangunan_tambahan',['' => 'Pilih Klasifikasi Bangunan', '0' => 'Bangunan Utama', '1' => 'Bangunan Pendukung'], null, ['class' => 'form-control select2', 'id' => 'kbangunan','style' => 'width:100%']) !!}
+                              {!! Form::select('is_bangunan_tambahan',['' => 'Pilih Retribusi Bangunan', '0' => 'Bangunan Utama', '1' => 'Bangunan Prasarana'], null, ['class' => 'form-control select2', 'id' => 'kbangunan','style' => 'width:100%']) !!}
                             </div>
                           </div>
 

@@ -144,4 +144,9 @@ Route::get('/admin/pengajuan/{id}/parameter', 'PengajuanController@parameter');
 Route::put('/admin/pengajuan/{id}/updateparameter', 'PengajuanController@updateparameter');
 
 
+//alur
+Route::get('/alur', 'HomeDepanController@alur');
+
+
+
 

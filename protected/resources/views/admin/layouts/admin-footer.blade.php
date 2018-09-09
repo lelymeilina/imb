@@ -38,6 +38,8 @@
     {!! Html::script('assets/plugins/input-mask/jquery.inputmask.phone.extensions.js') !!}
     {!! Html::script('assets/plugins/input-mask/jquery.inputmask.regex.extensions.js') !!}
     
+
+    
     {!! Html::script('assets/js/jquery-confirm.min.js') !!}
 
     <script type="text/javascript">

@@ -3,7 +3,7 @@
  <br/>
 <!-- Start Big Heading -->
 <div class="big-title text-center" data-animation="fadeInDown" data-animation-delay="01">
-	<h1>Informasi Tentang<strong> SITASI</strong></h1>
+	<h1>Sekilas tentang<strong> SIMB</strong></h1>
 </div>
 <!-- End Big Heading -->
 <div class="container blog-post gallery-post ">

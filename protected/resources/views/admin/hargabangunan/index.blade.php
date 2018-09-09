@@ -37,7 +37,8 @@
     <thead>
                     <tr>
                         <th width="1%">No.</th>
-                        <th width="15%">Fungsi</th>
+                        <th width="25%">Nama</th>
+                        <th width="10%">Fungsi</th>
                         <th width="15%">Nama Klasifikasi</th>
                         <th width="20%">Klasifikasi Bangunan</th>
                         <th width="15%">Jenis Bangunan</th>
@@ -69,6 +70,13 @@
             <div class="box-body">
 
                           <div class="form-group">
+                            {!! Form::label('nama', 'Nama',['class' => 'col-md-3 control-label']) !!}
+                            <div class="col-md-8">
+                                   {!! Form::text('nama', null, ['class' => 'form-control', 'placeholder' => 'Masukkan Nama']) !!}
+                            </div>
+                          </div>
+
+                          <div class="form-group">
                             {!! Form::label('nama', 'Fungsi',['class' => 'col-md-3 control-label']) !!}
                             <div class="col-md-8">
                               {!! Form::select('id_fungsi',['' => 'Pilih Fungsi'] + $fungsi, null, ['class' => 'form-control select2', 'id' => 'fungsi','style' => 'width:100%']) !!}
@@ -83,9 +91,9 @@
                           </div>
 
                           <div class="form-group">
-                            {!! Form::label('nama', 'Klasifikasi Bangunan',['class' => 'col-md-3 control-label']) !!}
+                            {!! Form::label('nama', 'Retribusi Bangunan',['class' => 'col-md-3 control-label']) !!}
                             <div class="col-md-8">
-                              {!! Form::select('is_bangunan_tambahan',['' => 'Pilih Klasifikasi Bangunan', '0' => 'Bangunan Utama', '1' => 'Bangunan Pendukung'], null, ['class' => 'form-control select2', 'id' => 'kbangunan','style' => 'width:100%']) !!}
+                              {!! Form::select('is_bangunan_tambahan',['' => 'Pilih Retribusi Bangunan', '0' => 'Bangunan Utama', '1' => 'Bangunan Prasarana'], null, ['class' => 'form-control select2', 'id' => 'kbangunan','style' => 'width:100%']) !!}
                             </div>
                           </div>
 
@@ -99,7 +107,7 @@
                           <div class="form-group">
                             {!! Form::label('nama', 'Harga',['class' => 'col-md-3 control-label']) !!}
                             <div class="col-md-8">
-                                   {!! Form::text('harga', null, ['class' => 'form-control currency', 'placeholder' => 'Masukkan Harga']) !!}
+                                   {!! Form::text('harga', null, ['class' => 'form-control currency', 'id' => 'rupiah','placeholder' => 'Masukkan Harga']) !!}
                             </div>
                           </div>
 
@@ -169,14 +177,16 @@
 @endsection
 @section('scripts')
       <script type="text/javascript">
+
       $(document).ready(function(){
             $('.currency').inputmask({
                 alias:"decimal",
                 digits:0,
                 groupSeparator: '.',
                 rightAlign: false,
+                prefix: 'Rp.',
                 autoGroup: true,
-                allowMinus:false   
+                allowMinus:false 
             });
 
             var tbhargabangunan = $('#tbhargabangunan').dataTable( {
@@ -185,6 +195,7 @@
                           ajax: 'tbhargabangunan',
                           columns: [
                               {data: 'no', name: 'no'},
+                              {data: 'nama', name: 'a.nama'},
                               {data: 'id_fungsi',name:'c.nama'},
                               {data: 'id_klasifikasi',name:'b.nama'},
                               {data: 'bangunan', name:'a.is_bangunan_tambahan'},
