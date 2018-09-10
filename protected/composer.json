@@ -14,7 +14,8 @@
         "laravelcollective/bus": "^5.2",
         "anouar/fpdf": "1.0.2",
         "barryvdh/laravel-dompdf": "^0.8.2",
-         "intervention/image": "^2.3"
+         "intervention/image": "^2.3",
+         "spipu/html2pdf": "v4.5.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

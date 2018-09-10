@@ -35,6 +35,13 @@
                             </div>
                           </div>
 
+                          <div class="form-group">
+                            {!! Form::label('nama', 'Luas Bangunan',['class' => 'col-md-3 control-label']) !!}
+                            <div class="col-md-8">
+                                   {!! Form::text('luas', null, ['class' => 'form-control', 'placeholder' => 'Masukkan Luas Bangunan Utama (Angka) Contoh. 517.23','required'=>'required']) !!}
+                            </div>
+                          </div>
+
                           <div class="col-md-12">
                               <table class="table table-bordered">
                                   <thead>
