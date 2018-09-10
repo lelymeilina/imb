@@ -84,7 +84,7 @@
                            <div class="form-group">
                             {!! Form::label('nama', 'Telp',['class' => 'col-md-2 control-label']) !!}
                             <div class="col-md-9">
-                                   {!! Form::text('telp', null, ['class' => 'form-control', 'placeholder' => 'Masukkan Nama']) !!}
+                                   {!! Form::text('telp', null, ['class' => 'form-control', 'placeholder' => 'Masukkan Telp']) !!}
                             </div>
                           </div>
 

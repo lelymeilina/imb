@@ -27,6 +27,7 @@ class HomeDepanController extends Controller
         return view('home.home',compact('slider','profile'));
     }
 
+
     public function hasil(Request $request)
     {
         if (isset($request->pemilu)){
@@ -60,5 +61,13 @@ class HomeDepanController extends Controller
 
 
         return view('home.hasil',compact('suara','warnaPaslon1','warnaPaslon2','warnaNetral','warnaBelumMasuk','totalTps','masukTps','belumTps'));
+    }
+
+    public function alur()
+    {
+     
+
+        return view('home.alur');
+
     }
 }

@@ -60,6 +60,9 @@
                             <li>
                                 <a class="" href="{{URL('/')}}">Home</a>
                             </li>
+                              <li>
+                                <a class="" href="{{URL('/alur')}}">Alur</a>
+                            </li>
                             @if(Auth::check())
                             <li>
                                 <a href="#">Admin</a>

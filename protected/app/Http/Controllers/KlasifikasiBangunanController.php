@@ -129,7 +129,7 @@ class KlasifikasiBangunanController extends Controller
          ->editcolumn('bangunan','@if($bangunan == 0)
                                         <span class="label" style="background-color:#138abb;"> Bangunan Utama </span>
                                      @else
-                                        <span class="label" style="background-color:#018c6d;"> Bangunan Pendukung </span>
+                                        <span class="label" style="background-color:#018c6d;"> Bangunan Prasarana </span>
                                      @endif')
         ->make(true);
     }

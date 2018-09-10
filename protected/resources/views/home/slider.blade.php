@@ -36,12 +36,12 @@
                                 <img class="img-responsive" src="{{URL($d->content)}}" alt="slider">
                                 <div class="slider-content">
                                     <div class="col-md-12 text-center">
-                                        <!-- <h2 class="animated2">
+                                        <h2 class="animated2">
                                           <span style="background:#fff; opacity:0.9; padding:0px 10px 0px 10px;"><strong>{{ $d->judul }}</strong></span>
                                         </h2>
                                         <h3 class="animated3">
                                             <span style="background:#fff; opacity:0.9; padding:0px 10px 0px 10px;">{{$d->katakunci}}</span>
-                                        </h3> -->
+                                        </h3>
                                         <p class="animated4"><a href="{{URL('/hasil-suara')}}" class="slider btn btn-system btn-large">Check Now</a>
                                         </p>
                                     </div>
