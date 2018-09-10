@@ -38,12 +38,12 @@
                     <tr>
                         <th width="1%">No.</th>
                         <th width="7%">NIK</th>
-                        <th width="15%">Nama</th>
-                        <th width="15%">Jenis</th>
-                        <th width="15%">Fungsi Klasifikasi</th>
-                        <th width="15%">Surveyor</th>
+                        <th width="14%">Nama</th>
+                        <th width="14%">Jenis</th>
+                        <th width="14%">Fungsi Klasifikasi</th>
+                        <th width="14%">Surveyor</th>
                         <th width="10%">Status</th>
-                        <th width="20%">Action</th>
+                        <th width="25%">Action</th>
                     </tr>
                     </thead>
                     <tbody>

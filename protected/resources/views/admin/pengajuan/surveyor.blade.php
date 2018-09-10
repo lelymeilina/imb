@@ -53,7 +53,7 @@
 
                         <div class="modal-footer">
                           <button class="btn btn-default" data-dismiss="modal" aria-hidden="true" id="clear">Batal</button>
-                          {!! Form::submit('Ubah Data', ['class' => 'btn btn-primary']) !!}
+                          {!! Form::submit('Simpan Data', ['class' => 'btn btn-primary']) !!}
                         </div>
 
 {!! Form::close() !!}

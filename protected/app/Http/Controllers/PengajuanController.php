@@ -10,6 +10,7 @@ use Datatables;
 use App\Pengajuan;
 use App\PengajuanPersyaratan;
 use App\PengajuanParameter;
+use App\PengajuanPrasarana;
 use App\JenisImb;
 use App\HargaBangunan;
 use App\PersyaratanTeknis;
@@ -106,6 +107,10 @@ class PengajuanController extends Controller
         	$PengajuanParameter['id_klasifikasi_parameter'] = $d->id;
         	PengajuanParameter::updateOrCreate($PengajuanParameter,$PengajuanParameter);
         }
+
+        $Prasarana = HargaBangunan::where('flag_delete','=','0')->where('is_bangunan_tambahan','=',1)->groupBy('nama')->orderBy('id')->get();
+        $PengajuanPrasarana = array();
+        //disini
 
     }
 
@@ -277,6 +282,43 @@ class PengajuanController extends Controller
         												->update(['id_klasifikasi_parameter_detail'=>$request->id_klasifikasi_parameter_detail[$key],'keterangan'=>$value]);
         }
     }
+
+
+
+    public function prasarana($id)
+    {
+        $jenisImb = JenisImb::where('flag_delete','=',0)->pluck('nama','id')->toArray();
+        $hargaBangunan = DB::table('m_harga_bangunan AS h')->where('h.flag_delete','=',0)
+                                        ->join('m_fungsi AS f','f.id','=','h.id_fungsi')
+                                        ->join('m_klasifikasi_bangunan AS k','k.id','=','h.id_klasifikasi')
+                                        ->pluck(DB::raw('CONCAT(f.nama," - ",k.nama," - ",IF(h.is_bertingkat = 0,"Tidak Bertingkat","Bertingkat")) AS fungsi_klasifikasi'),'h.id');
+        for($i=date('Y')+1; $i>=date('Y')-1; $i--){
+            // $tahuns = $i+1;
+            // $tahun[$i]=$i.'/'.$tahuns;
+            $tahun[$i]=$i;
+        }
+
+        $pengajuan = Pengajuan::find($id);
+        $PengajuanPrasarana = PengajuanPrasarana::where('no_registrasi','=',$pengajuan->no_registrasi)->get();
+
+        return view('admin.pengajuan.prasarana', compact('pengajuan','jenisImb','hargaBangunan','tahun','PengajuanPrasarana'));
+    }
+
+    public function updateprasarana(Request $request, $id)
+    {
+        //
+        $pengajuan = Pengajuan::find($id);
+        foreach ($request->volume as $key => $value) {
+            # code...
+            // echo $request->is_memenuhi[$key];
+            $PengajuanParameter = PengajuanPrasarana::where('no_registrasi','=',$pengajuan->no_registrasi)
+                                                        ->where('id','=',$key)
+                                                        ->update(['id_jenis_imb'=>$request->id_jenis_imb[$key],'id_harga_bangunan'=>$request->id_harga_bangunan[$key],'volume'=>$value]);
+        }
+    }
+
+
+
     
     
     public function getData(Request $request){
@@ -302,7 +344,7 @@ class PengajuanController extends Controller
         }
 
         return $datatables
-        ->addcolumn('action','<a title="Edit Data" href="#" data-toggle="modal" data-target="#modalubahpengajuan" data-id="{!! $id !!}" ><span class="label label-info"><span class="fa fa-edit"></span></span></a> &nbsp; <a title="Penentuan Surveyor" href="#" data-toggle="modal" data-target="#modalsetsurveyor" data-id="{!! $id !!}" ><span class="label label-warning"><span class="fa fa-user"></span></span></a> &nbsp; <a title="Cek Persyaratan" href="#" data-toggle="modal" data-target="#modalcekpersyaratan" data-id="{!! $id !!}" ><span class="label label-primary"><span class="fa fa-check-square"></span></span></a> &nbsp; <a title="Isi Survey" href="#" data-toggle="modal" data-target="#modalisisurvey" data-id="{!! $id !!}" ><span class="label label-success"><span class="fa fa-bar-chart"></span></span></a> &nbsp; <a title="Hapus Data" href="#" data-toggle="modal" data-target="#modalhapuspengajuan" data-id="{!! $id !!}" ><span class="label label-danger"><span class="fa fa-trash"></span></span> </a>')
+        ->addcolumn('action','<a title="Edit Data" href="#" data-toggle="modal" data-target="#modalubahpengajuan" data-id="{!! $id !!}" ><span class="label label-info"><span class="fa fa-edit"></span></span></a> &nbsp; <a title="Penentuan Surveyor" href="#" data-toggle="modal" data-target="#modalsetsurveyor" data-id="{!! $id !!}" ><span class="label label-warning"><span class="fa fa-user"></span></span></a> &nbsp; <a title="Cek Persyaratan" href="#" data-toggle="modal" data-target="#modalcekpersyaratan" data-id="{!! $id !!}" ><span class="label label-primary"><span class="fa fa-check-square"></span></span></a> &nbsp; <a title="Isi Survey" href="#" data-toggle="modal" data-target="#modalisisurvey" data-id="{!! $id !!}" ><span class="label label-success"><span class="fa fa-bar-chart"></span></span></a> &nbsp; <a title="Tambah Prasarana" href="#" data-toggle="modal" data-target="#modaltambahprasarana" data-id="{!! $id !!}" ><span class="label label-info"><span class="fa fa-plus"></span></span></a> &nbsp; <a title="Hapus Data" href="#" data-toggle="modal" data-target="#modalhapuspengajuan" data-id="{!! $id !!}" ><span class="label label-danger"><span class="fa fa-trash"></span></span> </a>')
         ->make(true);
 	}
 }
