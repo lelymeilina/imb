@@ -25,4 +25,11 @@ class HargaBangunan extends Model
     	$pow = pow ( 10, $precision ); 
     	return ( floor ( $pow * $value ) + floor ( $pow * $value - floor ( $pow * $value ) ) ) / $pow; 
 	}
+	public static function pembulatan($uang){
+		 $ribuan = substr($uang, -3);
+		 $akhir = $uang + (1000-$ribuan);
+		 return $akhir;
+	}
+
+
 }

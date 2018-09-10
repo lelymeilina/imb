@@ -15,7 +15,9 @@ use App\JenisImb;
 use App\HargaBangunan;
 use App\PersyaratanTeknis;
 use App\KlasifikasiParameter;
+use App\StatusPengajuan;
 use App\Surveyor;
+use HTML2PDF;
 
 class PengajuanController extends Controller
 {
@@ -296,6 +298,7 @@ class PengajuanController extends Controller
         												->update(['id_klasifikasi_parameter_detail'=>$request->id_klasifikasi_parameter_detail[$key],'keterangan'=>$value]);
         }
         $pengajuan = Pengajuan::find($id);
+        $pengajuan->luas = str_replace(',','.',$request->luas);
         $pengajuan->id_status_pengajuan = 3;
         $pengajuan->save();
     }
@@ -327,7 +330,7 @@ class PengajuanController extends Controller
         $pengajuan = Pengajuan::find($id);
         foreach ($request->volume as $key => $value) {
             # code...
-            echo str_replace(',','.',$value);
+            // echo str_replace(',','.',$value);
 
             $PengajuanParameter = PengajuanPrasarana::where('no_registrasi','=',$pengajuan->no_registrasi)
                                                         ->where('id','=',$key)
@@ -349,6 +352,7 @@ class PengajuanController extends Controller
             $tahun[$i]=$i;
         }
 
+        $statusPengajuan = StatusPengajuan::where('flag_delete','=',0)->pluck('nama','id')->toArray();
 
 
         $pengajuan = Pengajuan::find($id);
@@ -356,11 +360,104 @@ class PengajuanController extends Controller
         $PengajuanParameter = PengajuanParameter::where('no_registrasi','=',$pengajuan->no_registrasi)->get();
         $PengajuanPrasarana = PengajuanPrasarana::where('no_registrasi','=',$pengajuan->no_registrasi)->get();
 
-        return view('admin.pengajuan.perhitungan', compact('pengajuan','jenisImb','hargaBangunan','tahun','PengajuanPrasarana','PengajuanParameter','PengajuanPersyaratan'));
+        return view('admin.pengajuan.perhitungan', compact('pengajuan','jenisImb','hargaBangunan','tahun','PengajuanPrasarana','PengajuanParameter','PengajuanPersyaratan','statusPengajuan'));
     }
 
+    public function updateperhitungan(Request $request, $id)
+    {
+        //
+
+        // dd($request->all());
+        foreach ($request->jumlah_biaya_prasarana as $key => $value) {
+            # code...
+            PengajuanPrasarana::where('id','=',$key)->update(['jumlah_biaya'=>$value]);
+        }
+
+        $pengajuan = Pengajuan::find($id);
+        $pengajuan->id_status_pengajuan = $request->status_pengajuan_id;
+        $pengajuan->jumlah_biaya = $request->jumlah_biaya;
+        $pengajuan->jumlah_biaya_prasarana = $request->total_biaya_prasarana;
+        $pengajuan->save();
+    }
     
-    
+
+    public function cetak($id)
+    {
+        $jenisImb = JenisImb::where('flag_delete','=',0)->pluck('nama','id')->toArray();
+        $hargaBangunan = DB::table('m_harga_bangunan AS h')->where('h.flag_delete','=',0)
+                                        ->join('m_fungsi AS f','f.id','=','h.id_fungsi')
+                                        ->join('m_klasifikasi_bangunan AS k','k.id','=','h.id_klasifikasi')
+                                        ->pluck(DB::raw('CONCAT(f.nama," - ",h.nama," - ",k.nama," - ",IF(h.is_bertingkat = 0,"Tidak Bertingkat","Bertingkat")) AS fungsi_klasifikasi'),'h.id');
+        for($i=date('Y')+1; $i>=date('Y')-1; $i--){
+            // $tahuns = $i+1;
+            // $tahun[$i]=$i.'/'.$tahuns;
+            $tahun[$i]=$i;
+        }
+
+        $statusPengajuan = StatusPengajuan::where('flag_delete','=',0)->pluck('nama','id')->toArray();
+
+
+        $pengajuan = Pengajuan::find($id);
+        $PengajuanPersyaratan = PengajuanPersyaratan::where('no_registrasi','=',$pengajuan->no_registrasi)->get();
+        $PengajuanParameter = PengajuanParameter::where('no_registrasi','=',$pengajuan->no_registrasi)->get();
+        $PengajuanPrasarana = PengajuanPrasarana::where('no_registrasi','=',$pengajuan->no_registrasi)->get();
+
+        $terbilang = $this->terbilang(HargaBangunan::pembulatan($pengajuan->jumlah_biaya + $pengajuan->jumlah_biaya_prasarana));
+        $width_in_mm = 210;
+        $height_in_mm = 297;
+
+        $html2pdf = new HTML2PDF('L',array($width_in_mm,$height_in_mm),'de',false,'UTF-8',array(0,0,0,0));
+        $doc = view('admin.pengajuan.cetak', compact('pengajuan','jenisImb','hargaBangunan','tahun','PengajuanPrasarana','PengajuanParameter','PengajuanPersyaratan','statusPengajuan','terbilang'));
+
+
+        // return $doc;
+
+        $html2pdf->pdf->SetTitle('REKAPITULASI PERHITUNGAN BESARNYA RETRIBUSI IMB');
+        // $html2pdf->addFont('timess','normal',default:timess);
+        $html2pdf->setDefaultFont('Times');
+
+        $html2pdf->writeHTML($doc,false);
+        $html2pdf->Output('REKAPITULASI PERHITUNGAN BESARNYA RETRIBUSI IMB '.$pengajuan->nik.'.pdf');
+
+    }
+
+    public function penyebut($nilai) {
+        $nilai = abs($nilai);
+        $huruf = array("", "Satu", "Dua", "Tiga", "Empat", "Lima", "Enam", "Tujuh", "Delapan", "Sembilan", "Sepuluh", "Sebelas");
+        $temp = "";
+        if ($nilai < 12) {
+            $temp = " ". $huruf[$nilai];
+        } else if ($nilai <20) {
+            $temp = $this->penyebut($nilai - 10). " Belas";
+        } else if ($nilai < 100) {
+            $temp = $this->penyebut($nilai/10)." Puluh". $this->penyebut($nilai % 10);
+        } else if ($nilai < 200) {
+            $temp = " Seratus" . $this->penyebut($nilai - 100);
+        } else if ($nilai < 1000) {
+            $temp = $this->penyebut($nilai/100) . " Ratus" . $this->penyebut($nilai % 100);
+        } else if ($nilai < 2000) {
+            $temp = " Seribu" . $this->penyebut($nilai - 1000);
+        } else if ($nilai < 1000000) {
+            $temp = $this->penyebut($nilai/1000) . " Ribu" . $this->penyebut($nilai % 1000);
+        } else if ($nilai < 1000000000) {
+            $temp = $this->penyebut($nilai/1000000) . " Juta" . $this->penyebut($nilai % 1000000);
+        } else if ($nilai < 1000000000000) {
+            $temp = $this->penyebut($nilai/1000000000) . " Milyar" . $this->penyebut(fmod($nilai,1000000000));
+        } else if ($nilai < 1000000000000000) {
+            $temp = $this->penyebut($nilai/1000000000000) . " Trilyun" . $this->penyebut(fmod($nilai,1000000000000));
+        }     
+        return $temp;
+    }
+
+    public function terbilang($nilai) {
+        if($nilai<0) {
+            $hasil = "Minus ". trim($this->penyebut($nilai));
+        } else {
+            $hasil = trim($this->penyebut($nilai));
+        }           
+        return $hasil;
+    }
+
     public function getData(Request $request){
 
         DB::statement(DB::raw('set @rownum = 0'));
@@ -384,7 +481,7 @@ class PengajuanController extends Controller
         }
 
         return $datatables
-        ->addcolumn('action','<a title="Edit Data" href="#" data-toggle="modal" data-target="#modalubahpengajuan" data-id="{!! $id !!}" ><span class="label label-info"><span class="fa fa-edit"></span></span></a> &nbsp; <a title="Penentuan Surveyor" href="#" data-toggle="modal" data-target="#modalsetsurveyor" data-id="{!! $id !!}" ><span class="label label-warning"><span class="fa fa-user"></span></span></a> &nbsp; <a title="Cek Persyaratan" href="#" data-toggle="modal" data-target="#modalcekpersyaratan" data-id="{!! $id !!}" ><span class="label label-primary"><span class="fa fa-check-square"></span></span></a> &nbsp; <a title="Isi Survey" href="#" data-toggle="modal" data-target="#modalisisurvey" data-id="{!! $id !!}" ><span class="label label-success"><span class="fa fa-bar-chart"></span></span></a> &nbsp; <a title="Tambah Prasarana" href="#" data-toggle="modal" data-target="#modaltambahprasarana" data-id="{!! $id !!}" ><span class="label label-info"><span class="fa fa-plus"></span></span></a> &nbsp; <a title="Hapus Data" href="#" data-toggle="modal" data-target="#modalhapuspengajuan" data-id="{!! $id !!}" ><span class="label label-danger"><span class="fa fa-trash"></span></span> </a> &nbsp; <a title="Proses Penilaian" href="#" data-toggle="modal" data-target="#modalperhitungan" data-id="{!! $id !!}" ><span class="label label-success"><span class="fa fa-cog"></span></span> </a>')
+        ->addcolumn('action','<a title="Edit Data" href="#" data-toggle="modal" data-target="#modalubahpengajuan" data-id="{!! $id !!}" ><span class="label label-info"><span class="fa fa-edit"></span></span></a> &nbsp; <a title="Penentuan Surveyor" href="#" data-toggle="modal" data-target="#modalsetsurveyor" data-id="{!! $id !!}" ><span class="label label-warning"><span class="fa fa-user"></span></span></a> &nbsp; <a title="Cek Persyaratan" href="#" data-toggle="modal" data-target="#modalcekpersyaratan" data-id="{!! $id !!}" ><span class="label label-primary"><span class="fa fa-check-square"></span></span></a> &nbsp; <a title="Isi Survey" href="#" data-toggle="modal" data-target="#modalisisurvey" data-id="{!! $id !!}" ><span class="label label-success"><span class="fa fa-bar-chart"></span></span></a> &nbsp; <a title="Tambah Prasarana" href="#" data-toggle="modal" data-target="#modaltambahprasarana" data-id="{!! $id !!}" ><span class="label label-info"><span class="fa fa-plus"></span></span></a> &nbsp; <a title="Hapus Data" href="#" data-toggle="modal" data-target="#modalhapuspengajuan" data-id="{!! $id !!}" ><span class="label label-danger"><span class="fa fa-trash"></span></span> </a> &nbsp; <a title="Proses Penilaian" href="#" data-toggle="modal" data-target="#modalperhitungan" data-id="{!! $id !!}" ><span class="label label-success"><span class="fa fa-cog"></span></span> </a> &nbsp; <a title="Cetak Rekapitulasi" href="{{URL(\'admin/pengajuan/\')}}/{!! $id !!}/cetak" target="_blank" data-id="{!! $id !!}" ><span class="label label-warning"><span class="fa fa-print"></span></span> </a>')
         ->make(true);
 	}
 }
