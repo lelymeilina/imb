@@ -29,7 +29,7 @@
                           </div>
 
                           <div class="form-group">
-                            {!! Form::label('nama', 'Jenis IMB',['class' => 'col-md-3 control-label']) !!}
+                            {!! Form::label('nama', 'Jenis Kegiatan IMB',['class' => 'col-md-3 control-label']) !!}
                             <div class="col-md-8">
                                    {!! Form::select('id_jenis_imb',[""=>"Pilih Jenis IMB"]+$jenisImb, null, ['class' => 'form-control select2','style'=>'width:100%','required'=>'required']) !!}
                             </div>

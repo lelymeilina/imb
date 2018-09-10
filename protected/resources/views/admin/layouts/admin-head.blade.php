@@ -44,5 +44,14 @@
     {!! Html::style('assets/css/jquery-confirm.min.css') !!}
     {!! Html::style('assets/css/style.css') !!}
     {!! Html::style('assets/plugins/bootstrap-wysihtml5/summernote.css') !!}
+
+    <style type="text/css">
+        @media (min-width: 768px) {
+          .modal-xl {
+            width: 90%;
+           max-width:1200px;
+          }
+        }
+    </style>
     
   </head>

@@ -52,7 +52,7 @@
         <div class="pull-right hidden-xs">
           <b>IMB Karangasem</b>
         </div>
-        <p> <strong> All Rights Reserved &copy; 2018 </strong>  <a href="http:/http://karangasemkab.go.id" target="_blank"> Kabupaten Karangasem</a></p>
+        <p> <strong> All Rights Reserved &copy; 2018 </strong>  <a href="http://karangasemkab.go.id" target="_blank"> Kabupaten Karangasem</a></p>
       </footer>
       
 

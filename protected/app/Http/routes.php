@@ -142,7 +142,10 @@ Route::get('/admin/pengajuan/{id}/persyaratan', 'PengajuanController@persyaratan
 Route::put('/admin/pengajuan/{id}/updatepersyaratan', 'PengajuanController@updatepersyaratan');
 Route::get('/admin/pengajuan/{id}/parameter', 'PengajuanController@parameter');
 Route::put('/admin/pengajuan/{id}/updateparameter', 'PengajuanController@updateparameter');
-
+Route::get('/admin/pengajuan/{id}/prasarana', 'PengajuanController@prasarana');
+Route::put('/admin/pengajuan/{id}/updateprasarana', 'PengajuanController@updateprasarana');
+Route::get('/admin/pengajuan/{id}/perhitungan', 'PengajuanController@perhitungan');
+Route::put('/admin/pengajuan/{id}/updateperhitungan', 'PengajuanController@updateperhitungan');
 
 //alur
 Route::get('/alur', 'HomeDepanController@alur');

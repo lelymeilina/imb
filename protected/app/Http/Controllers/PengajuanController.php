@@ -38,7 +38,7 @@ class PengajuanController extends Controller
         $hargaBangunan = DB::table('m_harga_bangunan AS h')->where('h.flag_delete','=',0)
         								->join('m_fungsi AS f','f.id','=','h.id_fungsi')
         								->join('m_klasifikasi_bangunan AS k','k.id','=','h.id_klasifikasi')
-        								->pluck(DB::raw('CONCAT(f.nama," - ",k.nama," - ",IF(h.is_bertingkat = 0,"Tidak Bertingkat","Bertingkat")) AS fungsi_klasifikasi'),'h.id');
+        								->pluck(DB::raw('CONCAT(f.nama," - ",h.nama," - ",k.nama," - ",IF(h.is_bertingkat = 0,"Tidak Bertingkat","Bertingkat")) AS fungsi_klasifikasi'),'h.id');
         for($i=date('Y')+1; $i>=date('Y')-1; $i--){
             // $tahuns = $i+1;
             // $tahun[$i]=$i.'/'.$tahuns;
@@ -111,6 +111,14 @@ class PengajuanController extends Controller
         $Prasarana = HargaBangunan::where('flag_delete','=','0')->where('is_bangunan_tambahan','=',1)->groupBy('nama')->orderBy('id')->get();
         $PengajuanPrasarana = array();
         //disini
+        foreach ($Prasarana as $d) {
+            # code...
+            $PengajuanPrasarana['no_registrasi'] = $no_registrasi;
+            $PengajuanPrasarana['id_pengajuan'] = $Pengajuan->id;
+            $PengajuanPrasarana['id_fungsi'] = $d->id_fungsi;
+            $PengajuanPrasarana['nama'] = $d->nama;
+            PengajuanPrasarana::updateOrCreate($PengajuanPrasarana,$PengajuanPrasarana);
+        }
 
     }
 
@@ -137,7 +145,7 @@ class PengajuanController extends Controller
         $hargaBangunan = DB::table('m_harga_bangunan AS h')->where('h.flag_delete','=',0)
         								->join('m_fungsi AS f','f.id','=','h.id_fungsi')
         								->join('m_klasifikasi_bangunan AS k','k.id','=','h.id_klasifikasi')
-        								->pluck(DB::raw('CONCAT(f.nama," - ",k.nama," - ",IF(h.is_bertingkat = 0,"Tidak Bertingkat","Bertingkat")) AS fungsi_klasifikasi'),'h.id');
+        								->pluck(DB::raw('CONCAT(f.nama," - ",h.nama," - ",k.nama," - ",IF(h.is_bertingkat = 0,"Tidak Bertingkat","Bertingkat")) AS fungsi_klasifikasi'),'h.id');
         for($i=date('Y')+1; $i>=date('Y')-1; $i--){
             // $tahuns = $i+1;
             // $tahun[$i]=$i.'/'.$tahuns;
@@ -189,7 +197,7 @@ class PengajuanController extends Controller
         $hargaBangunan = DB::table('m_harga_bangunan AS h')->where('h.flag_delete','=',0)
         								->join('m_fungsi AS f','f.id','=','h.id_fungsi')
         								->join('m_klasifikasi_bangunan AS k','k.id','=','h.id_klasifikasi')
-        								->pluck(DB::raw('CONCAT(f.nama," - ",k.nama," - ",IF(h.is_bertingkat = 0,"Tidak Bertingkat","Bertingkat")) AS fungsi_klasifikasi'),'h.id');
+        								->pluck(DB::raw('CONCAT(f.nama," - ",h.nama," - ",k.nama," - ",IF(h.is_bertingkat = 0,"Tidak Bertingkat","Bertingkat")) AS fungsi_klasifikasi'),'h.id');
         for($i=date('Y')+1; $i>=date('Y')-1; $i--){
             // $tahuns = $i+1;
             // $tahun[$i]=$i.'/'.$tahuns;
@@ -208,6 +216,9 @@ class PengajuanController extends Controller
         //
         $pengajuan = Pengajuan::find($id);
         $pengajuan->update($request->all());
+        $pengajuan = Pengajuan::find($id);
+        $pengajuan->id_status_pengajuan = 2;
+        $pengajuan->save();
     }
 
 
@@ -223,7 +234,7 @@ class PengajuanController extends Controller
         $hargaBangunan = DB::table('m_harga_bangunan AS h')->where('h.flag_delete','=',0)
         								->join('m_fungsi AS f','f.id','=','h.id_fungsi')
         								->join('m_klasifikasi_bangunan AS k','k.id','=','h.id_klasifikasi')
-        								->pluck(DB::raw('CONCAT(f.nama," - ",k.nama," - ",IF(h.is_bertingkat = 0,"Tidak Bertingkat","Bertingkat")) AS fungsi_klasifikasi'),'h.id');
+        								->pluck(DB::raw('CONCAT(f.nama," - ",h.nama," - ",k.nama," - ",IF(h.is_bertingkat = 0,"Tidak Bertingkat","Bertingkat")) AS fungsi_klasifikasi'),'h.id');
         for($i=date('Y')+1; $i>=date('Y')-1; $i--){
             // $tahuns = $i+1;
             // $tahun[$i]=$i.'/'.$tahuns;
@@ -249,6 +260,9 @@ class PengajuanController extends Controller
         												->where('id_persyaratan','=',$key)
         												->update(['is_memenuhi'=>$request->is_memenuhi[$key],'keterangan'=>$value]);
         }
+        // $pengajuan = Pengajuan::find($id);
+        // $pengajuan->id_status_pengajuan = 3;
+        // $pengajuan->save();
     }
 
 
@@ -258,7 +272,7 @@ class PengajuanController extends Controller
         $hargaBangunan = DB::table('m_harga_bangunan AS h')->where('h.flag_delete','=',0)
         								->join('m_fungsi AS f','f.id','=','h.id_fungsi')
         								->join('m_klasifikasi_bangunan AS k','k.id','=','h.id_klasifikasi')
-        								->pluck(DB::raw('CONCAT(f.nama," - ",k.nama," - ",IF(h.is_bertingkat = 0,"Tidak Bertingkat","Bertingkat")) AS fungsi_klasifikasi'),'h.id');
+        								->pluck(DB::raw('CONCAT(f.nama," - ",h.nama," - ",k.nama," - ",IF(h.is_bertingkat = 0,"Tidak Bertingkat","Bertingkat")) AS fungsi_klasifikasi'),'h.id');
         for($i=date('Y')+1; $i>=date('Y')-1; $i--){
             // $tahuns = $i+1;
             // $tahun[$i]=$i.'/'.$tahuns;
@@ -281,6 +295,9 @@ class PengajuanController extends Controller
         												->where('id_klasifikasi_parameter','=',$key)
         												->update(['id_klasifikasi_parameter_detail'=>$request->id_klasifikasi_parameter_detail[$key],'keterangan'=>$value]);
         }
+        $pengajuan = Pengajuan::find($id);
+        $pengajuan->id_status_pengajuan = 3;
+        $pengajuan->save();
     }
 
 
@@ -291,7 +308,7 @@ class PengajuanController extends Controller
         $hargaBangunan = DB::table('m_harga_bangunan AS h')->where('h.flag_delete','=',0)
                                         ->join('m_fungsi AS f','f.id','=','h.id_fungsi')
                                         ->join('m_klasifikasi_bangunan AS k','k.id','=','h.id_klasifikasi')
-                                        ->pluck(DB::raw('CONCAT(f.nama," - ",k.nama," - ",IF(h.is_bertingkat = 0,"Tidak Bertingkat","Bertingkat")) AS fungsi_klasifikasi'),'h.id');
+                                        ->pluck(DB::raw('CONCAT(f.nama," - ",h.nama," - ",k.nama," - ",IF(h.is_bertingkat = 0,"Tidak Bertingkat","Bertingkat")) AS fungsi_klasifikasi'),'h.id');
         for($i=date('Y')+1; $i>=date('Y')-1; $i--){
             // $tahuns = $i+1;
             // $tahun[$i]=$i.'/'.$tahuns;
@@ -310,14 +327,37 @@ class PengajuanController extends Controller
         $pengajuan = Pengajuan::find($id);
         foreach ($request->volume as $key => $value) {
             # code...
-            // echo $request->is_memenuhi[$key];
+            echo str_replace(',','.',$value);
+
             $PengajuanParameter = PengajuanPrasarana::where('no_registrasi','=',$pengajuan->no_registrasi)
                                                         ->where('id','=',$key)
-                                                        ->update(['id_jenis_imb'=>$request->id_jenis_imb[$key],'id_harga_bangunan'=>$request->id_harga_bangunan[$key],'volume'=>$value]);
+                                                        ->update(['id_jenis_imb_prasarana'=>$request->id_jenis_imb_prasarana[$key],'id_harga_bangunan'=>$request->id_harga_bangunan[$key],'volume'=>str_replace(',','.',$value)]);
         }
     }
 
 
+    public function perhitungan($id)
+    {
+        $jenisImb = JenisImb::where('flag_delete','=',0)->pluck('nama','id')->toArray();
+        $hargaBangunan = DB::table('m_harga_bangunan AS h')->where('h.flag_delete','=',0)
+                                        ->join('m_fungsi AS f','f.id','=','h.id_fungsi')
+                                        ->join('m_klasifikasi_bangunan AS k','k.id','=','h.id_klasifikasi')
+                                        ->pluck(DB::raw('CONCAT(f.nama," - ",h.nama," - ",k.nama," - ",IF(h.is_bertingkat = 0,"Tidak Bertingkat","Bertingkat")) AS fungsi_klasifikasi'),'h.id');
+        for($i=date('Y')+1; $i>=date('Y')-1; $i--){
+            // $tahuns = $i+1;
+            // $tahun[$i]=$i.'/'.$tahuns;
+            $tahun[$i]=$i;
+        }
+
+
+
+        $pengajuan = Pengajuan::find($id);
+        $PengajuanPersyaratan = PengajuanPersyaratan::where('no_registrasi','=',$pengajuan->no_registrasi)->get();
+        $PengajuanParameter = PengajuanParameter::where('no_registrasi','=',$pengajuan->no_registrasi)->get();
+        $PengajuanPrasarana = PengajuanPrasarana::where('no_registrasi','=',$pengajuan->no_registrasi)->get();
+
+        return view('admin.pengajuan.perhitungan', compact('pengajuan','jenisImb','hargaBangunan','tahun','PengajuanPrasarana','PengajuanParameter','PengajuanPersyaratan'));
+    }
 
     
     
@@ -332,7 +372,7 @@ class PengajuanController extends Controller
         ->join('m_jenis_imb AS f','f.id','=','a.id_jenis_imb')
         ->join('m_fungsi AS g','g.id','=','b.id_fungsi')
         ->join('m_klasifikasi_bangunan AS h','h.id','=','b.id_klasifikasi')
-        ->select([DB::raw('@rownum  := @rownum  + 1 AS no'),'a.id','a.tahun','a.nik','a.nama','f.nama AS jenis_imb',DB::raw('CONCAT(g.nama," - ",h.nama," - ",IF(b.is_bertingkat = 0,"Tidak Bertingkat","Bertingkat")) AS fungsi_klasifikasi'),DB::raw('if(a.id_surveyor_1 = 0,"Belum Ada Survey",CONCAT("1. ",d.nama,"<br/> 2. ",e.nama)) As surveyor'),DB::raw('CONCAT(\'<small><span class="\',c.label,\'">\',c.nama,"</span></small>") as status_pengajuan')])
+        ->select([DB::raw('@rownum  := @rownum  + 1 AS no'),'a.id','a.tahun','a.nik','a.nama','f.nama AS jenis_imb',DB::raw('CONCAT(g.nama," - ",b.nama," - ",h.nama," - ",IF(b.is_bertingkat = 0,"Tidak Bertingkat","Bertingkat")) AS fungsi_klasifikasi'),DB::raw('if(a.id_surveyor_1 = 0,"Belum Ada Survey",CONCAT("1. ",d.nama,"<br/> 2. ",e.nama)) As surveyor'),DB::raw('CONCAT(\'<small><span class="\',c.label,\'">\',c.nama,"</span></small>") as status_pengajuan')])
         ->where('a.flag_delete','=','0');
         //debug($data);
 
@@ -344,7 +384,7 @@ class PengajuanController extends Controller
         }
 
         return $datatables
-        ->addcolumn('action','<a title="Edit Data" href="#" data-toggle="modal" data-target="#modalubahpengajuan" data-id="{!! $id !!}" ><span class="label label-info"><span class="fa fa-edit"></span></span></a> &nbsp; <a title="Penentuan Surveyor" href="#" data-toggle="modal" data-target="#modalsetsurveyor" data-id="{!! $id !!}" ><span class="label label-warning"><span class="fa fa-user"></span></span></a> &nbsp; <a title="Cek Persyaratan" href="#" data-toggle="modal" data-target="#modalcekpersyaratan" data-id="{!! $id !!}" ><span class="label label-primary"><span class="fa fa-check-square"></span></span></a> &nbsp; <a title="Isi Survey" href="#" data-toggle="modal" data-target="#modalisisurvey" data-id="{!! $id !!}" ><span class="label label-success"><span class="fa fa-bar-chart"></span></span></a> &nbsp; <a title="Tambah Prasarana" href="#" data-toggle="modal" data-target="#modaltambahprasarana" data-id="{!! $id !!}" ><span class="label label-info"><span class="fa fa-plus"></span></span></a> &nbsp; <a title="Hapus Data" href="#" data-toggle="modal" data-target="#modalhapuspengajuan" data-id="{!! $id !!}" ><span class="label label-danger"><span class="fa fa-trash"></span></span> </a>')
+        ->addcolumn('action','<a title="Edit Data" href="#" data-toggle="modal" data-target="#modalubahpengajuan" data-id="{!! $id !!}" ><span class="label label-info"><span class="fa fa-edit"></span></span></a> &nbsp; <a title="Penentuan Surveyor" href="#" data-toggle="modal" data-target="#modalsetsurveyor" data-id="{!! $id !!}" ><span class="label label-warning"><span class="fa fa-user"></span></span></a> &nbsp; <a title="Cek Persyaratan" href="#" data-toggle="modal" data-target="#modalcekpersyaratan" data-id="{!! $id !!}" ><span class="label label-primary"><span class="fa fa-check-square"></span></span></a> &nbsp; <a title="Isi Survey" href="#" data-toggle="modal" data-target="#modalisisurvey" data-id="{!! $id !!}" ><span class="label label-success"><span class="fa fa-bar-chart"></span></span></a> &nbsp; <a title="Tambah Prasarana" href="#" data-toggle="modal" data-target="#modaltambahprasarana" data-id="{!! $id !!}" ><span class="label label-info"><span class="fa fa-plus"></span></span></a> &nbsp; <a title="Hapus Data" href="#" data-toggle="modal" data-target="#modalhapuspengajuan" data-id="{!! $id !!}" ><span class="label label-danger"><span class="fa fa-trash"></span></span> </a> &nbsp; <a title="Proses Penilaian" href="#" data-toggle="modal" data-target="#modalperhitungan" data-id="{!! $id !!}" ><span class="label label-success"><span class="fa fa-cog"></span></span> </a>')
         ->make(true);
 	}
 }

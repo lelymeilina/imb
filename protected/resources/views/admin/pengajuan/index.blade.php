@@ -38,12 +38,12 @@
                     <tr>
                         <th width="1%">No.</th>
                         <th width="7%">NIK</th>
-                        <th width="14%">Nama</th>
-                        <th width="14%">Jenis</th>
-                        <th width="14%">Fungsi Klasifikasi</th>
-                        <th width="14%">Surveyor</th>
+                        <th width="13%">Nama</th>
+                        <th width="13%">Jenis</th>
+                        <th width="13%">Fungsi Klasifikasi</th>
+                        <th width="13%">Surveyor</th>
                         <th width="10%">Status</th>
-                        <th width="25%">Action</th>
+                        <th width="30%">Action</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -90,7 +90,7 @@
                           </div>
 
                           <div class="form-group">
-                            {!! Form::label('nama', 'Jenis IMB',['class' => 'col-md-3 control-label']) !!}
+                            {!! Form::label('nama', 'Jenis Kegiatan IMB',['class' => 'col-md-3 control-label']) !!}
                             <div class="col-md-8">
                                    {!! Form::select('id_jenis_imb',[""=>"Pilih Jenis IMB"]+$jenisImb, null, ['class' => 'form-control select2','style'=>'width:100%','required'=>'required']) !!}
                             </div>
@@ -218,6 +218,47 @@
     </div>
   </div>
 
+
+
+  <div class="modal fade bs-modal-lg" id="modaltambahprasarana" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+  <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header ">
+          <button type="reset" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title" id="myModalLabel">Formulir Penambahan Prasarana</h4>
+        </div>
+        
+      
+        <div class="modal-body" id="isiPrasarana">
+
+
+        </div><!-- penutup body -->
+      
+        
+      </div>
+    </div>
+  </div>
+
+
+
+<div class="modal fade bs-modal-xl" id="modalperhitungan" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+  <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header ">
+          <button type="reset" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title" id="myModalLabel">Detail Perhitungan</h4>
+        </div>
+        
+      
+        <div class="modal-body" id="isiPerhitungan">
+
+
+        </div><!-- penutup body -->
+      
+        
+      </div>
+    </div>
+  </div>
 
 
 
@@ -415,6 +456,66 @@
                   $('.overlay').css('display','block');
                   var id = $(e.relatedTarget).data('id');
                   $('#isiSurvey').load('pengajuan/'+id+'/parameter');
+                  setTimeout(function() {
+                          $('.overlay').css('display','none');
+                  }, 1000);
+              }); 
+
+
+              $(document).on('submit', '#prasarana', function() {
+                      $('#modaltambahprasarana').modal('hide');
+                      $('.overlay').css('display','block');
+                      var id = $("#id").val();
+                      $.put("pengajuan/"+ id +"/updateprasarana", $(this).serialize())
+                          .done(function(data) {
+                                  tbpengajuan.api().ajax.reload();
+                                  setTimeout(function() {
+                                          $('.overlay').css('display','none');
+                                          $("#infotambah").fadeIn(300);
+                                  }, 1000);
+                                  setTimeout(function() {
+                                          $("#infotambah").fadeOut(2500);
+                                  }, 2500);
+                          });
+                      return false;
+              });
+
+                  
+              $('#modaltambahprasarana').on('shown.bs.modal', function (e) {
+                  //$('#id_jalur_masuk').val($(e.relatedTarget).data('id'));
+                  $('.overlay').css('display','block');
+                  var id = $(e.relatedTarget).data('id');
+                  $('#isiPrasarana').load('pengajuan/'+id+'/prasarana');
+                  setTimeout(function() {
+                          $('.overlay').css('display','none');
+                  }, 1000);
+              }); 
+
+
+              $(document).on('submit', '#perhitungan', function() {
+                      $('#modalperhitungan').modal('hide');
+                      $('.overlay').css('display','block');
+                      var id = $("#id").val();
+                      $.put("pengajuan/"+ id +"/updateperhitungan", $(this).serialize())
+                          .done(function(data) {
+                                  tbpengajuan.api().ajax.reload();
+                                  setTimeout(function() {
+                                          $('.overlay').css('display','none');
+                                          $("#infotambah").fadeIn(300);
+                                  }, 1000);
+                                  setTimeout(function() {
+                                          $("#infotambah").fadeOut(2500);
+                                  }, 2500);
+                          });
+                      return false;
+              });
+
+                  
+              $('#modalperhitungan').on('shown.bs.modal', function (e) {
+                  //$('#id_jalur_masuk').val($(e.relatedTarget).data('id'));
+                  $('.overlay').css('display','block');
+                  var id = $(e.relatedTarget).data('id');
+                  $('#isiPerhitungan').load('pengajuan/'+id+'/perhitungan');
                   setTimeout(function() {
                           $('.overlay').css('display','none');
                   }, 1000);

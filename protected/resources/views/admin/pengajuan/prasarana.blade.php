@@ -2,7 +2,7 @@
 <!-- Modal -->
 
 
-{!! Form::model($pengajuan, [ 'method' => 'PUT','id' => 'parameter','class' => 'form-horizontal','role' => 'form']) !!}
+{!! Form::model($pengajuan, [ 'method' => 'PUT','id' => 'prasarana','class' => 'form-horizontal','role' => 'form']) !!}
 
   {!! Form::hidden('id', null, ['class' => 'form-control', 'placeholder' => 'Id Fungsi', 'id' => 'id']) !!}
 
@@ -40,24 +40,29 @@
                                   <thead>
                                     <tr>
                                       <th width="5%">No</th>
-                                      <th width="30%">Persyaratan Teknis</th>
-                                      <th width="35%">Hasil Survey Lapangan</th>
-                                      <th width="30%">Keterangan</th>
+                                      <th width="30%">Nama Prasarana</th>
+                                      <th width="20%">Hasil Survey Lapangan</th>
+                                      <th width="25%">Jenis Kegiatan IMB</th>
+                                      <th width="20%">Volume</th>
                                     </tr>
                                   </thead>
                                   <tbody>
                                     <!-- {{ $no = 1 }} -->
-                                    @foreach($PengajuanParameter AS $d)
+                                    @foreach($PengajuanPrasarana AS $d)
                                     <tr>
                                       <td>{{$no}}</td>
-                                      <td>{{$d->getParameter->nama}}</td>
+                                      <td>{{$d->nama}}</td>
                                       
                                       <td>
-                                        {!! Form::select('id_klasifikasi_parameter_detail['.$d->id_klasifikasi_parameter.']',[""=>"Pilih Hasil Survey"]+ \App\PengajuanParameter::getDetailParameter($d->id_klasifikasi_parameter), $d->id_klasifikasi_parameter_detail, ['class' => 'form-control select2','style'=>'width:100%','required'=>'required']) !!}
+                                        {!! Form::select('id_harga_bangunan['.$d->id.']',[""=>"Pilih Hasil Survey"]+ \App\PengajuanPrasarana::getPrasarana($d->id_fungsi,$d->nama), $d->id_harga_bangunan, ['class' => 'form-control select2','style'=>'width:100%']) !!}
                                       </td>
 
                                       <td>
-                                        {!! Form::textarea('keterangan['.$d->id_klasifikasi_parameter.']', $d->keterangan, ['class' => 'form-control', 'placeholder' => 'Masukkan Keterangan Hasil Survey '.$d->getParameter->nama,'required'=>'required','rows'=>'3']) !!}
+                                        {!! Form::select('id_jenis_imb_prasarana['.$d->id.']',["0"=>"Pilih Jenis IMB"]+$jenisImb, $d->id_jenis_imb_prasarana, ['class' => 'form-control select2','style'=>'width:100%']) !!}
+                                      </td>
+
+                                      <td>
+                                        {!! Form::text('volume['.$d->id.']', $d->volume, ['class' => 'form-control', 'placeholder' => 'Contoh 235.5']) !!}
                                       </td>
 
                                     </tr>
