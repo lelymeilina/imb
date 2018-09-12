@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Sep 10, 2018 at 04:53 AM
+-- Generation Time: Sep 12, 2018 at 04:54 AM
 -- Server version: 1.0.119
 -- PHP Version: 7.0.9
 
@@ -43,15 +43,9 @@ CREATE TABLE IF NOT EXISTS `content` (
 
 INSERT INTO `content` (`id`, `jenis`, `judul`, `katakunci`, `content`, `flag_delete`, `created_at`, `updated_at`) VALUES
 (1, 1, 'SITASI', 'LPPM STIKI INDONESIA', '<p>&nbsp;SITASI merupakan sistem yang dapat melakukan pengajuan Penelitian, Pengabdian Dosen dan membantu proses yang terlibat didalamnya seperti progres pengajuan, mengelola data pengajuan, dll. sistem ini dibuat dengan tujuan meringankan pekerjaan ketua LPPM, mencegah hilangnya file karena virus atau bencana alam, dengan menggunakan tempat penyimpanan yang lebih terstruktur dan efektif seperti database, memperkecil kesalahan dalam penulisan nama dosen, dll.&nbsp; &nbsp;<br></p>', 0, '2018-07-30 09:41:45', '2018-07-30 09:41:45'),
-(2, 0, 'SELAMAT DATANG DI SISTEM IMB KARANGASEM', 'IMB KARANGASEM', 'protected/storage/quickcount/slider/content/10bf08f0bbd6689475be65b4ae441bd9/aac41d76ba895ab889e4f6cf3dafd6b8.jpg', 0, '2018-09-06 19:46:45', '2018-09-06 19:46:45'),
-(3, 0, 'Penelitian', 'LPPM STIKI', 'protected/storage/quickcount/slider/content/10bf08f0bbd6689475be65b4ae441bd9/990d5b8bf4e95429c19fbdb1a7760b01.jpg', 1, '2018-07-30 09:22:22', '2018-07-30 09:22:22'),
+(2, 0, 'SIMB KARANGASEM', 'KARANGASEM THE SPIRIT OF BALI', 'protected/storage/quickcount/slider/content/10bf08f0bbd6689475be65b4ae441bd9/aac41d76ba895ab889e4f6cf3dafd6b8.jpg', 0, '2018-09-11 10:41:55', '2018-09-06 19:46:45'),
 (4, 1, 'Penelitian', 'LPPM STIKI INDONESIA', '<p>Peneitian dan pengembangan juga sangatlah penting bagi kemajuan perguruan tinggi,kesejahteraan masyarakat serta kemajuan bangsa dan negara.<br></p>', 0, '2018-07-30 09:42:00', '2018-07-30 09:42:00'),
-(5, 0, 'SITASI', 'LPPM STIKI INDONESIA', 'protected/storage/quickcount/slider/content/10bf08f0bbd6689475be65b4ae441bd9/f2b5a20068f32dd9e6e75033c8e38204.jpg', 1, '2018-07-30 09:28:23', '2018-07-30 09:28:23'),
-(6, 0, 'SITASI', 'LPPM STIKI INDONESIA', 'protected/storage/quickcount/slider/content/10bf08f0bbd6689475be65b4ae441bd9/27a5b5c701ceb52c3f51c51c0c70c20d.jpg', 1, '2018-07-30 09:31:03', '2018-07-30 09:31:03'),
-(7, 0, 'SITASI', 'SITASI', 'protected/storage/quickcount/slider/content/10bf08f0bbd6689475be65b4ae441bd9/c2d75b774be7928bf5007739c69c0bcb.jpg', 1, '2018-07-30 09:20:05', '2018-07-30 09:20:05'),
-(8, 0, 'Saya coba', 'COba Aja', 'protected/storage/quickcount/slider/content/10bf08f0bbd6689475be65b4ae441bd9/8f8d92049a0e9a6049d162133b57a382.jpg', 1, '2018-07-30 08:59:58', '2018-07-30 08:59:58'),
-(9, 1, 'Tentang Sitasi', 'Kunciss', 'Kunci', 1, '2018-07-30 09:34:38', '2018-07-30 09:34:38'),
-(10, 0, 'TAMPAK SIRING', 'KAB KARANGASEM', 'protected/storage/quickcount/slider/content/10bf08f0bbd6689475be65b4ae441bd9/779304ae46b32f7fac25ea49318df073.jpg', 0, '2018-09-06 19:47:05', '2018-09-06 19:47:05');
+(10, 0, 'SIMB KARANGASEM', 'KARANGASEM THE SPIRIT OF BALI', 'protected/storage/quickcount/slider/content/10bf08f0bbd6689475be65b4ae441bd9/779304ae46b32f7fac25ea49318df073.jpg', 0, '2018-09-11 10:42:05', '2018-09-06 19:47:05');
 
 -- --------------------------------------------------------
 
@@ -440,7 +434,7 @@ CREATE TABLE IF NOT EXISTS `m_jenis_imb` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
 
 --
 -- Dumping data for table `m_jenis_imb`
@@ -449,7 +443,10 @@ CREATE TABLE IF NOT EXISTS `m_jenis_imb` (
 INSERT INTO `m_jenis_imb` (`id`, `nama`, `indeks`, `flag_delete`, `created_at`, `updated_at`) VALUES
 (1, 'IMB Pembangunan baru/penambahan', '1.00', 0, '2018-09-07 13:57:33', '0000-00-00 00:00:00'),
 (2, 'IMB rehablitasi/renovasi berat', '0.65', 0, '2018-09-07 13:57:44', '0000-00-00 00:00:00'),
-(3, 'IMB rehabilitasi/renovasi sedang', '0.45', 0, '2018-09-07 13:57:42', '0000-00-00 00:00:00');
+(3, 'IMB rehabilitasi/renovasi sedang', '0.45', 0, '2018-09-07 13:57:42', '0000-00-00 00:00:00'),
+(4, 'IMB Pelestarian/pemugaran Pratama', '0.65', 0, '2018-09-10 15:57:43', '0000-00-00 00:00:00'),
+(5, 'IMB Pelestarian/pemugaran Madya', '0.45', 0, '2018-09-10 15:57:49', '0000-00-00 00:00:00'),
+(6, 'IMB Pelestarian/pemugaran Utama', '0.30', 0, '2018-09-10 15:57:53', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -491,6 +488,9 @@ CREATE TABLE IF NOT EXISTS `m_klasifikasi_parameter` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nama` varchar(255) DEFAULT NULL,
   `indeks` decimal(6,2) DEFAULT '0.00',
+  `is_sum` tinyint(2) DEFAULT '0' COMMENT '0=tidak summary; 1=summary;',
+  `is_jalan` tinyint(2) DEFAULT '0' COMMENT '0=bukan jalan; 1=jalan;',
+  `is_waktu` tinyint(2) DEFAULT '0' COMMENT '0=bukan waktu; 1=waktu;',
   `flag_delete` tinyint(2) DEFAULT '0',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
@@ -501,16 +501,16 @@ CREATE TABLE IF NOT EXISTS `m_klasifikasi_parameter` (
 -- Dumping data for table `m_klasifikasi_parameter`
 --
 
-INSERT INTO `m_klasifikasi_parameter` (`id`, `nama`, `indeks`, `flag_delete`, `created_at`, `updated_at`) VALUES
-(1, 'Kompleksitas', '0.25', 0, '2018-09-08 17:20:10', '0000-00-00 00:00:00'),
-(2, 'Permanensi', '0.20', 0, '2018-09-08 17:20:10', '0000-00-00 00:00:00'),
-(3, 'Resiko kebakaran', '0.15', 0, '2018-09-08 17:20:10', '0000-00-00 00:00:00'),
-(4, 'Zona Gempa', '0.15', 0, '2018-09-08 17:20:10', '0000-00-00 00:00:00'),
-(5, 'Lokasi (Kepadatan Bangunan Gedung)', '0.10', 0, '2018-09-08 17:20:30', '0000-00-00 00:00:00'),
-(6, 'Ketinggian Bangunan Gedung', '0.10', 0, '2018-09-08 17:20:52', '0000-00-00 00:00:00'),
-(7, 'Kepemilikan', '0.05', 0, '2018-09-08 17:21:00', '0000-00-00 00:00:00'),
-(8, 'Waktu Penggunaan', '1.00', 0, '2018-09-08 17:24:17', '0000-00-00 00:00:00'),
-(9, 'Indeks Jalan', '1.00', 0, '2018-09-08 17:24:18', '0000-00-00 00:00:00');
+INSERT INTO `m_klasifikasi_parameter` (`id`, `nama`, `indeks`, `is_sum`, `is_jalan`, `is_waktu`, `flag_delete`, `created_at`, `updated_at`) VALUES
+(1, 'Kompleksitas', '0.25', 1, 0, 0, 0, '2018-09-10 14:18:09', '0000-00-00 00:00:00'),
+(2, 'Permanensi', '0.20', 1, 0, 0, 0, '2018-09-10 14:18:08', '0000-00-00 00:00:00'),
+(3, 'Resiko kebakaran', '0.15', 1, 0, 0, 0, '2018-09-10 14:18:08', '0000-00-00 00:00:00'),
+(4, 'Zona Gempa', '0.15', 1, 0, 0, 0, '2018-09-10 14:18:07', '0000-00-00 00:00:00'),
+(5, 'Lokasi (Kepadatan Bangunan Gedung)', '0.10', 1, 0, 0, 0, '2018-09-10 14:18:07', '0000-00-00 00:00:00'),
+(6, 'Ketinggian Bangunan Gedung', '0.10', 1, 0, 0, 0, '2018-09-10 14:18:06', '0000-00-00 00:00:00'),
+(7, 'Kepemilikan', '0.05', 1, 0, 0, 0, '2018-09-10 14:18:06', '0000-00-00 00:00:00'),
+(8, 'Waktu Penggunaan', '1.00', 0, 0, 1, 0, '2018-09-10 14:28:49', '0000-00-00 00:00:00'),
+(9, 'Indeks Jalan', '1.00', 0, 1, 0, 0, '2018-09-10 14:28:52', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -534,38 +534,38 @@ CREATE TABLE IF NOT EXISTS `m_klasifikasi_parameter_detail` (
 --
 
 INSERT INTO `m_klasifikasi_parameter_detail` (`id`, `id_klasifikasi_parameter`, `nama`, `indeks`, `flag_delete`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Sederhana', '0.00', 0, '2018-09-08 21:04:12', '0000-00-00 00:00:00'),
-(2, 1, 'Tidak Sederhana', '0.00', 0, '2018-09-08 21:04:11', '0000-00-00 00:00:00'),
-(3, 1, 'Khusus', '0.00', 0, '2018-09-08 21:04:10', '0000-00-00 00:00:00'),
-(4, 2, 'Darurat', '0.00', 0, '2018-09-08 21:04:09', '0000-00-00 00:00:00'),
-(5, 2, 'Semi Permanen', '0.00', 0, '2018-09-08 21:04:09', '0000-00-00 00:00:00'),
-(6, 2, 'Permanen', '0.00', 0, '2018-09-08 21:04:08', '0000-00-00 00:00:00'),
-(7, 3, 'Rendah', '0.00', 0, '2018-09-08 21:04:08', '0000-00-00 00:00:00'),
-(8, 3, 'Sedang', '0.00', 0, '2018-09-08 21:04:07', '0000-00-00 00:00:00'),
-(9, 3, 'Tinggi', '0.00', 0, '2018-09-08 21:04:07', '0000-00-00 00:00:00'),
-(10, 4, 'Zona I/Minor', '0.00', 0, '2018-09-08 21:04:06', '0000-00-00 00:00:00'),
-(11, 4, 'Zona II/Minor', '0.00', 0, '2018-09-08 21:04:06', '0000-00-00 00:00:00'),
-(12, 4, 'Zona III/Sedang', '0.00', 0, '2018-09-08 21:04:05', '0000-00-00 00:00:00'),
-(13, 5, 'Renggang', '0.00', 0, '2018-09-08 21:04:05', '0000-00-00 00:00:00'),
-(14, 5, 'Sedang', '0.00', 0, '2018-09-08 21:04:04', '0000-00-00 00:00:00'),
-(15, 5, 'Padat', '0.00', 0, '2018-09-08 21:04:03', '0000-00-00 00:00:00'),
-(16, 6, 'Rendah', '0.00', 0, '2018-09-08 21:04:04', '0000-00-00 00:00:00'),
-(17, 6, 'Sedang', '0.00', 0, '2018-09-08 21:04:03', '0000-00-00 00:00:00'),
-(18, 6, 'Tinggi', '0.00', 0, '2018-09-08 21:04:02', '0000-00-00 00:00:00'),
-(19, 7, 'Negara/Yayasan', '0.00', 0, '2018-09-08 21:04:02', '0000-00-00 00:00:00'),
-(20, 7, 'Perorangan', '0.00', 0, '2018-09-08 21:04:01', '0000-00-00 00:00:00'),
-(21, 7, 'Badan Usaha Swasta', '0.00', 0, '2018-09-08 21:03:40', '0000-00-00 00:00:00'),
-(22, 8, 'SJ Pendek', '0.00', 0, '2018-09-08 21:03:44', '0000-00-00 00:00:00'),
-(23, 8, 'SJ Panjang', '0.00', 0, '2018-09-08 21:03:40', '0000-00-00 00:00:00'),
-(24, 8, 'Tetap', '0.00', 0, '2018-09-08 21:03:43', '0000-00-00 00:00:00'),
-(25, 9, 'Jl. Negara', '0.00', 0, '2018-09-08 21:03:41', '0000-00-00 00:00:00'),
-(26, 9, 'Jl. Propinsi', '0.00', 0, '2018-09-08 21:03:41', '0000-00-00 00:00:00'),
-(27, 9, 'Jl. Kabupaten', '0.00', 0, '2018-09-08 21:03:43', '0000-00-00 00:00:00'),
-(28, 9, 'Jl. Desa/Lingkungan', '0.00', 0, '2018-09-08 21:03:41', '0000-00-00 00:00:00'),
-(29, 9, 'Gang', '0.00', 0, '2018-09-08 21:03:46', '0000-00-00 00:00:00'),
-(31, 4, 'Zona IV/Sedang', '0.00', 0, '2018-09-08 21:04:05', '0000-00-00 00:00:00'),
-(32, 4, 'Zona V/Kuat', '0.00', 0, '2018-09-08 21:04:05', '0000-00-00 00:00:00'),
-(33, 4, 'Zona VI/Kuat', '0.00', 0, '2018-09-08 21:04:05', '0000-00-00 00:00:00');
+(1, 1, 'Sederhana', '0.40', 0, '2018-09-10 14:07:33', '0000-00-00 00:00:00'),
+(2, 1, 'Tidak Sederhana', '0.70', 0, '2018-09-10 14:07:36', '0000-00-00 00:00:00'),
+(3, 1, 'Khusus', '1.00', 0, '2018-09-10 14:07:42', '0000-00-00 00:00:00'),
+(4, 2, 'Darurat', '0.40', 0, '2018-09-10 14:07:46', '0000-00-00 00:00:00'),
+(5, 2, 'Semi Permanen', '0.70', 0, '2018-09-10 14:07:50', '0000-00-00 00:00:00'),
+(6, 2, 'Permanen', '1.00', 0, '2018-09-10 14:07:51', '0000-00-00 00:00:00'),
+(7, 3, 'Rendah', '0.40', 0, '2018-09-10 14:07:53', '0000-00-00 00:00:00'),
+(8, 3, 'Sedang', '0.70', 0, '2018-09-10 14:08:07', '0000-00-00 00:00:00'),
+(9, 3, 'Tinggi', '1.00', 0, '2018-09-10 14:08:11', '0000-00-00 00:00:00'),
+(10, 4, 'Zona I/Minor', '0.10', 0, '2018-09-10 14:08:27', '0000-00-00 00:00:00'),
+(11, 4, 'Zona II/Minor', '0.20', 0, '2018-09-10 14:08:31', '0000-00-00 00:00:00'),
+(12, 4, 'Zona III/Sedang', '0.40', 0, '2018-09-10 14:08:33', '0000-00-00 00:00:00'),
+(13, 5, 'Renggang', '0.40', 0, '2018-09-10 14:09:03', '0000-00-00 00:00:00'),
+(14, 5, 'Sedang', '0.70', 0, '2018-09-10 14:09:06', '0000-00-00 00:00:00'),
+(15, 5, 'Padat', '1.00', 0, '2018-09-10 14:09:09', '0000-00-00 00:00:00'),
+(16, 6, 'Rendah', '0.40', 0, '2018-09-10 14:09:14', '0000-00-00 00:00:00'),
+(17, 6, 'Sedang', '0.70', 0, '2018-09-10 14:09:20', '0000-00-00 00:00:00'),
+(18, 6, 'Tinggi', '1.00', 0, '2018-09-10 14:09:23', '0000-00-00 00:00:00'),
+(19, 7, 'Negara/Yayasan', '0.40', 0, '2018-09-10 14:09:38', '0000-00-00 00:00:00'),
+(20, 7, 'Perorangan', '0.70', 0, '2018-09-10 14:09:43', '0000-00-00 00:00:00'),
+(21, 7, 'Badan Usaha Swasta', '1.00', 0, '2018-09-10 14:09:48', '0000-00-00 00:00:00'),
+(22, 8, 'SJ Pendek', '0.40', 0, '2018-09-10 14:09:57', '0000-00-00 00:00:00'),
+(23, 8, 'SJ Panjang', '0.70', 0, '2018-09-10 14:10:02', '0000-00-00 00:00:00'),
+(24, 8, 'Tetap', '1.00', 0, '2018-09-10 14:10:05', '0000-00-00 00:00:00'),
+(25, 9, 'Jl. Negara', '0.40', 0, '2018-09-10 14:10:12', '0000-00-00 00:00:00'),
+(26, 9, 'Jl. Propinsi', '0.30', 0, '2018-09-10 14:10:14', '0000-00-00 00:00:00'),
+(27, 9, 'Jl. Kabupaten', '0.20', 0, '2018-09-10 14:10:16', '0000-00-00 00:00:00'),
+(28, 9, 'Jl. Desa/Lingkungan', '0.10', 0, '2018-09-10 14:10:20', '0000-00-00 00:00:00'),
+(29, 9, 'Gang', '0.20', 0, '2018-09-10 14:10:27', '0000-00-00 00:00:00'),
+(31, 4, 'Zona IV/Sedang', '0.50', 0, '2018-09-10 14:08:41', '0000-00-00 00:00:00'),
+(32, 4, 'Zona V/Kuat', '0.70', 0, '2018-09-10 14:08:44', '0000-00-00 00:00:00'),
+(33, 4, 'Zona VI/Kuat', '1.00', 0, '2018-09-10 14:08:55', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -611,7 +611,7 @@ CREATE TABLE IF NOT EXISTS `m_status_pengajuan` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
 
 --
 -- Dumping data for table `m_status_pengajuan`
@@ -620,11 +620,10 @@ CREATE TABLE IF NOT EXISTS `m_status_pengajuan` (
 INSERT INTO `m_status_pengajuan` (`id`, `nama`, `label`, `flag_delete`, `created_at`, `updated_at`) VALUES
 (1, 'Pendaftaran', 'label label-info', 0, '2018-09-08 17:43:14', '0000-00-00 00:00:00'),
 (2, 'Sedang Survey', 'label label-warning', 0, '2018-09-08 17:43:20', '0000-00-00 00:00:00'),
-(3, 'Menunggu Hasil Survey', 'label label-primary', 0, '2018-09-08 17:43:29', '0000-00-00 00:00:00'),
+(3, 'Sudah Survey', 'label label-primary', 0, '2018-09-10 11:08:49', '0000-00-00 00:00:00'),
 (4, 'Survey Ulang', 'label label-warning', 0, '2018-09-08 17:44:19', '0000-00-00 00:00:00'),
-(5, 'Disteujui', 'label label-success', 0, '2018-09-08 17:43:59', '0000-00-00 00:00:00'),
-(6, 'Ditolak', 'label label-danger', 0, '2018-09-08 17:44:11', '0000-00-00 00:00:00'),
-(7, 'yak', 'label label-default', 1, '2018-09-08 14:26:29', '2018-09-08 14:26:29');
+(5, 'Disetujui', 'label label-success', 0, '2018-09-10 11:09:59', '0000-00-00 00:00:00'),
+(6, 'Ditolak', 'label label-danger', 0, '2018-09-08 17:44:11', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -765,20 +764,19 @@ INSERT INTO `rbac_roles` (`id`, `role_title`, `role_slug`, `created_at`, `update
 
 CREATE TABLE IF NOT EXISTS `rbac_role_user` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `role_id` int(11) NOT NULL,
+  `role_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `user_id` bigint(20) unsigned NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=182 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `rbac_role_user`
 --
 
 INSERT INTO `rbac_role_user` (`id`, `role_id`, `user_id`, `created_at`, `updated_at`) VALUES
-(1, 1, 11101420, '2018-06-05 16:06:15', '2018-06-05 16:06:15'),
-(181, 1, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00');
+(1, '1', 11101420, '2018-06-05 16:06:15', '2018-06-05 16:06:15');
 
 -- --------------------------------------------------------
 
@@ -798,6 +796,7 @@ CREATE TABLE IF NOT EXISTS `t_pengajuan` (
   `tahun` int(11) DEFAULT NULL,
   `luas` decimal(6,2) DEFAULT '0.00',
   `jumlah_biaya` double DEFAULT '0',
+  `jumlah_biaya_prasarana` double DEFAULT '0',
   `id_surveyor_1` int(11) DEFAULT '0' COMMENT 'm_surveyor',
   `id_surveyor_2` int(11) DEFAULT '0' COMMENT 'm_surveyor',
   `id_status_pengajuan` int(11) DEFAULT '1' COMMENT 'm_status_pengajuan',
@@ -805,14 +804,15 @@ CREATE TABLE IF NOT EXISTS `t_pengajuan` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `t_pengajuan`
 --
 
-INSERT INTO `t_pengajuan` (`id`, `no_registrasi`, `nik`, `nama`, `id_jenis_imb`, `id_harga_bangunan`, `deskripsi_bangunan`, `lokasi`, `tahun`, `luas`, `jumlah_biaya`, `id_surveyor_1`, `id_surveyor_2`, `id_status_pengajuan`, `flag_delete`, `created_at`, `updated_at`) VALUES
-(1, '2018010010001', '5371992051300006', 'Adi Panca Saputra Iskandar', 1, 10, 'Akomodasi Pariwisata Non Bintang (Villa)', 'Banjar Dinas Tebola, Desa Sidemen, Kecamatan Sidemen, Kabupaten Karangasem', 2018, '0.00', 0, 1, 5, 1, 0, '2018-09-09 13:47:14', '2018-09-08 19:47:30');
+INSERT INTO `t_pengajuan` (`id`, `no_registrasi`, `nik`, `nama`, `id_jenis_imb`, `id_harga_bangunan`, `deskripsi_bangunan`, `lokasi`, `tahun`, `luas`, `jumlah_biaya`, `jumlah_biaya_prasarana`, `id_surveyor_1`, `id_surveyor_2`, `id_status_pengajuan`, `flag_delete`, `created_at`, `updated_at`) VALUES
+(1, '2018010010001', '5371992051300006', 'Adi Panca Saputra Iskandar', 1, 10, 'Akomodasi Pariwisata Non Bintang (Villa)', 'Banjar Dinas Tebola, Desa Sidemen, Kecamatan Sidemen, Kabupaten Karangasem', 2018, '517.02', 20939310, 8253485, 1, 5, 5, 0, '2018-09-11 00:07:37', '2018-09-11 00:07:37'),
+(2, '2018010760001', '576456777878', 'ghvbhbhj', 1, 76, 'Rumah Tinggal Adat Bali', 'ubhdnfjhsdnjd hdjhsdnfjjndjkn nindfsdf', 2018, '512.00', 307200, 874800, 5, 1, 5, 0, '2018-09-11 11:07:35', '2018-09-11 11:07:35');
 
 -- --------------------------------------------------------
 
@@ -830,22 +830,31 @@ CREATE TABLE IF NOT EXISTS `t_pengajuan_parameter` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=19 ;
 
 --
 -- Dumping data for table `t_pengajuan_parameter`
 --
 
 INSERT INTO `t_pengajuan_parameter` (`id`, `no_registrasi`, `id_pengajuan`, `id_klasifikasi_parameter`, `id_klasifikasi_parameter_detail`, `keterangan`, `created_at`, `updated_at`) VALUES
-(1, '2018010010001', 1, 1, 2, 'Sesuai', '2018-09-08 21:10:02', '2018-09-08 21:10:02'),
-(2, '2018010010001', 1, 2, 6, 'Sesuai', '2018-09-08 21:10:02', '2018-09-08 21:10:02'),
-(3, '2018010010001', 1, 3, 8, 'Sesuai', '2018-09-08 21:10:02', '2018-09-08 21:10:02'),
-(4, '2018010010001', 1, 4, 12, 'Sesuai', '2018-09-08 21:10:02', '2018-09-08 21:10:02'),
-(5, '2018010010001', 1, 5, 14, 'Sesuai', '2018-09-08 21:10:02', '2018-09-08 21:10:02'),
-(6, '2018010010001', 1, 6, 16, 'Sesuai', '2018-09-08 21:10:02', '2018-09-08 21:10:02'),
-(7, '2018010010001', 1, 7, 20, 'Sesuai', '2018-09-08 21:10:02', '2018-09-08 21:10:02'),
-(8, '2018010010001', 1, 8, 24, 'Sesuai', '2018-09-08 21:10:03', '2018-09-08 21:10:03'),
-(9, '2018010010001', 1, 9, 29, 'Sesuai', '2018-09-08 21:10:03', '2018-09-08 21:10:03');
+(1, '2018010010001', 1, 1, 2, 'Sesuai', '2018-09-10 14:12:47', '2018-09-10 14:12:47'),
+(2, '2018010010001', 1, 2, 6, 'Sesuai', '2018-09-10 14:12:47', '2018-09-10 14:12:47'),
+(3, '2018010010001', 1, 3, 9, 'Sesuai', '2018-09-10 14:12:47', '2018-09-10 14:12:47'),
+(4, '2018010010001', 1, 4, 31, 'Sesuai', '2018-09-10 14:12:47', '2018-09-10 14:12:47'),
+(5, '2018010010001', 1, 5, 14, 'Sesuai', '2018-09-10 14:12:47', '2018-09-10 14:12:47'),
+(6, '2018010010001', 1, 6, 16, 'Sesuai', '2018-09-10 14:12:47', '2018-09-10 14:12:47'),
+(7, '2018010010001', 1, 7, 20, 'Sesuai', '2018-09-10 14:12:47', '2018-09-10 14:12:47'),
+(8, '2018010010001', 1, 8, 24, 'Sesuai', '2018-09-10 14:12:47', '2018-09-10 14:12:47'),
+(9, '2018010010001', 1, 9, 29, 'Sesuai', '2018-09-10 14:12:47', '2018-09-10 14:12:47'),
+(10, '2018010760001', 2, 1, 1, 'a', '2018-09-11 11:06:49', '2018-09-11 11:06:49'),
+(11, '2018010760001', 2, 2, 6, 'a', '2018-09-11 11:06:49', '2018-09-11 11:06:49'),
+(12, '2018010760001', 2, 3, 9, 'a', '2018-09-11 11:06:49', '2018-09-11 11:06:49'),
+(13, '2018010760001', 2, 4, 11, 'a', '2018-09-11 11:06:49', '2018-09-11 11:06:49'),
+(14, '2018010760001', 2, 5, 13, 'a', '2018-09-11 11:06:49', '2018-09-11 11:06:49'),
+(15, '2018010760001', 2, 6, 16, 'a', '2018-09-11 11:06:49', '2018-09-11 11:06:49'),
+(16, '2018010760001', 2, 7, 20, 'a', '2018-09-11 11:06:49', '2018-09-11 11:06:49'),
+(17, '2018010760001', 2, 8, 22, 'a', '2018-09-11 11:06:49', '2018-09-11 11:06:49'),
+(18, '2018010760001', 2, 9, 29, 'a', '2018-09-11 11:06:49', '2018-09-11 11:06:49');
 
 -- --------------------------------------------------------
 
@@ -863,22 +872,31 @@ CREATE TABLE IF NOT EXISTS `t_pengajuan_persyaratan` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=19 ;
 
 --
 -- Dumping data for table `t_pengajuan_persyaratan`
 --
 
 INSERT INTO `t_pengajuan_persyaratan` (`id`, `no_registrasi`, `id_pengajuan`, `id_persyaratan`, `is_memenuhi`, `keterangan`, `created_at`, `updated_at`) VALUES
-(1, '2018010010001', 1, 1, 1, 'Ijin Pemanfaatan Ruang No 92/KPPT/Tahun 2016  Tanggal 20 Juli 2016', '2018-09-08 20:39:01', '2018-09-08 20:39:01'),
-(2, '2018010010001', 1, 2, 1, 'Bukan Jalur Hijau', '2018-09-08 20:39:01', '2018-09-08 20:39:01'),
-(3, '2018010010001', 1, 3, 1, 'Sempadan Jalan 7,5 M Jarak Bangunan Ke As Jalan         50,65 M', '2018-09-08 20:39:01', '2018-09-08 20:39:01'),
-(4, '2018010010001', 1, 4, 0, 'Tidak ada sungai', '2018-09-08 20:39:01', '2018-09-08 20:39:01'),
-(5, '2018010010001', 1, 5, 0, 'Tidak ada jurang', '2018-09-08 20:39:01', '2018-09-08 20:39:01'),
-(6, '2018010010001', 1, 6, 0, 'Tidak ada pantai', '2018-09-08 20:39:01', '2018-09-08 20:39:01'),
-(7, '2018010010001', 1, 7, 1, 'KDB 19,16 % ( 590,50 M2 dari 3082 M2 )                                 \r\nKLB 40,36 % ( 1244,00 M2 dari 3082 M2 ) ', '2018-09-08 20:39:01', '2018-09-08 20:39:01'),
-(8, '2018010010001', 1, 8, 1, ' Mencirikan Arsitektur Bali', '2018-09-08 20:39:01', '2018-09-08 20:39:01'),
-(9, '2018010010001', 1, 9, 1, 'Memenuhi Syarat Tehnik Bangunan', '2018-09-08 20:39:01', '2018-09-08 20:39:01');
+(1, '2018010010001', 1, 1, 1, 'Ijin Pemanfaatan Ruang No 92/KPPT/Tahun 2016  Tanggal 20 Juli 2016', '2018-09-10 11:10:33', '2018-09-10 11:10:33'),
+(2, '2018010010001', 1, 2, 1, 'Bukan Jalur Hijau', '2018-09-10 11:10:33', '2018-09-10 11:10:33'),
+(3, '2018010010001', 1, 3, 1, 'Sempadan Jalan 7,5 M Jarak Bangunan Ke As Jalan         50,65 M', '2018-09-10 11:10:33', '2018-09-10 11:10:33'),
+(4, '2018010010001', 1, 4, 0, 'Tidak ada sungai', '2018-09-10 11:10:33', '2018-09-10 11:10:33'),
+(5, '2018010010001', 1, 5, 0, 'Tidak ada jurang', '2018-09-10 11:10:33', '2018-09-10 11:10:33'),
+(6, '2018010010001', 1, 6, 0, 'Tidak ada pantai', '2018-09-10 11:10:33', '2018-09-10 11:10:33'),
+(7, '2018010010001', 1, 7, 1, 'KDB 19,16 % ( 590,50 M2 dari 3082 M2 )                                 \r\nKLB 40,36 % ( 1244,00 M2 dari 3082 M2 ) ', '2018-09-10 11:10:33', '2018-09-10 11:10:33'),
+(8, '2018010010001', 1, 8, 1, ' Mencirikan Arsitektur Bali', '2018-09-10 11:10:33', '2018-09-10 11:10:33'),
+(9, '2018010010001', 1, 9, 1, 'Memenuhi Syarat Tehnik Bangunan', '2018-09-10 11:10:33', '2018-09-10 11:10:33'),
+(10, '2018010760001', 2, 1, 1, 'oke', '2018-09-11 11:01:43', '2018-09-11 11:01:43'),
+(11, '2018010760001', 2, 2, 1, 'oke', '2018-09-11 11:01:43', '2018-09-11 11:01:43'),
+(12, '2018010760001', 2, 3, 1, 'oke', '2018-09-11 11:01:43', '2018-09-11 11:01:43'),
+(13, '2018010760001', 2, 4, 0, 'oke', '2018-09-11 11:01:43', '2018-09-11 11:01:43'),
+(14, '2018010760001', 2, 5, 1, 'oke', '2018-09-11 11:01:43', '2018-09-11 11:01:43'),
+(15, '2018010760001', 2, 6, 0, 'oke', '2018-09-11 11:01:43', '2018-09-11 11:01:43'),
+(16, '2018010760001', 2, 7, 1, 'oke', '2018-09-11 11:01:43', '2018-09-11 11:01:43'),
+(17, '2018010760001', 2, 8, 1, 'oke', '2018-09-11 11:01:43', '2018-09-11 11:01:43'),
+(18, '2018010760001', 2, 9, 1, 'oke', '2018-09-11 11:01:43', '2018-09-11 11:01:43');
 
 -- --------------------------------------------------------
 
@@ -892,18 +910,74 @@ CREATE TABLE IF NOT EXISTS `t_pengajuan_prasarana` (
   `id_pengajuan` int(11) DEFAULT NULL COMMENT 't_pengajuan',
   `nama` varchar(255) DEFAULT NULL COMMENT 'm_harga_bangunan',
   `id_fungsi` int(11) DEFAULT NULL COMMENT 'm_fungsi',
-  `id_jenis_imb` int(11) DEFAULT NULL COMMENT 'm_jenis_imb',
+  `id_jenis_imb_prasarana` int(11) DEFAULT NULL COMMENT 'm_jenis_imb',
   `id_harga_bangunan` int(11) DEFAULT NULL COMMENT 'm_harga_bangunan',
   `volume` decimal(6,2) DEFAULT '0.00',
+  `jumlah_biaya` double DEFAULT '0',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=55 ;
 
 --
 -- Dumping data for table `t_pengajuan_prasarana`
 --
 
+INSERT INTO `t_pengajuan_prasarana` (`id`, `no_registrasi`, `id_pengajuan`, `nama`, `id_fungsi`, `id_jenis_imb_prasarana`, `id_harga_bangunan`, `volume`, `jumlah_biaya`, `created_at`, `updated_at`) VALUES
+(1, '2018010010001', 1, 'Pagar', 7, 1, 203, '235.63', 2120670, '2018-09-11 00:25:24', '2018-09-11 00:25:24'),
+(2, '2018010010001', 1, 'Tanggul/Retaining Wall', 7, 0, 0, '0.00', 0, '2018-09-11 00:25:24', '2018-09-11 00:25:24'),
+(3, '2018010010001', 1, 'Turap batas kavling/persil', 7, 0, 0, '0.00', 0, '2018-09-11 00:25:24', '2018-09-11 00:25:24'),
+(4, '2018010010001', 1, 'Gapura (manusia/motor)', 8, 0, 0, '0.00', 0, '2018-09-11 00:25:24', '2018-09-11 00:25:24'),
+(5, '2018010010001', 1, 'Gerbang (mobil)', 8, 1, 207, '1.00', 400000, '2018-09-11 00:25:24', '2018-09-11 00:25:24'),
+(6, '2018010010001', 1, 'Jalan', 9, 1, 208, '57.21', 800940, '2018-09-11 00:25:24', '2018-09-11 00:25:24'),
+(7, '2018010010001', 1, 'Lapangan Upacara', 9, 0, 0, '0.00', 0, '2018-09-11 00:25:24', '2018-09-11 00:25:24'),
+(8, '2018010010001', 1, 'Lapangan Olah Raga Terbuka', 9, 0, 0, '0.00', 0, '2018-09-11 00:25:24', '2018-09-11 00:25:24'),
+(9, '2018010010001', 1, 'Areal Parkir', 9, 1, 211, '121.55', 303875, '2018-09-11 00:25:24', '2018-09-11 00:25:24'),
+(10, '2018010010001', 1, 'Jembatan', 10, 0, 0, '0.00', 0, '2018-09-11 00:25:25', '2018-09-11 00:25:25'),
+(11, '2018010010001', 1, 'Box Culvert', 10, 0, 0, '0.00', 0, '2018-09-11 00:25:25', '2018-09-11 00:25:25'),
+(12, '2018010010001', 1, 'Plat Deuker', 10, 0, 0, '0.00', 0, '2018-09-11 00:25:25', '2018-09-11 00:25:25'),
+(13, '2018010010001', 1, 'Gorong-gorong', 10, 0, 0, '0.00', 0, '2018-09-11 00:25:25', '2018-09-11 00:25:25'),
+(14, '2018010010001', 1, 'Kolam Renang', 11, 1, 216, '183.52', 4588000, '2018-09-11 00:25:25', '2018-09-11 00:25:25'),
+(15, '2018010010001', 1, 'Kolam Pengolahan Air', 11, 0, 0, '0.00', 0, '2018-09-11 00:25:25', '2018-09-11 00:25:25'),
+(16, '2018010010001', 1, 'Reservoir Bawah Tanah', 11, 0, 0, '0.00', 0, '2018-09-11 00:25:25', '2018-09-11 00:25:25'),
+(17, '2018010010001', 1, 'Menara Antena', 12, 0, 0, '0.00', 0, '2018-09-11 00:25:25', '2018-09-11 00:25:25'),
+(18, '2018010010001', 1, 'Menara Air', 12, 0, 0, '0.00', 0, '2018-09-11 00:25:25', '2018-09-11 00:25:25'),
+(19, '2018010010001', 1, 'Cerobong', 12, 0, 0, '0.00', 0, '2018-09-11 00:25:25', '2018-09-11 00:25:25'),
+(20, '2018010010001', 1, 'Tugu', 13, 0, 0, '0.00', 0, '2018-09-11 00:25:25', '2018-09-11 00:25:25'),
+(21, '2018010010001', 1, 'Patung', 13, 0, 0, '0.00', 0, '2018-09-11 00:25:25', '2018-09-11 00:25:25'),
+(22, '2018010010001', 1, 'Gardu Listrik', 14, 0, 0, '0.00', 0, '2018-09-11 00:25:25', '2018-09-11 00:25:25'),
+(23, '2018010010001', 1, 'Gardu Telepon', 14, 0, 0, '0.00', 0, '2018-09-11 00:25:25', '2018-09-11 00:25:25'),
+(24, '2018010010001', 1, 'Instalasi Pengolahan', 14, 0, 0, '0.00', 0, '2018-09-11 00:25:25', '2018-09-11 00:25:25'),
+(25, '2018010010001', 1, 'Billboard', 15, 0, 0, '0.00', 0, '2018-09-11 00:25:25', '2018-09-11 00:25:25'),
+(26, '2018010010001', 1, 'Papan Iklan', 15, 0, 0, '0.00', 0, '2018-09-11 00:25:25', '2018-09-11 00:25:25'),
+(27, '2018010010001', 1, 'Papan Nama (Berdiri sendiri atau berupa tembok pagar)', 15, 1, 229, '1.00', 40000, '2018-09-11 00:25:25', '2018-09-11 00:25:25'),
+(28, '2018010760001', 2, 'Pagar', 7, 3, 203, '216.00', 874800, '2018-09-11 11:07:34', '2018-09-11 11:07:34'),
+(29, '2018010760001', 2, 'Tanggul/Retaining Wall', 7, 0, 0, '0.00', 0, '2018-09-11 11:07:34', '2018-09-11 11:07:34'),
+(30, '2018010760001', 2, 'Turap batas kavling/persil', 7, 0, 0, '0.00', 0, '2018-09-11 11:07:34', '2018-09-11 11:07:34'),
+(31, '2018010760001', 2, 'Gapura (manusia/motor)', 8, 0, 0, '0.00', 0, '2018-09-11 11:07:34', '2018-09-11 11:07:34'),
+(32, '2018010760001', 2, 'Gerbang (mobil)', 8, 0, 0, '0.00', 0, '2018-09-11 11:07:35', '2018-09-11 11:07:35'),
+(33, '2018010760001', 2, 'Jalan', 9, 0, 0, '0.00', 0, '2018-09-11 11:07:35', '2018-09-11 11:07:35'),
+(34, '2018010760001', 2, 'Lapangan Upacara', 9, 0, 0, '0.00', 0, '2018-09-11 11:07:35', '2018-09-11 11:07:35'),
+(35, '2018010760001', 2, 'Lapangan Olah Raga Terbuka', 9, 0, 0, '0.00', 0, '2018-09-11 11:07:35', '2018-09-11 11:07:35'),
+(36, '2018010760001', 2, 'Areal Parkir', 9, 0, 0, '0.00', 0, '2018-09-11 11:07:35', '2018-09-11 11:07:35'),
+(37, '2018010760001', 2, 'Jembatan', 10, 0, 0, '0.00', 0, '2018-09-11 11:07:35', '2018-09-11 11:07:35'),
+(38, '2018010760001', 2, 'Box Culvert', 10, 0, 0, '0.00', 0, '2018-09-11 11:07:35', '2018-09-11 11:07:35'),
+(39, '2018010760001', 2, 'Plat Deuker', 10, 0, 0, '0.00', 0, '2018-09-11 11:07:35', '2018-09-11 11:07:35'),
+(40, '2018010760001', 2, 'Gorong-gorong', 10, 0, 0, '0.00', 0, '2018-09-11 11:07:35', '2018-09-11 11:07:35'),
+(41, '2018010760001', 2, 'Kolam Renang', 11, 0, 0, '0.00', 0, '2018-09-11 11:07:35', '2018-09-11 11:07:35'),
+(42, '2018010760001', 2, 'Kolam Pengolahan Air', 11, 0, 0, '0.00', 0, '2018-09-11 11:07:35', '2018-09-11 11:07:35'),
+(43, '2018010760001', 2, 'Reservoir Bawah Tanah', 11, 0, 0, '0.00', 0, '2018-09-11 11:07:35', '2018-09-11 11:07:35'),
+(44, '2018010760001', 2, 'Menara Antena', 12, 0, 0, '0.00', 0, '2018-09-11 11:07:35', '2018-09-11 11:07:35'),
+(45, '2018010760001', 2, 'Menara Air', 12, 0, 0, '0.00', 0, '2018-09-11 11:07:35', '2018-09-11 11:07:35'),
+(46, '2018010760001', 2, 'Cerobong', 12, 0, 0, '0.00', 0, '2018-09-11 11:07:35', '2018-09-11 11:07:35'),
+(47, '2018010760001', 2, 'Tugu', 13, 0, 0, '0.00', 0, '2018-09-11 11:07:35', '2018-09-11 11:07:35'),
+(48, '2018010760001', 2, 'Patung', 13, 0, 0, '0.00', 0, '2018-09-11 11:07:35', '2018-09-11 11:07:35'),
+(49, '2018010760001', 2, 'Gardu Listrik', 14, 0, 0, '0.00', 0, '2018-09-11 11:07:35', '2018-09-11 11:07:35'),
+(50, '2018010760001', 2, 'Gardu Telepon', 14, 0, 0, '0.00', 0, '2018-09-11 11:07:35', '2018-09-11 11:07:35'),
+(51, '2018010760001', 2, 'Instalasi Pengolahan', 14, 0, 0, '0.00', 0, '2018-09-11 11:07:35', '2018-09-11 11:07:35'),
+(52, '2018010760001', 2, 'Billboard', 15, 0, 0, '0.00', 0, '2018-09-11 11:07:35', '2018-09-11 11:07:35'),
+(53, '2018010760001', 2, 'Papan Iklan', 15, 0, 0, '0.00', 0, '2018-09-11 11:07:35', '2018-09-11 11:07:35'),
+(54, '2018010760001', 2, 'Papan Nama (Berdiri sendiri atau berupa tembok pagar)', 15, 0, 0, '0.00', 0, '2018-09-11 11:07:35', '2018-09-11 11:07:35');
 
 -- --------------------------------------------------------
 
@@ -933,7 +1007,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `identifier`, `username`, `password`, `foto`, `telp`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Adi Panca Saputra Iskandar, S.Kom., M.T.', 'adipancaiskandar@gmail.com', '11101420', '11101420', '$2y$10$F7Z3.hvsjqj.d5.JnEJmGeTV6TCimVaurXAPeBnr7pRKwnARMu9Ou', 'protected/storage/foto/11101420.jpeg', NULL, 'EwO9ht2to6RmSm4Bpheg9ow0TMp0CsBVfryhH437Wx7K0tTJVuemuLeYG0Sv', '2018-06-05 16:06:15', '2018-09-08 18:18:47');
+(1, 'Adi Panca Saputra Iskandar, S.Kom., M.T.', 'adipancaiskandar@gmail.com', '11101420', '11101420', '$2y$10$F7Z3.hvsjqj.d5.JnEJmGeTV6TCimVaurXAPeBnr7pRKwnARMu9Ou', 'protected/storage/foto/11101420.jpeg', NULL, '5FDZKvO3ErPIYEtycScc5589RlzbdFkpJdI093hAOUchMxSfkdHir6vKzAkR', '2018-06-05 16:06:15', '2018-09-11 11:13:04');
 
 -- --------------------------------------------------------
 

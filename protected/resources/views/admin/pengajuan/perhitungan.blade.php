@@ -190,7 +190,12 @@
                                   <!-- {{$jumlahPrasarana = 0}} -->
                                     @if(count($PengajuanPrasarana)>=1)
                                         @foreach($PengajuanPrasarana AS $d)
-                                          <tr>
+                                          @if($d->volume > 0)
+                                            <!-- {{$warna = "success"}} -->
+                                          @else
+                                            <!-- {{$warna = ""}} -->
+                                          @endif
+                                          <tr class="{{$warna}}">
                                               <td>{{$d->getFungsi->nama}}</td>
                                               <td>{{$d->nama}}</td>
                                               <td>0.02</td>
