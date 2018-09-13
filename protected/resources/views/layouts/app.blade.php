@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title> IMB Karangasem </title>
+    <title> SIMETRIS KARANGASEM </title>
     <link rel="shortcut icon" type="image/icon" href="{{ URL('assets/img/icon.png') }}"/>
 
     <!-- Fonts -->

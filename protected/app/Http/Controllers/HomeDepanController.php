@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use DB;
 use Datatables;
 use App\Content;
+use App\JenisImb;
+
 
 class HomeDepanController extends Controller
 {
@@ -27,47 +29,22 @@ class HomeDepanController extends Controller
         return view('home.home',compact('slider','profile'));
     }
 
-
-    public function hasil(Request $request)
-    {
-        if (isset($request->pemilu)){
-            $pemilu = $request->pemilu;
-            if($pemilu == 2){
-                $warnaPaslon1 = "#f39c12";
-                $warnaPaslon2 = "#9b0000";
-            }else{
-                $warnaPaslon1 = "#9b0000";
-                $warnaPaslon2 = "#f39c12";
-            }
-        }else{
-                $pemilu = 1;
-                $warnaPaslon1 = "#9b0000";
-                $warnaPaslon2 = "#f39c12";
-        }
-        $warnaNetral = "#757575";
-        $warnaBelumMasuk = "#000";
-        $suara = DB::table('tps AS t')->select(['kb.id_kabupaten AS id','kb.nama_kabupaten AS nama_kabupaten',DB::raw('SUM(t.paslon_1) AS paslon_1'),DB::raw('SUM(t.paslon_2) AS paslon_2'),DB::raw('IF(SUM(t.paslon_1) > SUM(t.paslon_2),SUM(t.paslon_1),SUM(t.paslon_2)) AS suara_pemenang'),DB::raw('IF(jenis_pemilu<>2,IF(SUM(t.paslon_1) > SUM(t.paslon_2),"#9b0000",IF(SUM(t.paslon_2) > SUM(t.paslon_1),"#f39c12","#757575")),IF(SUM(t.paslon_1) > SUM(t.paslon_2),"#f39c12",IF(SUM(t.paslon_2) > SUM(t.paslon_1),"#9b0000","#757575"))) AS warna_pemenang'),DB::raw('IF(SUM(t.paslon_1) > SUM(t.paslon_2),"KOSTER-ACE","MANTRA-KERTA") AS nama_pemenang'),DB::raw('SUM(suara_sah) AS suara_sah')])
-                     ->join('desa AS d','d.id_desa','=','t.id_desa')
-                     ->join('kecamatan AS k','k.id_kecamatan','=','d.id_kecamatan')
-                     ->join('kabupaten AS kb','kb.id_kabupaten','=','k.id_kabupaten')
-                     ->where('t.status', '<>', 2)
-                     ->where('jenis_pemilu', $pemilu)
-                     ->groupBy('kb.id_kabupaten')
-                     ->get();
-
-        $totalTps = DB::table('tps AS t')->where('jenis_pemilu', $pemilu)->count();
-        $masukTps = DB::table('tps AS t')->where('jenis_pemilu', $pemilu)->where('t.paslon_1', '<>', 0)->where('t.status', '<>', 2)->count();
-        $belumTps = $totalTps - $masukTps;
-
-
-        return view('home.hasil',compact('suara','warnaPaslon1','warnaPaslon2','warnaNetral','warnaBelumMasuk','totalTps','masukTps','belumTps'));
-    }
-
     public function alur()
     {
-     
-
         return view('home.alur');
+    }
+    public function simulasi()
+    {
+        // $jenisImb = JenisImb::where('flag_delete','=',0)->pluck('nama','id')->toArray();
+        $hargaBangunan = DB::table('m_harga_bangunan AS h')->where('h.flag_delete','=',0)
+                                        ->join('m_fungsi AS f','f.id','=','h.id_fungsi')
+                                        ->join('m_klasifikasi_bangunan AS k','k.id','=','h.id_klasifikasi')
+                                        ->pluck(DB::raw('CONCAT(f.nama," - ",h.nama," - ",k.nama," - ",IF(h.is_bertingkat = 0,"Tidak Bertingkat","Bertingkat")) AS fungsi_klasifikasi'),'h.id');
 
+        return view('home.simulasi',compact('hargaBangunan'));
+    }
+    public function prosessimulasi(Request $request)
+    {
+        return view('home.simulasi');
     }
 }

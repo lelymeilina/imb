@@ -41,7 +41,7 @@
                         <a class="navbar-brand" href="{{URL('/')}}">
                             <!-- <img alt="" src="images/margo.png"> -->
                             <!-- <strong class="">CraftIslands</strong> -->
-                            <span class="accent-color sh-tooltip"><strong>IMB KARANGASEM</strong></span>
+                            <span class="accent-color sh-tooltip"><strong>SIMETRIS KARANGASEM</strong></span>
                         </a>
                     </div>
                     <div class="navbar-collapse collapse">
@@ -63,6 +63,9 @@
                               <li>
                                 <a class="" href="{{URL('/alur')}}">Alur</a>
                             </li>
+                            <!--   <li>
+                                <a class="" href="{{URL('/simulasi')}}">Simulasi</a>
+                            </li> -->
                             @if(Auth::check())
                             <li>
                                 <a href="#">Admin</a>

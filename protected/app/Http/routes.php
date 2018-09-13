@@ -150,6 +150,8 @@ Route::get('/admin/pengajuan/{id}/cetak', 'PengajuanController@cetak');
 
 //alur
 Route::get('/alur', 'HomeDepanController@alur');
+Route::get('/simulasi', 'HomeDepanController@simulasi');
+Route::post('/simulasi', 'HomeDepanController@prosessimulasi');
 
 
 

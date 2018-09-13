@@ -1,7 +1,7 @@
 <head>
 
     <!-- Basic -->
-    <title> IMB Karangasem </title>
+    <title> SIMETRIS KARANGASEM </title>
     @yield('title')
 
 
@@ -31,6 +31,20 @@
 
     <!-- Css3 Transitions Styles  -->
     {!! Html::style('assets/front/css/animate.css') !!}
+
+    {!! Html::style('assets/plugins/select2/select2.min.css') !!}
+
+    <style type="text/css">
+        .entry:not(:first-of-type)
+        {
+            margin-top: 10px;
+        }
+
+        .glyphicon
+        {
+            font-size: 12px;
+        }
+    </style>
 
     <!-- Color CSS Styles  -->
     <link rel="stylesheet" type="text/css" href="{{URL('assets/front/css/colors/red.css')}}" title="red" media="screen" />

@@ -2,9 +2,9 @@
         <!-- Logo -->
         <a href="{{ URL('/') }}" class="logo">
           <!-- mini logo for sidebar mini 50x50 pixels -->
-          <span class="logo-mini"><b> IMB </b></span>
+          <span class="logo-mini"><b> S </b></span>
           <!-- logo for regular state and mobile devices -->
-          <span class="logo-lg"><b>IMB</b> Karangasem</span>
+          <span class="logo-lg"><b>S</b>IMETRIS</span>
         </a>
         <!-- Header Navbar: style can be found in header.less -->
         <nav class="navbar navbar-static-top" role="navigation">
@@ -57,7 +57,7 @@
                       <a href="#modalUbahPass" data-toggle="modal" data-id="{{ Auth::user()->id }}" >Password</a>
                     </div>
                     <div class="col-xs-4 text-center">
-                      <a href="http://stiki-indonesia.ac.id/" target="_blank">Website</a>
+                      <a href="http://karangasemkab.go.id/" target="_blank">Website</a>
                     </div>
                   </li>
                   <!-- Menu Footer-->
