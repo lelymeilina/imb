@@ -63,9 +63,9 @@
                               <li>
                                 <a class="" href="{{URL('/alur')}}">Alur</a>
                             </li>
-                            <!--   <li>
+                              <li>
                                 <a class="" href="{{URL('/simulasi')}}">Simulasi</a>
-                            </li> -->
+                            </li>
                             @if(Auth::check())
                             <li>
                                 <a href="#">Admin</a>

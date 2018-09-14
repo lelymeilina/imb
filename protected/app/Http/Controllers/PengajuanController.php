@@ -40,6 +40,7 @@ class PengajuanController extends Controller
         $hargaBangunan = DB::table('m_harga_bangunan AS h')->where('h.flag_delete','=',0)
         								->join('m_fungsi AS f','f.id','=','h.id_fungsi')
         								->join('m_klasifikasi_bangunan AS k','k.id','=','h.id_klasifikasi')
+                                        ->where('h.is_bangunan_tambahan','=',0)
         								->pluck(DB::raw('CONCAT(f.nama," - ",h.nama," - ",k.nama," - ",IF(h.is_bertingkat = 0,"Tidak Bertingkat","Bertingkat")) AS fungsi_klasifikasi'),'h.id');
         for($i=date('Y')+1; $i>=date('Y')-1; $i--){
             // $tahuns = $i+1;
@@ -147,6 +148,7 @@ class PengajuanController extends Controller
         $hargaBangunan = DB::table('m_harga_bangunan AS h')->where('h.flag_delete','=',0)
         								->join('m_fungsi AS f','f.id','=','h.id_fungsi')
         								->join('m_klasifikasi_bangunan AS k','k.id','=','h.id_klasifikasi')
+                                        ->where('h.is_bangunan_tambahan','=',0)
         								->pluck(DB::raw('CONCAT(f.nama," - ",h.nama," - ",k.nama," - ",IF(h.is_bertingkat = 0,"Tidak Bertingkat","Bertingkat")) AS fungsi_klasifikasi'),'h.id');
         for($i=date('Y')+1; $i>=date('Y')-1; $i--){
             // $tahuns = $i+1;

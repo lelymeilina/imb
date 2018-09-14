@@ -8,6 +8,7 @@ use DB;
 use Datatables;
 use App\Content;
 use App\JenisImb;
+use App\HargaBangunan;
 
 
 class HomeDepanController extends Controller
@@ -39,12 +40,46 @@ class HomeDepanController extends Controller
         $hargaBangunan = DB::table('m_harga_bangunan AS h')->where('h.flag_delete','=',0)
                                         ->join('m_fungsi AS f','f.id','=','h.id_fungsi')
                                         ->join('m_klasifikasi_bangunan AS k','k.id','=','h.id_klasifikasi')
+                                        ->where('h.is_bangunan_tambahan','=',0)
                                         ->pluck(DB::raw('CONCAT(f.nama," - ",h.nama," - ",k.nama," - ",IF(h.is_bertingkat = 0,"Tidak Bertingkat","Bertingkat")) AS fungsi_klasifikasi'),'h.id');
 
-        return view('home.simulasi',compact('hargaBangunan'));
+        $hargaBangunan2 = DB::table('m_harga_bangunan AS h')->where('h.flag_delete','=',0)
+                                        ->join('m_fungsi AS f','f.id','=','h.id_fungsi')
+                                        ->join('m_klasifikasi_bangunan AS k','k.id','=','h.id_klasifikasi')
+                                        ->where('h.is_bangunan_tambahan','=',1)
+                                        ->pluck(DB::raw('CONCAT(f.nama," - ",h.nama," - ",k.nama) AS fungsi_klasifikasi'),'h.id');
+
+        return view('home.simulasi',compact('hargaBangunan','hargaBangunan2'));
     }
     public function prosessimulasi(Request $request)
     {
-        return view('home.simulasi');
+        $indeks2persen = 0.02;
+        $biayaRetribusiBangunanUtama = 0;
+
+        if(!empty($request->id_harga_bangunan)){
+            $HargaBangunan = HargaBangunan::find($request->id_harga_bangunan);
+            $luas = (!empty($request->luas)?$request->luas:1);
+            $biayaRetribusiBangunanUtama = $indeks2persen * $luas * $HargaBangunan->harga;
+        }
+
+        $biayaRetribusiBangunanPrasarana = 0;
+        if(!empty($request->id_harga_bangunan[0])){
+            foreach ($request->id_harga_bangunan_prasarana as $key => $value) {
+                # code...
+                $volume = (!empty($request->volume[$key])?$request->volume[$key]:1);
+                $HargaBangunanPrasarana = HargaBangunan::find($value);
+                $biayaRetribusiBangunanPrasarana = $indeks2persen * $volume * $HargaBangunanPrasarana->harga;
+            }
+        }
+
+        $totalbiaya = $biayaRetribusiBangunanUtama + $biayaRetribusiBangunanPrasarana;
+
+        session()->flash('biayaRetribusiBangunanUtama',$biayaRetribusiBangunanUtama);
+        session()->flash('biayaRetribusiBangunanPrasarana',$biayaRetribusiBangunanPrasarana);
+        session()->flash('totalbiaya',$totalbiaya);
+
+        // echo $totalbiaya; exit;
+
+        return redirect('/simulasi');
     }
 }
