@@ -41,7 +41,7 @@
                         <a class="navbar-brand" href="{{URL('/')}}">
                             <!-- <img alt="" src="images/margo.png"> -->
                             <!-- <strong class="">CraftIslands</strong> -->
-                            <span class="accent-color sh-tooltip"><strong>SIMETRIS KARANGASEM</strong></span>
+                            <span class="accent-color sh-tooltip"><strong>SIMETRIS IMB</strong></span>
                         </a>
                     </div>
                     <div class="navbar-collapse collapse">

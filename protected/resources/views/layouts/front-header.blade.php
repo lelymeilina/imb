@@ -1,7 +1,7 @@
 <head>
 
     <!-- Basic -->
-    <title> SIMETRIS KARANGASEM </title>
+    <title> SIMETRIS IMB </title>
     @yield('title')
 
 

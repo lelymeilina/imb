@@ -16,7 +16,7 @@
 	<div class="post-content" style="padding-left:0px !important;">
 		<div class="author-info clearfix">
 			<div class="col-md-12">
-				<img src="{{ asset('assets/img/alur.jpg') }}">
+				<img src="{{ asset('assets/img/alur-new.jpg') }}">
 			</div>
 			
 		</div>

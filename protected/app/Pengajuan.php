@@ -17,5 +17,13 @@ class Pengajuan extends Model
 	public function getJenisImb(){
 		return $this->belongsTo('App\JenisImb','id_jenis_imb','id');
 	}
+
+	public function getSurveyor1(){
+		return $this->belongsTo('App\Surveyor','id_surveyor_1','id');
+	}
+
+	public function getSurveyor2(){
+		return $this->belongsTo('App\Surveyor','id_surveyor_2','id');
+	}
     
 }

@@ -39,7 +39,7 @@
                                         <h2 class="animated2">
                                           <span style="background:#fff; opacity:0.9; padding:0px 10px 0px 10px;"><strong>{{ $d->judul }}</strong></span>
                                         </h2>
-                                        <h3 class="animated3">
+                                        <h3 class="animated3" style="font-size: 24px;">
                                             <span style="background:#fff; opacity:0.9; padding:0px 10px 0px 10px;">{{$d->katakunci}}</span>
                                         </h3>
                                         <p class="animated4"><a href="{{URL('/hasil-suara')}}" class="slider btn btn-system btn-large">Check Now</a>
@@ -56,10 +56,10 @@
                         <div class="slider-content">
                             <div class="col-md-12 text-center">
                                 <h2 class="animated2">
-                                  <span style="background:#fff; opacity:0.9; padding:0px 10px 0px 10px;">Welcome to <strong>Real Quick Count</strong></span>
+                                  <span style="background:#fff; opacity:0.9; padding:0px 10px 0px 10px;">Welcome to <strong>SIMETRIS IMB</strong></span>
                                 </h2>
                                 <h3 class="animated3">
-                                    <span style="background:#fff; opacity:0.9; padding:0px 10px 0px 10px;">LPIK STIKI</span>
+                                    <span style="background:#fff; opacity:0.9; padding:0px 10px 0px 10px;">Kabupaten Karangasem</span>
                                 </h3>
                                 <p class="animated4"><a href="{{URL('/hasil-suara')}}" class="slider btn btn-system btn-large">Check Now</a>
                                 </p>

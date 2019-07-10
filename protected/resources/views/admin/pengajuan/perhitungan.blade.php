@@ -35,7 +35,7 @@
                                       <!-- detail -->
                                       <td rowspan="{{count($PengajuanParameter) - 1}}">
                                           1. Fungsi Bangunan<br/>
-                                          2. Jenis Kegiatan</br/>
+                                          2. Jenis Kegiatan<br/>
                                           3. Klasifikasi Bangunan
                                       </td>
                                       <td rowspan="{{count($PengajuanParameter) - 1}}">

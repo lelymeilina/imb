@@ -1,7 +1,7 @@
 @extends('home.layout')
 
 @section('title')
-    <title>IMB Karangasem</title>
+    <title>SIMETRIS IMB </title>
 @endsection
 @section('content')
         
