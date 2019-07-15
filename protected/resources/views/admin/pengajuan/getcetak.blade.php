@@ -2,7 +2,7 @@
 <!-- Modal -->
 
 
-{!! Form::model($pengajuan, [ 'method' => 'PUT','id' => 'setsurveyor','class' => 'form-horizontal','role' => 'form']) !!}
+{!! Form::model($pengajuan, [ 'method' => 'PUT','id' => 'cetakpengajuan','class' => 'form-horizontal','role' => 'form']) !!}
 
   {!! Form::hidden('id', null, ['class' => 'form-control', 'placeholder' => 'Id Fungsi', 'id' => 'id']) !!}
 
@@ -43,24 +43,52 @@
                           </div>
 
                           <div class="form-group">
-                            {!! Form::label('nama', 'Survey 1',['class' => 'col-md-3 control-label']) !!}
+                            {!! Form::label('nama', 'NIP Kepala Bidang',['class' => 'col-md-3 control-label']) !!}
                             <div class="col-md-8">
-                                   {!! Form::select('id_surveyor_1',[""=>"Pilih Surveyor 1"]+$surveyor, null, ['class' => 'form-control select2','style'=>'width:100%','required'=>'required']) !!}
+                                   {!! Form::text('nip_kepala_bidang', null, ['class' => 'form-control', 'placeholder' => 'Masukkan NIP Kepala Bidang','required'=>'required','id'=>'nip_kepala_bidang','onChange'=>'btncetak()']) !!}
                             </div>
                           </div>
 
                           <div class="form-group">
-                            {!! Form::label('nama', 'Survey 2',['class' => 'col-md-3 control-label']) !!}
+                            {!! Form::label('nama', 'Nama Kepala Bidang',['class' => 'col-md-3 control-label']) !!}
                             <div class="col-md-8">
-                                   {!! Form::select('id_surveyor_2',[""=>"Pilih Surveyor 2"]+$surveyor, null, ['class' => 'form-control select2','style'=>'width:100%','required'=>'required']) !!}
+                                   {!! Form::text('kepala_bidang', null, ['class' => 'form-control', 'placeholder' => 'Masukkan Nama Kepala Bidang','required'=>'required','id'=>'kepala_bidang','onChange'=>'btncetak()']) !!}
                             </div>
                           </div>
 
                           <div class="form-group">
-                            {!! Form::label('Awal', 'Tgl Survey',['class' => 'col-md-3 control-label']) !!}
+                            {!! Form::label('nama', 'Pangkat/Gol Kepala Bidang',['class' => 'col-md-3 control-label']) !!}
+                            <div class="col-md-8">
+                                   {!! Form::text('pangkat_kepala_bidang', null, ['class' => 'form-control', 'placeholder' => 'Masukkan Pangkat/Gol Kepala Bidang','required'=>'required','id'=>'pangkat_kepala_bidang','onChange'=>'btncetak()']) !!}
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                            {!! Form::label('nama', 'NIP Kasi',['class' => 'col-md-3 control-label']) !!}
+                            <div class="col-md-8">
+                                   {!! Form::text('nip_kasi', null, ['class' => 'form-control', 'placeholder' => 'Masukkan NIP Kasi','required'=>'required','id'=>'nip_kasi','onChange'=>'btncetak()']) !!}
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                            {!! Form::label('nama', 'Nama Kasi',['class' => 'col-md-3 control-label']) !!}
+                            <div class="col-md-8">
+                                   {!! Form::text('kasi', null, ['class' => 'form-control', 'placeholder' => 'Masukkan Nama Kasi','required'=>'required','id'=>'kasi','onChange'=>'btncetak()']) !!}
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                            {!! Form::label('nama', 'Pangkat/Gol Kasi',['class' => 'col-md-3 control-label']) !!}
+                            <div class="col-md-8">
+                                   {!! Form::text('pangkat_kasi', null, ['class' => 'form-control', 'placeholder' => 'Masukkan Pangkat/Gol Kepala Bidang','required'=>'required','id'=>'pangkat_kasi','onChange'=>'btncetak()']) !!}
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                            {!! Form::label('Awal', 'Tgl Cetak',['class' => 'col-md-3 control-label']) !!}
                             <div class="col-md-8">
                             <div class="input-group date">
-                              {!! Form::text('tgl_survey', null, ['class' => 'form-control', 'placeholder' => 'Tgl Survey']) !!}
+                              {!! Form::text('tgl_cetak', null, ['class' => 'form-control', 'placeholder' => 'Tgl Cetak','id'=>'tgl_cetak','onChange'=>'btncetak()']) !!}
                               <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
                             </div>
                             </div>
@@ -70,7 +98,7 @@
 
                         <div class="modal-footer">
                           <button class="btn btn-default" data-dismiss="modal" aria-hidden="true" id="clear">Batal</button>
-                          {!! Form::submit('Simpan Data', ['class' => 'btn btn-primary']) !!}
+                          <a href="#" target="_blank" class="btn btn-success" id="btnCetak">Cetak</a>
                         </div>
 
 {!! Form::close() !!}
@@ -88,4 +116,9 @@
             autoclose: true,
             todayHighlight: true
     });
+
+    function btncetak(){
+      $('#btnCetak').attr('href','{{URL("/")}}'+'/admin/pengajuan/'+'{{$pengajuan->id}}'+'/cetak?nip_kepala_bidang='+$('#nip_kepala_bidang').val()+'&kepala_bidang='+$('#kepala_bidang').val()+'&pangkat_kepala_bidang='+$('#pangkat_kepala_bidang').val()+'&nip_kasi='+$('#nip_kasi').val()+'&kasi='+$('#kasi').val()+'&pangkat_kasi='+$('#pangkat_kasi').val()+'&tgl_cetak='+$('#tgl_cetak').val());
+    }
+
 </script>

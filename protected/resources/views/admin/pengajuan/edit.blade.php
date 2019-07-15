@@ -13,18 +13,32 @@
                                    {!! Form::select('tahun',[""=>"Pilih Tahun IMB"]+$tahun, null, ['class' => 'form-control select2','style'=>'width:100%','required'=>'required']) !!}
                             </div>
                           </div>
+
+                          <div class="form-group">
+                            {!! Form::label('nama', 'Jenis Identitas Pemohon',['class' => 'col-md-3 control-label']) !!}
+                            <div class="col-md-8">
+                                   {!! Form::select('id_jenis_identitas',[""=>"Pilih Jenis Identitas","1"=>"NIK","2"=>"KITAS","3"=>"Paspor"], null, ['class' => 'form-control select2','style'=>'width:100%','required'=>'required','id'=>'edit_jenis_id']) !!}
+                            </div>
+                          </div>
                           
                           <div class="form-group">
-                            {!! Form::label('nik', 'NIK Pendaftar',['class' => 'col-md-3 control-label']) !!}
+                            {!! Form::label('nik', 'NIK Pemohon',['class' => 'col-md-3 control-label','id'=>'editidentitas']) !!}
                             <div class="col-md-8">
-                                   {!! Form::text('nik', null, ['class' => 'form-control', 'placeholder' => 'Masukkan NIK (Nomor Identitas Kependudukan) Pendaftar Pengajuan','required'=>'required']) !!}
+                                   {!! Form::text('nik', null, ['class' => 'form-control', 'placeholder' => 'Masukkan NIK (Nomor Identitas Kependudukan) Pemohon Pengajuan','required'=>'required']) !!}
                             </div>
                           </div>
 
                           <div class="form-group">
-                            {!! Form::label('nama', 'Nama Pendaftar',['class' => 'col-md-3 control-label']) !!}
+                            {!! Form::label('nama', 'Nama Pemohon',['class' => 'col-md-3 control-label']) !!}
                             <div class="col-md-8">
-                                   {!! Form::text('nama', null, ['class' => 'form-control', 'placeholder' => 'Masukkan Nama Pendaftar Pengajuan','required'=>'required']) !!}
+                                   {!! Form::text('nama', null, ['class' => 'form-control', 'placeholder' => 'Masukkan Nama Pemohon Pengajuan','required'=>'required']) !!}
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                            {!! Form::label('nama', 'No. NIB',['class' => 'col-md-3 control-label']) !!}
+                            <div class="col-md-8">
+                                   {!! Form::text('no_nib', null, ['class' => 'form-control', 'placeholder' => 'Masukkan No. NIB','required'=>'required']) !!}
                             </div>
                           </div>
 
@@ -56,6 +70,20 @@
                             </div>
                           </div>
 
+                          <div class="form-group">
+                            {!! Form::label('nama', 'Latitude',['class' => 'col-md-3 control-label']) !!}
+                            <div class="col-md-8">
+                                   {!! Form::text('latitude', null, ['class' => 'form-control', 'placeholder' => 'Masukkan Latitude','required'=>'required']) !!}
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                            {!! Form::label('nama', 'Longitude',['class' => 'col-md-3 control-label']) !!}
+                            <div class="col-md-8">
+                                   {!! Form::text('longitude', null, ['class' => 'form-control', 'placeholder' => 'Masukkan Longitude','required'=>'required']) !!}
+                            </div>
+                          </div>
+
 
 
                         <div class="modal-footer">
@@ -69,4 +97,8 @@
 
 <script type="text/javascript">
     $(".select2").select2();
+    $('#editidentitas').text($( "#edit_jenis_id option:selected" ).text() +" Pemohon");
+    $(document).on('change', '#edit_jenis_id', function() {
+        $('#editidentitas').text($( "#edit_jenis_id option:selected" ).text() +" Pemohon");
+    });
 </script>

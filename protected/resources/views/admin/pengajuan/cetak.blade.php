@@ -72,7 +72,7 @@
 	</table>
 	<hr style="font-size: 12pt; margin: 0px 0px 0px 25px;" width="50%"  />
 
-	<div style="width:100%;text-align:center;font-size: 10pt; margin-top: 10px; margin-left:25px;" align="right"><b>Amlapura, 11 September 2018</b></div>
+	<div style="width:100%;text-align:center;font-size: 10pt; margin-top: 10px; margin-left:25px;" align="right"><b>Amlapura, {{App\tanggalIndo::TanggalIndo((!empty($data->tgl_cetak)?$data->tgl_cetak:date('Y-m-d')))}}</b></div>
 
 	<div style="width:100%;text-align:center;font-size: 12pt; margin-top: 10px; margin-left:25px; text-decoration: "><b>REKAPITULASI PERHITUNGAN BESARNYA RETRIBUSI IMB</b></div>
 	<br/>
@@ -157,9 +157,9 @@
 				<div style="width:100%;text-align:left;font-size: 12pt;" > </div>
 				<div style="width:100%;text-align:left;font-size: 12pt;" > </div>
 				<div style="width:100%;text-align:left;font-size: 12pt;" > </div>
-				<div style="width:100%;text-align:left;font-size: 12pt;">I Nengah Bayu Pramana, ST., MT</div>
-				<div style="width:100%;text-align:left;font-size: 12pt;">Penata TK 1</div>
-				<div style="width:100%;text-align:left;font-size: 12pt;">NIP. 19801110 200501 1 015</div>
+				<div style="width:100%;text-align:left;font-size: 12pt;">{{$data->kepala_bidang}}</div>
+				<div style="width:100%;text-align:left;font-size: 12pt;">{{$data->pangkat_kepala_bidang}}</div>
+				<div style="width:100%;text-align:left;font-size: 12pt;">NIP. {{$data->nip_kepala_bidang}}</div>
 			</td>
 
 			<td width="320">
@@ -172,9 +172,9 @@
 				<div style="width:100%;text-align:left;font-size: 12pt;" > </div>
 				<div style="width:100%;text-align:left;font-size: 12pt;" > </div>
 				<div style="width:100%;text-align:left;font-size: 12pt;" > </div>
-				<div style="width:100%;text-align:left;font-size: 12pt;">I Gusti Made Artha Wijaya, ST</div>
-				<div style="width:100%;text-align:left;font-size: 12pt;">Penata</div>
-				<div style="width:100%;text-align:left;font-size: 12pt;">NIP. 19840906 201101 1 004</div>
+				<div style="width:100%;text-align:left;font-size: 12pt;">{{$data->kasi}}</div>
+				<div style="width:100%;text-align:left;font-size: 12pt;">{{$data->pangkat_kasi}}</div>
+				<div style="width:100%;text-align:left;font-size: 12pt;">NIP. {{$data->nip_kasi}}</div>
 			</td>
 
 			<td width="320">
@@ -262,8 +262,8 @@
                       <td class="td-bottom">{{$d->getParameter->indeks}}</td>
                       <td class="td-bottom">{{$d->getParameterSurvey->indeks}}</td>
                       <td class="td-bottom">=</td>
-                      <td class="td-bottom">{{round($d->getParameter->indeks * $d->getParameterSurvey->indeks,2)}}</td>
-                      <!-- {{$totalbobot = $totalbobot + ( round($d->getParameter->indeks * $d->getParameterSurvey->indeks,2) ) }} -->
+                      <td class="td-bottom">{{$d->getParameter->indeks * $d->getParameterSurvey->indeks}}</td>
+                      <!-- {{$totalbobot = $totalbobot + ( $d->getParameter->indeks * $d->getParameterSurvey->indeks ) }} -->
 
                       <!-- kode -->
                       <td class="td-bottom">{{$d->getParameter->nama}}</td>
@@ -284,7 +284,7 @@
                 <td colspan="6" class="td-bottom">Koefisien I (Total Bobot)</td>
                 
                 <td class="td-bottom">=</td>
-                <td colspan="3" class="td-bottom"><strong>{{round($totalbobot,2)}}</strong></td>
+                <td colspan="3" class="td-bottom"><strong>{{$totalbobot}}</strong></td>
             </tr>
             
             <tr class="td-bottom">
@@ -306,7 +306,7 @@
                 <!-- indeks -->
                 <td class="td-bottom">{{$pengajuan->getHargaBangunan->getFungsi->indeks}}</td>
                 <td class="td-bottom">x</td>
-                <td class="td-bottom">{{round($totalbobot,2)}}</td>
+                <td class="td-bottom">{{$totalbobot}}</td>
                 <td class="td-bottom">x</td>
                 <td class="td-bottom">{{$indekswaktu}}</td>
                 <td class="td-bottom">x</td>
@@ -314,7 +314,7 @@
 
                 <!-- kode -->
                 <td class="td-bottom">=</td>
-                <td class="td-bottom">{{\App\HargaBangunan::round($pengajuan->getHargaBangunan->getFungsi->indeks * round($totalbobot,2) * $indekswaktu * $indeksjalan,2)}}</td>
+                <td class="td-bottom">{{\App\HargaBangunan::round($pengajuan->getHargaBangunan->getFungsi->indeks * $totalbobot * $indekswaktu * $indeksjalan,2)}}</td>
             </tr>
             <tr class="td-bottom">
                 <!-- indeks -->
@@ -339,7 +339,7 @@
                 <td class="td-bottom">x</td>
                 <td class="td-bottom">{{$pengajuan->luas}}</td>
                 <td class="td-bottom">x</td>
-                <td class="td-bottom">{{\App\HargaBangunan::round($pengajuan->getHargaBangunan->getFungsi->indeks * round($totalbobot,2) * $indekswaktu * $indeksjalan,2)}}</td>
+                <td class="td-bottom">{{\App\HargaBangunan::round($pengajuan->getHargaBangunan->getFungsi->indeks * $totalbobot * $indekswaktu * $indeksjalan,2)}}</td>
 
                 <!-- kode -->
                 <td class="td-bottom">x</td>
@@ -347,8 +347,8 @@
             </tr>
             <tr class="td-bottom">
                 <td colspan="8" style="background: #f2dede;" class="td-bottom">Total Biaya Retribusi {{$pengajuan->getJenisImb->nama}} {{($pengajuan->getHargaBangunan->getFungsi->is_bertingkat == 0?"Tidak Bertingkat":"Bertingkat")}}</td>
-                <td style="background: #f2dede;" class="td-bottom">Rp. {{ number_format((0.02 * $pengajuan->getJenisImb->indeks * $pengajuan->luas * \App\HargaBangunan::round($pengajuan->getHargaBangunan->getFungsi->indeks * round($totalbobot,2) * $indekswaktu * $indeksjalan,2) *  $pengajuan->getHargaBangunan->harga)) }}</td>
-                <input type="hidden" name="jumlah_biaya" value="{{ (0.02 * $pengajuan->getJenisImb->indeks * $pengajuan->luas * \App\HargaBangunan::round($pengajuan->getHargaBangunan->getFungsi->indeks * round($totalbobot,2) * $indekswaktu * $indeksjalan,2) *  $pengajuan->getHargaBangunan->harga) }}">
+                <td style="background: #f2dede;" class="td-bottom">Rp. {{ number_format( \App\HargaBangunan::pembulatan((0.02 * $pengajuan->getJenisImb->indeks * $pengajuan->luas * \App\HargaBangunan::round($pengajuan->getHargaBangunan->getFungsi->indeks * $totalbobot * $indekswaktu * $indeksjalan,2) *  $pengajuan->getHargaBangunan->harga)) ) }}</td>
+                <input type="hidden" name="jumlah_biaya" value="{{ (0.02 * $pengajuan->getJenisImb->indeks * $pengajuan->luas * \App\HargaBangunan::round($pengajuan->getHargaBangunan->getFungsi->indeks * $totalbobot * $indekswaktu * $indeksjalan,2) *  $pengajuan->getHargaBangunan->harga) }}">
             </tr>
 
           </tbody>
@@ -404,7 +404,7 @@
 
             <tr>
               <td style="background: #f2dede;" colspan="10" class="td-bottom">Jumlah Biaya</td>
-              <td style="background: #f2dede;" class="td-bottom">Rp. {{number_format($jumlahPrasarana)}}</td>
+              <td style="background: #f2dede;" class="td-bottom">Rp. {{number_format(\App\HargaBangunan::pembulatan($jumlahPrasarana))}}</td>
             </tr>
           </tbody>
       </table>
@@ -636,7 +636,7 @@
 		<td style="border:1px solid #000; border-right: none;" colspan="5"> TAHUN </td>
 		
 		<td  style="border-bottom: 1px solid #000;"> : </td>
-		<td  style="border-bottom: 1px solid #000;" colspan="4"> 2018 </td>
+		<td  style="border-bottom: 1px solid #000;" colspan="4" data-tahun="2018">  </td>
 
 		<td width="120" align="center" style="border:1px solid #000; ">
 			
@@ -651,7 +651,7 @@
 		<td style="border:1px solid #000; border-bottom: none; border-right: none;" colspan="5"> NAMA </td>
 		
 		<td  > : </td>
-		<td  colspan="4"> </td>
+		<td  colspan="4"> {{$pengajuan->nama}}</td>
 
 		<td width="120" align="center" style="border:1px solid #000; border-bottom: none;">
 			
@@ -664,7 +664,7 @@
 		<td style="border:1px solid #000; border-bottom: none; border-right: none;" colspan="5"> ALAMAT </td>
 		
 		<td  > : </td>
-		<td  colspan="4"> </td>
+		<td  colspan="4"> {{$pengajuan->lokasi}}</td>
 
 		<td width="120" align="center" style="border:1px solid #000; border-bottom: none;">
 			
@@ -726,7 +726,7 @@
 		<td class="td-bottom"> 5 </td>
 		<td class="td-bottom"> 5 </td>
 		<td width="120" align="center" style="border:1px solid #000; " align="left">
-			RETRIBUSI <br/>
+			RETRIBUSI {{$pengajuan->deskripsi_bangunan}}<br/>
 			0 <br/>
 			0 <br/>
 		</td>
@@ -845,12 +845,12 @@
 			Jumlah Keseluruhan:
 		</td>
 		<td width="150" align="center" style="border:1px solid #000;">
-			0.00
+			Rp. {!! wordwrap(number_format(\App\HargaBangunan::pembulatan($pengajuan->jumlah_biaya + $pengajuan->jumlah_biaya_prasarana)),30,"<br/>\n") !!}
 		</td>
 	</tr>
 	<tr class="td-bottom" style="border-bottom: 1px solid #000;">
 		<td width="150" align="center" style="border:1px solid #000;" colspan="12" align="left">
-			Dengan huruf:  
+			Dengan huruf: {{$terbilang}} 
 		</td>
 	</tr>
 	<tr class="td-bottom" style="border-bottom: 1px solid #000;">
@@ -878,7 +878,7 @@
 			<table>
 				<tr>
 					<td width="400"> </td>
-					<td width="200">Amlapura, {{App\tanggalIndo::TanggalIndo(date('Y-m-d'))}}</td>
+					<td width="200">Amlapura, ....................................</td>
 				</tr>
 				<tr>
 					<td width="400"> </td>
@@ -935,10 +935,10 @@
 					<td width="200">TANDA TERIMA </td>
 				</tr>
 				<tr class="td-bottom">
-					<td width="200">NAMA      : </td>
+					<td width="200">NAMA      : {{$pengajuan->nama}}</td>
 				</tr>
 				<tr class="td-bottom">
-					<td width="200"> ALAMAT   :  </td>
+					<td width="200"> ALAMAT   :  {{$pengajuan->lokasi}}</td>
 				</tr>
 				<tr class="td-bottom">
 					<td width="200"> </td>
@@ -972,7 +972,7 @@
 					<td width="200">NO. SKRD : </td>
 				</tr>
 				<tr class="td-bottom">
-					<td width="200">Amlapura, {{App\tanggalIndo::TanggalIndo(date('Y-m-d'))}}</td>
+					<td width="200">Amlapura, .............................</td>
 				</tr>
 				<tr class="td-bottom">
 					<td width="200"> Yang Menerima </td>

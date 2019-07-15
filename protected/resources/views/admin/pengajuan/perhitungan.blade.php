@@ -9,8 +9,9 @@
   <h3>A. Biodata</h3>
   <div class="col-md-12">
         <div class="col-md-2"><strong>Tahun Pengajuan IMB</strong></div><div class="col-md-10">{{$pengajuan->tahun}}</div>
-        <div class="col-md-2"><strong>NIK Pendaftar</strong></div><div class="col-md-10">{{$pengajuan->nik}}</div>
+        <div class="col-md-2"><strong>{{ ($pengajuan->id_jenis_identitas == 1?"NIK":($pengajuan->id_jenis_identitas == 2?"KITAS":"Paspor")) }} Pendaftar</strong></div><div class="col-md-10">{{$pengajuan->nik}}</div>
         <div class="col-md-2"><strong>Nama Pendaftar</strong></div><div class="col-md-10">{{$pengajuan->nama}}</div>
+        <div class="col-md-2"><strong>No. NIB</strong></div><div class="col-md-10">{{$pengajuan->no_nib}}</div>
         <div class="col-md-2"><strong>Deskripsi Bangunan</strong></div><div class="col-md-10">{{$pengajuan->deskripsi_bangunan}}</div>
         <div class="col-md-12">&nbsp;</div>
   </div>
@@ -75,8 +76,8 @@
                                               <td>{{$d->getParameter->indeks}}</td>
                                               <td>{{$d->getParameterSurvey->indeks}}</td>
                                               <td>=</td>
-                                              <td>{{round($d->getParameter->indeks * $d->getParameterSurvey->indeks,2)}}</td>
-                                              <!-- {{$totalbobot = $totalbobot + ( round($d->getParameter->indeks * $d->getParameterSurvey->indeks,2) ) }} -->
+                                              <td>{{$d->getParameter->indeks * $d->getParameterSurvey->indeks}}</td>
+                                              <!-- {{$totalbobot = $totalbobot + ( $d->getParameter->indeks * $d->getParameterSurvey->indeks ) }} -->
 
                                               <!-- kode -->
                                               <td>{{$d->getParameter->nama}}</td>
@@ -97,7 +98,7 @@
                                         <td colspan="6">Koefisien I (Total Bobot)</td>
                                         
                                         <td >=</td>
-                                        <td colspan="3"><strong>{{round($totalbobot,2)}}</strong></td>
+                                        <td colspan="3"><strong>{{$totalbobot}}</strong></td>
                                     </tr>
                                     
                                     <tr >
@@ -119,7 +120,7 @@
                                         <!-- indeks -->
                                         <td>{{$pengajuan->getHargaBangunan->getFungsi->indeks}}</td>
                                         <td>x</td>
-                                        <td>{{round($totalbobot,2)}}</td>
+                                        <td>{{$totalbobot}}</td>
                                         <td>x</td>
                                         <td>{{$indekswaktu}}</td>
                                         <td>x</td>
@@ -127,7 +128,7 @@
 
                                         <!-- kode -->
                                         <td>=</td>
-                                        <td>{{\App\HargaBangunan::round($pengajuan->getHargaBangunan->getFungsi->indeks * round($totalbobot,2) * $indekswaktu * $indeksjalan,2)}}</td>
+                                        <td>{{\App\HargaBangunan::round($pengajuan->getHargaBangunan->getFungsi->indeks * $totalbobot * $indekswaktu * $indeksjalan,2)}}</td>
                                     </tr>
                                     <tr>
                                         <!-- indeks -->
@@ -152,7 +153,7 @@
                                         <td>x</td>
                                         <td>{{$pengajuan->luas}}</td>
                                         <td>x</td>
-                                        <td>{{\App\HargaBangunan::round($pengajuan->getHargaBangunan->getFungsi->indeks * round($totalbobot,2) * $indekswaktu * $indeksjalan,2)}}</td>
+                                        <td>{{\App\HargaBangunan::round($pengajuan->getHargaBangunan->getFungsi->indeks * $totalbobot * $indekswaktu * $indeksjalan,2)}}</td>
 
                                         <!-- kode -->
                                         <td>x</td>
@@ -160,8 +161,8 @@
                                     </tr>
                                     <tr>
                                         <td colspan="8" class="danger">Total Biaya Retribusi {{$pengajuan->getJenisImb->nama}} {{($pengajuan->getHargaBangunan->getFungsi->is_bertingkat == 0?"Tidak Bertingkat":"Bertingkat")}}</td>
-                                        <td class="danger">Rp. {{ number_format((0.02 * $pengajuan->getJenisImb->indeks * $pengajuan->luas * \App\HargaBangunan::round($pengajuan->getHargaBangunan->getFungsi->indeks * round($totalbobot,2) * $indekswaktu * $indeksjalan,2) *  $pengajuan->getHargaBangunan->harga)) }}</td>
-                                        <input type="hidden" name="jumlah_biaya" value="{{ (0.02 * $pengajuan->getJenisImb->indeks * $pengajuan->luas * \App\HargaBangunan::round($pengajuan->getHargaBangunan->getFungsi->indeks * round($totalbobot,2) * $indekswaktu * $indeksjalan,2) *  $pengajuan->getHargaBangunan->harga) }}">
+                                        <td class="danger">Rp. {{ number_format( \App\HargaBangunan::pembulatan((0.02 * $pengajuan->getJenisImb->indeks * $pengajuan->luas * \App\HargaBangunan::round($pengajuan->getHargaBangunan->getFungsi->indeks * $totalbobot * $indekswaktu * $indeksjalan,2) *  $pengajuan->getHargaBangunan->harga)) ) }}</td>
+                                        <input type="hidden" name="jumlah_biaya" value="{{ (0.02 * $pengajuan->getJenisImb->indeks * $pengajuan->luas * \App\HargaBangunan::round($pengajuan->getHargaBangunan->getFungsi->indeks * $totalbobot * $indekswaktu * $indeksjalan,2) *  $pengajuan->getHargaBangunan->harga) }}">
                                     </tr>
 
                                   </tbody>
@@ -217,7 +218,7 @@
 
                                     <tr>
                                       <td class="danger" colspan="10">Jumlah Biaya</td>
-                                      <td class="danger">Rp. {{number_format($jumlahPrasarana)}}</td>
+                                      <td class="danger">Rp. {{number_format(\App\HargaBangunan::pembulatan($jumlahPrasarana))}}</td>
                                     </tr>
                                   </tbody>
                               </table>

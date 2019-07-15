@@ -7,7 +7,7 @@
 
 <div class="form-group">
 	<div class="col-md-12">
-		Apakah Anda yakin ingin menghapus pengajuan atas nama <b>{{ $pengajuan->nama }}</b> - NIK. {{ $pengajuan->nik }}?
+		Apakah Anda yakin ingin menghapus pengajuan atas nama <b>{{ $pengajuan->nama }}</b> - {{ ($pengajuan->id_jenis_identitas == 1?"NIK":($pengajuan->id_jenis_identitas == 2?"KITAS":"Paspor")) }}. {{ $pengajuan->nik }}?
 	</div>	
 </div>
             

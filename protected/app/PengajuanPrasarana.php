@@ -9,7 +9,7 @@ class PengajuanPrasarana extends Model
 {
     //
     protected $table = 't_pengajuan_prasarana';
-    protected $fillable = ['id','no_registrasi','id_pengajuan','nama','id_fungsi','id_jenis_imb_prasarana','id_harga_bangunan','volume','jumlah_biaya','created_at','updated_at'];
+    protected $fillable = ['id','no_registrasi','id_pengajuan','nama','id_fungsi','id_jenis_imb_prasarana','id_harga_bangunan','volume','satuan','jumlah_biaya','created_at','updated_at'];
 
     public function getFungsi(){
         return $this->belongsTo('App\Fungsi','id_fungsi','id');

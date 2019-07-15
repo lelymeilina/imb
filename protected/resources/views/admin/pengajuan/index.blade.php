@@ -74,18 +74,32 @@
                                    {!! Form::select('tahun',[""=>"Pilih Tahun IMB"]+$tahun, null, ['class' => 'form-control select2','style'=>'width:100%','required'=>'required']) !!}
                             </div>
                           </div>
+
+                          <div class="form-group">
+                            {!! Form::label('nama', 'Jenis Identitas Pemohon',['class' => 'col-md-3 control-label']) !!}
+                            <div class="col-md-8">
+                                   {!! Form::select('id_jenis_identitas',[""=>"Pilih Jenis Identitas","1"=>"NIK","2"=>"KITAS","3"=>"Paspor"], null, ['class' => 'form-control select2','style'=>'width:100%','required'=>'required','id'=>'jenis_id']) !!}
+                            </div>
+                          </div>
                           
                           <div class="form-group">
-                            {!! Form::label('nik', 'NIK Pendaftar',['class' => 'col-md-3 control-label']) !!}
+                            {!! Form::label('nik', 'NIK Pemohon',['class' => 'col-md-3 control-label','id'=>'identitas']) !!}
                             <div class="col-md-8">
-                                   {!! Form::text('nik', null, ['class' => 'form-control', 'placeholder' => 'Masukkan NIK (Nomor Identitas Kependudukan) Pendaftar Pengajuan','required'=>'required']) !!}
+                                   {!! Form::text('nik', null, ['class' => 'form-control', 'placeholder' => 'Masukkan NIK (Nomor Identitas Kependudukan) Pemohon Pengajuan','required'=>'required']) !!}
                             </div>
                           </div>
 
                           <div class="form-group">
-                            {!! Form::label('nama', 'Nama Pendaftar',['class' => 'col-md-3 control-label']) !!}
+                            {!! Form::label('nama', 'Nama Pemohon',['class' => 'col-md-3 control-label']) !!}
                             <div class="col-md-8">
-                                   {!! Form::text('nama', null, ['class' => 'form-control', 'placeholder' => 'Masukkan Nama Pendaftar Pengajuan','required'=>'required']) !!}
+                                   {!! Form::text('nama', null, ['class' => 'form-control', 'placeholder' => 'Masukkan Nama Pemohon Pengajuan','required'=>'required']) !!}
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                            {!! Form::label('nama', 'No. NIB',['class' => 'col-md-3 control-label']) !!}
+                            <div class="col-md-8">
+                                   {!! Form::text('no_nib', null, ['class' => 'form-control', 'placeholder' => 'Masukkan No. NIB','required'=>'required']) !!}
                             </div>
                           </div>
 
@@ -116,6 +130,22 @@
                                    {!! Form::textarea('lokasi', null, ['class' => 'form-control', 'placeholder' => 'Alamat/Banjar/Desa/Kecamatan/Lokasi Bangunan Yang Akan didirikan','required'=>'required','rows'=>'3']) !!}
                             </div>
                           </div>
+
+                          <div class="form-group">
+                            {!! Form::label('nama', 'Latitude',['class' => 'col-md-3 control-label']) !!}
+                            <div class="col-md-8">
+                                   {!! Form::text('latitude', null, ['class' => 'form-control', 'placeholder' => 'Masukkan Latitude','required'=>'required']) !!}
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                            {!! Form::label('nama', 'Longitude',['class' => 'col-md-3 control-label']) !!}
+                            <div class="col-md-8">
+                                   {!! Form::text('longitude', null, ['class' => 'form-control', 'placeholder' => 'Masukkan Longitude','required'=>'required']) !!}
+                            </div>
+                          </div>
+
+
 
 
                 <div class="modal-footer">
@@ -283,10 +313,38 @@
 
 <!-- Button trigger modal -->
 <!-- Modal -->
+
+
+<div class="modal fade bs-modal-lg" id="modalcetak" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header ">
+          <button type="reset" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title" id="myModalLabel">Formulir Cetak Data Pengajuan</h4>
+        </div>
+        
+      
+        <div class="modal-body" id="isicetak">
+
+
+        </div> <!--penutup body -->
+      
+        
+      </div>
+    </div>
+  </div>
+
+<!-- Button trigger modal -->
+<!-- Modal -->
+
 @endsection
 @section('scripts')
       <script type="text/javascript">
       $(document).ready(function(){
+            $(document).on('change', '#jenis_id', function() {
+                $('#identitas').text($( "#jenis_id option:selected" ).text() +" Pemohon");
+            });
+
             var tbpengajuan = $('#tbpengajuan').dataTable( {
                           processing: true,
                           serverSide: true,
@@ -546,6 +604,17 @@
                       $('.overlay').css('display','block');
                       var id = $(e.relatedTarget).data('id');
                       $('#isihapus').load('pengajuan/'+ id +'/hapus');
+                      setTimeout(function() {
+                              $('.overlay').css('display','none');
+                      }, 1000);
+                  });
+
+
+                  $('#modalcetak').on('shown.bs.modal', function (e) {
+                      //$('#id_menu').val($(e.relatedTarget).data('id'));
+                      $('.overlay').css('display','block');
+                      var id = $(e.relatedTarget).data('id');
+                      $('#isicetak').load('pengajuan/get/'+ id +'/cetak');
                       setTimeout(function() {
                               $('.overlay').css('display','none');
                       }, 1000);

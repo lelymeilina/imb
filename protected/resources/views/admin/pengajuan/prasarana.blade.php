@@ -15,7 +15,7 @@
                           </div>
                           
                           <div class="form-group">
-                            {!! Form::label('nik', 'NIK Pendaftar',['class' => 'col-md-3 control-label']) !!}
+                            {!! Form::label('nik', ($pengajuan->id_jenis_identitas == 1?"NIK":($pengajuan->id_jenis_identitas == 2?"KITAS":"Paspor")).' Pendaftar',['class' => 'col-md-3 control-label']) !!}
                             <div class="col-md-8">
                                    {!! Form::text('nik', null, ['class' => 'form-control', 'placeholder' => 'Masukkan NIK (Nomor Identitas Kependudukan) Pendaftar Pengajuan','disabled'=>'disabled']) !!}
                             </div>
@@ -25,6 +25,13 @@
                             {!! Form::label('nama', 'Nama Pendaftar',['class' => 'col-md-3 control-label']) !!}
                             <div class="col-md-8">
                                    {!! Form::text('nama', null, ['class' => 'form-control', 'placeholder' => 'Masukkan Nama Pendaftar Pengajuan','disabled'=>'disabled']) !!}
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                            {!! Form::label('nama', 'No. NIB',['class' => 'col-md-3 control-label']) !!}
+                            <div class="col-md-8">
+                                   {!! Form::text('no_nib', null, ['class' => 'form-control', 'placeholder' => 'Masukkan No. NIB','disabled'=>'disabled']) !!}
                             </div>
                           </div>
 
@@ -43,7 +50,8 @@
                                       <th width="30%">Nama Prasarana</th>
                                       <th width="20%">Hasil Survey Lapangan</th>
                                       <th width="25%">Jenis Kegiatan IMB</th>
-                                      <th width="20%">Volume</th>
+                                      <th width="10%">Volume</th>
+                                      <th width="10%">Satuan</th>
                                     </tr>
                                   </thead>
                                   <tbody>
@@ -63,6 +71,9 @@
 
                                       <td>
                                         {!! Form::text('volume['.$d->id.']', $d->volume, ['class' => 'form-control', 'placeholder' => 'Contoh 235.5']) !!}
+                                      </td>
+                                      <td>
+                                        {{$d->satuan}}
                                       </td>
 
                                     </tr>
