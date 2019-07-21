@@ -11,9 +11,9 @@
                             <ul class="contact-details">
                                 <li><a href="#"><i class="fa fa-map-marker"></i> Denpasar-Bali, Indonesia</a>
                                 </li>
-                                <li><a href="#"><i class="fa fa-envelope-o"></i> kppt@karangasemkab.go.id</a>
+                                <li><a href="#"><i class="fa fa-envelope-o"></i> puprpenataanruang@gmail.com</a>
                                 </li>
-                                <li><a href="#"><i class="fa fa-phone"></i> (0363) 23564</a>
+                                <li><a href="#"><i class="fa fa-phone"></i> (0363) 21757</a>
                                 </li>
                             </ul>
                             <!-- End Contact Info -->

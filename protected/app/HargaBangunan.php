@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use DB;
 
 class HargaBangunan extends Model
 {
@@ -31,5 +32,14 @@ class HargaBangunan extends Model
 		 return $akhir;
 	}
 
+    public static function getHargaBangunan($id,$jenis){
 
+    	$hargaBangunan = DB::table('m_harga_bangunan AS a')
+        		->where('a.id_klasifikasi_bangunan','=',$id)
+        		->where('a.is_bertingkat','=',$jenis)
+        		->first();
+
+
+        return $hargaBangunan;
+	}
 }

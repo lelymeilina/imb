@@ -52,7 +52,7 @@
                           <div class="form-group">
                             {!! Form::label('nama', 'Fungsi Bangunan',['class' => 'col-md-3 control-label']) !!}
                             <div class="col-md-8">
-                                   {!! Form::select('id_harga_bangunan',[""=>"Pilih Fungsi Bangunan"]+$hargaBangunan, null, ['class' => 'form-control select2','style'=>'width:100%','required'=>'required']) !!}
+                                   {!! Form::select('id_jenis_klasifikasi_bangunan',[""=>"Pilih Fungsi Bangunan"]+$jenisKlasifikasiBangunan, null, ['class' => 'form-control select2','style'=>'width:100%','required'=>'required']) !!}
                             </div>
                           </div>
 

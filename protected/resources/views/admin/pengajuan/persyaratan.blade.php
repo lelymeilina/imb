@@ -75,7 +75,11 @@
                                       </fieldset>
 
                                       <td>
-                                        {!! Form::textarea('keterangan['.$d->id_persyaratan.']', $d->keterangan, ['class' => 'form-control', 'placeholder' => 'Masukkan Keterangan Hasil Survey '.$d->getPersyaratan->nama,'required'=>'required','rows'=>'3']) !!}
+                                        @if($d->id_persyaratan == 7)
+                                            {!! Form::textarea('keterangan['.$d->id_persyaratan.']', (!empty($d->keterangan)?$d->keterangan:$kdb_klb), ['class' => 'form-control', 'placeholder' => 'Masukkan Keterangan Hasil Survey '.$d->getPersyaratan->nama,'required'=>'required','rows'=>'6']) !!}
+                                        @else
+                                            {!! Form::textarea('keterangan['.$d->id_persyaratan.']', $d->keterangan, ['class' => 'form-control', 'placeholder' => 'Masukkan Keterangan Hasil Survey '.$d->getPersyaratan->nama,'required'=>'required','rows'=>'3']) !!}
+                                        @endif
                                       </td>
 
                                     </tr>

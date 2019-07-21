@@ -60,7 +60,7 @@
                             {!! Form::label('Awal', 'Tgl Survey',['class' => 'col-md-3 control-label']) !!}
                             <div class="col-md-8">
                             <div class="input-group date">
-                              {!! Form::text('tgl_survey', null, ['class' => 'form-control', 'placeholder' => 'Tgl Survey']) !!}
+                              {!! Form::text('tgl_survey', date('d M Y',strtotime($pengajuan->tgl_survey)), ['class' => 'form-control', 'placeholder' => 'Tgl Survey']) !!}
                               <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
                             </div>
                             </div>
@@ -81,9 +81,11 @@
     $(".select2").select2();
 
     $('.date').datepicker({
-            format: "yyyy/mm/dd",
-            startDate: "2000-01-01",
-            endDate: "2050-01-01",
+            // format: "yyyy/mm/dd",
+            format: "d M yyyy",
+            // startDate: "2000-01-01",
+            // endDate: "2050-01-01",
+            setDate: new Date("{{date('d M Y',strtotime($pengajuan->tgl_survey))}}"),
             todayBtn: "linked",
             autoclose: true,
             todayHighlight: true

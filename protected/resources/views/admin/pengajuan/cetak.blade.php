@@ -61,7 +61,7 @@
 	<table style="font-size: 8pt; margin: 0px 0px 0px 240px;" >
 	<tr>
 		<td width="50px">
-			<img  src="{{URL('assets/img/logo.png')}}" style="width: 90px; height: 80px;" />
+			<img  src="assets/img/logo.png" style="width: 90px; height: 80px;" />
 		</td>
 		<td width="400px">
 			<div style="width:100%;text-align:center;font-size: 14pt;" class="">PEMERINTAH KABUPATEN KARANGASEM</div>
@@ -88,7 +88,7 @@
         	<td><strong>Nama Pendaftar</strong></td><td>:</td><td>{{$pengajuan->nama}}</td>
         </tr>
         <tr>
-        	<td><strong>Fungsi IMB</strong></td><td>:</td><td>{{$pengajuan->getHargaBangunan->getFungsi->nama}} - {{$pengajuan->getHargaBangunan->nama}}</td>
+        	<td><strong>Fungsi IMB</strong></td><td>:</td><td>{{$pengajuan->getJenisKlasifikasiBangunan->getJenisBangunan->getFungsi->nama}} - {{$pengajuan->getJenisImb->nama}}</td>
         </tr>
         <tr>
         	<td><strong>Deskripsi Bangunan</strong></td><td>:</td><td>{{$pengajuan->deskripsi_bangunan}}</td>
@@ -223,9 +223,9 @@
                   3. Klasifikasi Bangunan
               </td>
               <td rowspan="{{count($PengajuanParameter) - 1}}" class="td-bottom">
-                  1. {{$pengajuan->getHargaBangunan->getFungsi->nama}}<br/>
+                  1. {{$pengajuan->getJenisKlasifikasiBangunan->getJenisBangunan->getFungsi->nama}}<br/>
                   2. {{$pengajuan->getJenisImb->nama}}<br/>
-                  3. {{$pengajuan->getHargaBangunan->getKlasifikasiBangunan->nama}}
+                  3. {{$pengajuan->getJenisKlasifikasiBangunan->getKlasifikasi->nama}}
               </td>
               <td rowspan="{{count($PengajuanParameter) - 1}}" style="border-bottom: 1px solid #000000;">
                    Indeks <br/>
@@ -233,7 +233,7 @@
                    Indeks 
               </td>
               <td rowspan="{{count($PengajuanParameter) - 1}}" style="border-bottom: 1px solid #000000;" >
-                  {{$pengajuan->getHargaBangunan->getFungsi->indeks}}<br/>
+                  {{$pengajuan->getJenisKlasifikasiBangunan->getJenisBangunan->getFungsi->indeks}}<br/>
                   {{$pengajuan->getJenisImb->indeks}}<br/>
                   -
               </td>
@@ -304,7 +304,7 @@
             </tr>
             <tr class="td-bottom">
                 <!-- indeks -->
-                <td class="td-bottom">{{$pengajuan->getHargaBangunan->getFungsi->indeks}}</td>
+                <td class="td-bottom">{{$pengajuan->getJenisKlasifikasiBangunan->getJenisBangunan->getFungsi->indeks}}</td>
                 <td class="td-bottom">x</td>
                 <td class="td-bottom">{{$totalbobot}}</td>
                 <td class="td-bottom">x</td>
@@ -314,11 +314,11 @@
 
                 <!-- kode -->
                 <td class="td-bottom">=</td>
-                <td class="td-bottom">{{\App\HargaBangunan::round($pengajuan->getHargaBangunan->getFungsi->indeks * $totalbobot * $indekswaktu * $indeksjalan,2)}}</td>
+                <td class="td-bottom">{{\App\HargaBangunan::round($pengajuan->getJenisKlasifikasiBangunan->getJenisBangunan->getFungsi->indeks * $totalbobot * $indekswaktu * $indeksjalan,2)}}</td>
             </tr>
             <tr class="td-bottom">
                 <!-- indeks -->
-                <td rowspan="3" class="td-bottom">{!! wordwrap("Retribusi ".$pengajuan->getJenisImb->nama." ".($pengajuan->getHargaBangunan->getFungsi->is_bertingkat == 0?"Tidak Bertingkat":"Bertingkat"),30,"<br/>") !!}</td>
+                <td class="td-bottom">{!! wordwrap("Retribusi ".$pengajuan->getJenisImb->nama,30,"<br/>") !!}</td>
                 <td style="background: #d9edf7;" class="td-bottom">2%</td>
                 <td style="background: #d9edf7;" class="td-bottom">x</td>
                 <td style="background: #d9edf7;" class="td-bottom">Indeks</td>
@@ -333,22 +333,54 @@
             </tr>
             <tr class="td-bottom">
                 <!-- indeks -->
+                <td class="td-bottom">Tidak Bertingkat</td>
                 <td class="td-bottom">0.02</td>
                 <td class="td-bottom">x</td>
                 <td class="td-bottom">{{$pengajuan->getJenisImb->indeks}}</td>
                 <td class="td-bottom">x</td>
                 <td class="td-bottom">{{$pengajuan->luas}}</td>
                 <td class="td-bottom">x</td>
-                <td class="td-bottom">{{\App\HargaBangunan::round($pengajuan->getHargaBangunan->getFungsi->indeks * $totalbobot * $indekswaktu * $indeksjalan,2)}}</td>
+                <td class="td-bottom">{{\App\HargaBangunan::round($pengajuan->getJenisKlasifikasiBangunan->getJenisBangunan->getFungsi->indeks * $totalbobot * $indekswaktu * $indeksjalan,2)}}</td>
 
                 <!-- kode -->
                 <td class="td-bottom">x</td>
-                <td class="td-bottom">Rp. {{number_format($pengajuan->getHargaBangunan->harga)}}</td>
+                <td class="td-bottom">Rp. {{number_format(App\HargaBangunan::getHargaBangunan($pengajuan->id_jenis_klasifikasi_bangunan,0)->harga)}}</td>
             </tr>
             <tr class="td-bottom">
-                <td colspan="8" style="background: #f2dede;" class="td-bottom">Total Biaya Retribusi {{$pengajuan->getJenisImb->nama}} {{($pengajuan->getHargaBangunan->getFungsi->is_bertingkat == 0?"Tidak Bertingkat":"Bertingkat")}}</td>
-                <td style="background: #f2dede;" class="td-bottom">Rp. {{ number_format( \App\HargaBangunan::pembulatan((0.02 * $pengajuan->getJenisImb->indeks * $pengajuan->luas * \App\HargaBangunan::round($pengajuan->getHargaBangunan->getFungsi->indeks * $totalbobot * $indekswaktu * $indeksjalan,2) *  $pengajuan->getHargaBangunan->harga)) ) }}</td>
-                <input type="hidden" name="jumlah_biaya" value="{{ (0.02 * $pengajuan->getJenisImb->indeks * $pengajuan->luas * \App\HargaBangunan::round($pengajuan->getHargaBangunan->getFungsi->indeks * $totalbobot * $indekswaktu * $indeksjalan,2) *  $pengajuan->getHargaBangunan->harga) }}">
+                <!-- indeks -->
+                <td class="td-bottom">Bertingkat</td>
+                <td class="td-bottom">0.02</td>
+                <td class="td-bottom">x</td>
+                <td class="td-bottom">{{$pengajuan->getJenisImb->indeks}}</td>
+                <td class="td-bottom">x</td>
+                <td class="td-bottom">{{$pengajuan->luas}}</td>
+                <td class="td-bottom">x</td>
+                <td class="td-bottom">{{\App\HargaBangunan::round($pengajuan->getJenisKlasifikasiBangunan->getJenisBangunan->getFungsi->indeks * $totalbobot * $indekswaktu * $indeksjalan,2)}}</td>
+
+                <!-- kode -->
+                <td class="td-bottom">x</td>
+                <td class="td-bottom">Rp. {{number_format(App\HargaBangunan::getHargaBangunan($pengajuan->id_jenis_klasifikasi_bangunan,1)->harga)}}</td>
+            </tr>
+            <tr class="td-bottom">
+                <!-- indeks -->
+                <td class="td-bottom">Basement</td>
+                <td class="td-bottom">0.02</td>
+                <td class="td-bottom">x</td>
+                <td class="td-bottom">1.3</td>
+                <td class="td-bottom">x</td>
+                <td class="td-bottom">{{$pengajuan->luas}}</td>
+                <td class="td-bottom">x</td>
+                <td class="td-bottom">{{\App\HargaBangunan::round($pengajuan->getJenisKlasifikasiBangunan->getJenisBangunan->getFungsi->indeks * $totalbobot * $indekswaktu * $indeksjalan,2)}}}</td>
+
+                <!-- kode -->
+                <td class="td-bottom">x</td>
+                <td class="td-bottom">Rp. {{number_format(3000000)}}</td>
+            </tr>
+            <tr class="td-bottom">
+                <td class="td-bottom"></td>
+                <td colspan="8" style="background: #f2dede;" class="td-bottom">Total Biaya Retribusi {{$pengajuan->getJenisImb->nama}} </td>
+                <td style="background: #f2dede;" class="td-bottom">Rp. {{ number_format( \App\HargaBangunan::pembulatan( (0.02 * $pengajuan->getJenisImb->indeks * $pengajuan->luas_tidakbertingkat * \App\HargaBangunan::round($pengajuan->getJenisKlasifikasiBangunan->getJenisBangunan->getFungsi->indeks * $totalbobot * $indekswaktu * $indeksjalan,2) *  App\HargaBangunan::getHargaBangunan($pengajuan->id_jenis_klasifikasi_bangunan,0)->harga) + (0.02 * $pengajuan->getJenisImb->indeks * $pengajuan->luas_bertingkat * \App\HargaBangunan::round($pengajuan->getJenisKlasifikasiBangunan->getJenisBangunan->getFungsi->indeks * $totalbobot * $indekswaktu * $indeksjalan,2) *  App\HargaBangunan::getHargaBangunan($pengajuan->id_jenis_klasifikasi_bangunan,1)->harga) + (0.02 * 1.3 * $pengajuan->luas_basement * \App\HargaBangunan::round($pengajuan->getJenisKlasifikasiBangunan->getJenisBangunan->getFungsi->indeks * $totalbobot * $indekswaktu * $indeksjalan,2) *  3000000) ) ) }}</td>
+                <input type="hidden" name="jumlah_biaya" value="{{ \App\HargaBangunan::pembulatan( (0.02 * $pengajuan->getJenisImb->indeks * $pengajuan->luas_tidakbertingkat * \App\HargaBangunan::round($pengajuan->getJenisKlasifikasiBangunan->getJenisBangunan->getFungsi->indeks * $totalbobot * $indekswaktu * $indeksjalan,2) *  App\HargaBangunan::getHargaBangunan($pengajuan->id_jenis_klasifikasi_bangunan,0)->harga) + (0.02 * $pengajuan->getJenisImb->indeks * $pengajuan->luas_bertingkat * \App\HargaBangunan::round($pengajuan->getJenisKlasifikasiBangunan->getJenisBangunan->getFungsi->indeks * $totalbobot * $indekswaktu * $indeksjalan,2) *  App\HargaBangunan::getHargaBangunan($pengajuan->id_jenis_klasifikasi_bangunan,1)->harga) + (0.02 * 1.3 * $pengajuan->luas_basement * \App\HargaBangunan::round($pengajuan->getJenisKlasifikasiBangunan->getJenisBangunan->getFungsi->indeks * $totalbobot * $indekswaktu * $indeksjalan,2) *  3000000) ) }}">
             </tr>
 
           </tbody>
@@ -427,7 +459,7 @@
         	<td><strong>Nama Pendaftar</strong></td><td>:</td><td>{{$pengajuan->nama}}</td>
         </tr>
         <tr>
-        	<td><strong>Fungsi IMB</strong></td><td>:</td><td>{{$pengajuan->getHargaBangunan->getFungsi->nama}} - {{$pengajuan->getHargaBangunan->nama}}</td>
+        	<td><strong>Fungsi IMB</strong></td><td>:</td><td>{{$pengajuan->getJenisKlasifikasiBangunan->getJenisBangunan->getFungsi->nama}} - {{$pengajuan->getJenisImb->nama}}</td>
         </tr>
         <tr>
         	<td><strong>Deskripsi Bangunan</strong></td><td>:</td><td>{{$pengajuan->deskripsi_bangunan}}</td>
@@ -441,11 +473,11 @@
 	<table class="table-border-top-2" style="margin-left:25px;">
           <thead>
             <tr class="td-bottom" >
-              <th width="50px">No</th>
-              <th width="100px">Persyaratan Teknis</th>
-              <th width="50px">Memenuhi</th>
-              <th width="50px">Tidak <br/>Memenuhi</th>
-              <th width="20px">Keterangan</th>
+              <th width="10">No</th>
+              <th width="110">Persyaratan Teknis</th>
+              <th width="50">Memenuhi</th>
+              <th width="50">Tidak <br/>Memenuhi</th>
+              <th width="110">Keterangan</th>
             </tr>
           </thead>
           <tbody>
@@ -473,7 +505,7 @@
               @endif
 
               <td class="td-bottom" >
-                {!! wordwrap($d->keterangan,70,"<br/>") !!}
+                {!! wordwrap($d->keterangan,60,"<br>\n") !!}
               </td>
 
             </tr>
@@ -511,7 +543,7 @@
               </td>
 
               <td class="td-bottom" >
-                {!! wordwrap($d->keterangan,70,"<br/>") !!}
+                {!! wordwrap($d->keterangan,54,"<br>\n") !!}
               </td>
 
             </tr>
@@ -603,7 +635,7 @@
 	<table class="table-border-top-2" style="margin-left:5px;">
 	<tr class="td-bottom">
 		<td width="50" class="td-bottom" style="border-right: none;" colspan="2">
-			<img  src="{{URL('assets/img/logo.png')}}" style="width: 60px; height: 80px;" />
+			<img  src="assets/img/logo.png" style="width: 60px; height: 80px;" />
 		</td>
 		<td width="200" align="center" class="td-bottom" colspan="8">
 			PEMERINTAH <br/>
@@ -615,7 +647,7 @@
 			RETRIBUSI DAERAH <br/>
 			(SKRD)
 		</td>
-		<td width="125" align="center" class="td-bottom">
+		<td width="100" align="center" class="td-bottom">
 			NO. SKRD : 
 		</td>
 	</tr>
@@ -628,7 +660,7 @@
 		<td width="120" align="center" style="border:1px solid #000; border-bottom: none;">
 			
 		</td>
-		<td width="150" align="center" style="border:1px solid #000;">
+		<td width="100" align="center" style="border:1px solid #000;">
 			
 		</td>
 	</tr>
@@ -641,7 +673,7 @@
 		<td width="120" align="center" style="border:1px solid #000; ">
 			
 		</td>
-		<td width="150" align="center" style="border:1px solid #000;">
+		<td width="100" align="center" style="border:1px solid #000;">
 			
 		</td>
 	</tr>
@@ -651,12 +683,12 @@
 		<td style="border:1px solid #000; border-bottom: none; border-right: none;" colspan="5"> NAMA </td>
 		
 		<td  > : </td>
-		<td  colspan="4"> {{$pengajuan->nama}}</td>
+		<td  colspan="5" style="font-size:8px !important; border:1px solid #000; border-bottom: none;"> {{$pengajuan->nama}}</td>
 
-		<td width="120" align="center" style="border:1px solid #000; border-bottom: none;">
+		<!-- <td width="120" align="center" style="border:1px solid #000; border-bottom: none;">
 			
-		</td>
-		<td width="150" align="center" style="border:1px solid #000;">
+		</td> -->
+		<td width="100" align="center" style="border:1px solid #000;">
 			
 		</td>
 	</tr>
@@ -664,12 +696,12 @@
 		<td style="border:1px solid #000; border-bottom: none; border-right: none;" colspan="5"> ALAMAT </td>
 		
 		<td  > : </td>
-		<td  colspan="4"> {{$pengajuan->lokasi}}</td>
+		<td  colspan="5" style="font-size:8px !important; border:1px solid #000; border-bottom: none;"> {!! wordwrap($pengajuan->lokasi,35,"<br>\n") !!}</td>
 
-		<td width="120" align="center" style="border:1px solid #000; border-bottom: none;">
+		<!-- <td width="120" align="center" style="border:1px solid #000; border-bottom: none;">
 			
-		</td>
-		<td width="150" align="center" style="border:1px solid #000;">
+		</td> -->
+		<td width="100" align="center" style="border:1px solid #000;">
 			
 		</td>
 	</tr>
@@ -682,7 +714,7 @@
 		<td width="120" align="center" style="border:1px solid #000; border-bottom: none;">
 			
 		</td>
-		<td width="150" align="center" style="border:1px solid #000;">
+		<td width="100" align="center" style="border:1px solid #000;">
 			
 		</td>
 	</tr>
@@ -695,7 +727,7 @@
 		<td width="120" align="center" style="border:1px solid #000; ">
 			
 		</td>
-		<td width="150" align="center" style="border:1px solid #000;">
+		<td width="100" align="center" style="border:1px solid #000;">
 			
 		</td>
 	</tr>
@@ -710,7 +742,7 @@
 		<td width="120" align="center" class="td-bottom">
 			URAIAN RETRIBUSI
 		</td>
-		<td width="150" align="center" class="td-bottom">
+		<td width="100" align="center" class="td-bottom">
 			JUMLAH (Rp.)
 		</td>
 	</tr>
@@ -726,11 +758,11 @@
 		<td class="td-bottom"> 5 </td>
 		<td class="td-bottom"> 5 </td>
 		<td width="120" align="center" style="border:1px solid #000; " align="left">
-			RETRIBUSI {{$pengajuan->deskripsi_bangunan}}<br/>
-			0 <br/>
-			0 <br/>
+			RETRIBUSI IMB<br/>
+			{{$pengajuan->nama}} <br/>
+			{{ucwords(strtolower($pengajuan->deskripsi_bangunan))}} <br/>
 		</td>
-		<td width="150" align="center" style="border:1px solid #000;">
+		<td width="100" align="center" style="border:1px solid #000;">
 			
 		</td>
 	</tr>
@@ -748,7 +780,7 @@
 		<td width="120" align="center" style="border:1px solid #000; ">
 			
 		</td>
-		<td width="150" align="center" style="border:1px solid #000;">
+		<td width="100" align="center" style="border:1px solid #000;">
 			
 		</td>
 	</tr>
@@ -766,7 +798,7 @@
 		<td width="120" align="center" style="border:1px solid #000; ">
 			
 		</td>
-		<td width="150" align="center" style="border:1px solid #000;">
+		<td width="100" align="center" style="border:1px solid #000;">
 			
 		</td>
 	</tr>
@@ -784,7 +816,7 @@
 		<td width="120" align="center" style="border:1px solid #000; ">
 			
 		</td>
-		<td width="150" align="center" style="border:1px solid #000;">
+		<td width="100" align="center" style="border:1px solid #000;">
 			
 		</td>
 	</tr>
@@ -802,7 +834,7 @@
 		<td width="120" align="center" style="border:1px solid #000; ">
 			
 		</td>
-		<td width="150" align="center" style="border:1px solid #000;">
+		<td width="100" align="center" style="border:1px solid #000;">
 			
 		</td>
 	</tr>
@@ -812,7 +844,7 @@
 		<td width="120" align="center" class="td-bottom" style="border-left: none;" align="left">
 			Jumlah Ketetapan Retribusi:
 		</td>
-		<td width="150" align="center" style="border:1px solid #000;">
+		<td width="100" align="center" style="border:1px solid #000;">
 			
 		</td>
 	</tr>
@@ -820,7 +852,7 @@
 		<td width="120" align="center" class="td-bottom" style="border-left: none;" align="left">
 			Jumlah Sanksi :
 		</td>
-		<td width="150" align="center" style="border:1px solid #000;">
+		<td width="100" align="center" style="border:1px solid #000;">
 			
 		</td>
 	</tr>
@@ -828,7 +860,7 @@
 		<td width="120" align="center" class="td-bottom" style="border-left: none;" align="left">
 			a. Bunga
 		</td>
-		<td width="150" align="center" style="border:1px solid #000;">
+		<td width="100" align="center" style="border:1px solid #000;">
 			
 		</td>
 	</tr>
@@ -836,7 +868,7 @@
 		<td width="120" align="center" class="td-bottom" style="border-left: none;" align="left">
 			b. Kenaikan
 		</td>
-		<td width="150" align="center" style="border:1px solid #000;">
+		<td width="100" align="center" style="border:1px solid #000;">
 			
 		</td>
 	</tr>
@@ -844,7 +876,7 @@
 		<td width="120" align="center" class="td-bottom" style="border-left: none;" align="left">
 			Jumlah Keseluruhan:
 		</td>
-		<td width="150" align="center" style="border:1px solid #000;">
+		<td width="100" align="center" style="border:1px solid #000;">
 			Rp. {!! wordwrap(number_format(\App\HargaBangunan::pembulatan($pengajuan->jumlah_biaya + $pengajuan->jumlah_biaya_prasarana)),30,"<br/>\n") !!}
 		</td>
 	</tr>

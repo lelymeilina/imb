@@ -43,10 +43,64 @@
                           </div>
 
                           <div class="form-group">
-                            {!! Form::label('nama', 'Luas Bangunan',['class' => 'col-md-3 control-label']) !!}
+                            {!! Form::label('nama', 'Luas Bangunan Tidak Bertingkat',['class' => 'col-md-3 control-label']) !!}
                             <div class="col-md-8">
-                                   {!! Form::text('luas', null, ['class' => 'form-control', 'placeholder' => 'Masukkan Luas Bangunan Utama (Angka) Contoh. 517.23','required'=>'required']) !!}
+                                   {!! Form::text('luas_tidakbertingkat', null, ['class' => 'form-control', 'placeholder' => 'Masukkan Luas Bangunan Utama (Angka) Contoh. 517.23','required'=>'required']) !!}
                             </div>
+                          </div>
+
+                          <div class="form-group">
+                            {!! Form::label('nama', 'Luas Bangunan Bertingkat',['class' => 'col-md-3 control-label']) !!}
+                            <div class="col-md-8">
+                                   {!! Form::text('luas_bertingkat', null, ['class' => 'form-control', 'placeholder' => 'Masukkan Luas Bangunan Utama (Angka) Contoh. 517.23','required'=>'required']) !!}
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                            {!! Form::label('nama', 'Luas Bangunan Basement',['class' => 'col-md-3 control-label']) !!}
+                            <div class="col-md-8">
+                                   {!! Form::text('luas_basement', null, ['class' => 'form-control', 'placeholder' => 'Masukkan Luas Bangunan Utama (Angka) Contoh. 517.23','required'=>'required']) !!}
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                              {!! Form::label('nama', 'KDB Lama',['class' => 'col-md-3 control-label']) !!}
+                              <div class="col-md-8">
+                                     {!! Form::text('kdb_lama', null, ['class' => 'form-control', 'placeholder' => 'Masukkan KDB Presentase (%) Contoh. 5']) !!}
+                              </div>
+                          </div>
+                          <div class="form-group">
+                              {!! Form::label('nama', 'KLB Lama',['class' => 'col-md-3 control-label']) !!}
+                              <div class="col-md-8">
+                                     {!! Form::text('klb_lama', null, ['class' => 'form-control', 'placeholder' => 'Masukkan KDB Presentase (%) Contoh. 5']) !!}
+                              </div>
+                          </div>
+
+
+                          <div class="form-group">
+                              {!! Form::label('nama', 'KDB Baru',['class' => 'col-md-3 control-label']) !!}
+                              <div class="col-md-8">
+                                     {!! Form::text('kdb_baru', null, ['class' => 'form-control', 'placeholder' => 'Masukkan KDB Presentase (%) Contoh. 5']) !!}
+                              </div>
+                          </div>
+                          <div class="form-group">
+                              {!! Form::label('nama', 'KLB Baru',['class' => 'col-md-3 control-label']) !!}
+                              <div class="col-md-8">
+                                     {!! Form::text('klb_baru', null, ['class' => 'form-control', 'placeholder' => 'Masukkan KDB Presentase (%) Contoh. 5']) !!}
+                              </div>
+                          </div>
+
+                          <div class="form-group">
+                              {!! Form::label('nama', 'Total KDB',['class' => 'col-md-3 control-label']) !!}
+                              <div class="col-md-8">
+                                     {!! Form::text('total_kdb', null, ['class' => 'form-control', 'placeholder' => 'Masukkan KDB Presentase (%) Contoh. 5']) !!}
+                              </div>
+                          </div>
+                          <div class="form-group">
+                              {!! Form::label('nama', 'Total KLB',['class' => 'col-md-3 control-label']) !!}
+                              <div class="col-md-8">
+                                     {!! Form::text('total_klb', null, ['class' => 'form-control', 'placeholder' => 'Masukkan KDB Presentase (%) Contoh. 5']) !!}
+                              </div>
                           </div>
 
                           <div class="form-group ">
@@ -84,7 +138,7 @@
                           </div>
 
 
-                          <hr/>
+                          <!-- <hr/>
                           
                           <div class="form-group">
                             {!! Form::label('nama', 'Luas Tanah',['class' => 'col-md-3 control-label']) !!}
@@ -194,7 +248,7 @@
                                        {!! Form::text('total_klb', null, ['class' => 'form-control', 'placeholder' => 'Masukkan KDB Presentase (%) Contoh. 5']) !!}
                                 </div>
                             </div>
-                          </div>
+                          </div> -->
 
                         <div class="modal-footer">
                           <button class="btn btn-default" data-dismiss="modal" aria-hidden="true" id="clear">Batal</button>

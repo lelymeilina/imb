@@ -8,10 +8,10 @@ class Pengajuan extends Model
 {
     //
     protected $table = 't_pengajuan';
-    protected $fillable = ['id','no_registrasi','id_jenis_identitas','nik','nama','id_jenis_imb','id_harga_bangunan','jenis_bangunan','lokasi','tahun','luas','luas_tanah','jenis_kdb_klb','kdb','klb','no_sk_kdb','no_sk_klb','jumlah_biaya','id_surveyor_1','id_surveyor_2','id_status_pengajuan','no_nib','latitude','longitude','flag_delete','created_at','updated_at'];
+    protected $fillable = ['id','no_registrasi','id_jenis_identitas','nik','nama','id_jenis_imb','id_jenis_klasifikasi_bangunan','jenis_bangunan','lokasi','tahun','luas_tidakbertingkat','luas_bertingkat','luas_basement','kdb_lama','klb_lama','kdb_baru','klb_baru','jumlah_biaya','jumlah_biaya_prasarana','total_biaya_pembulatan','id_surveyor_1','id_surveyor_2','tgl_survey','id_status_pengajuan','no_nib','latitude','longitude','nip_kepala_bidang','kepala_bidang','pangkat_kepala_bidang','nip_kasi','kasi','pangkat_kasi','flag_delete','created_at','updated_at'];
 
-    public function getHargaBangunan(){
-		return $this->belongsTo('App\HargaBangunan','id_harga_bangunan','id');
+    public function getJenisKlasifikasiBangunan(){
+		return $this->belongsTo('App\JenisKlasifikasiBangunan','id_jenis_klasifikasi_bangunan','id');
 	}
 
 	public function getJenisImb(){

@@ -59,7 +59,12 @@ class HomeDepanController extends Controller
         if(!empty($request->id_harga_bangunan)){
             $HargaBangunan = HargaBangunan::find($request->id_harga_bangunan);
             $luas = (!empty($request->luas)?$request->luas:1);
-            $biayaRetribusiBangunanUtama = $indeks2persen * $luas * $HargaBangunan->harga;
+            if($HargaBangunan->id_fungsi == 1){
+                $indeksrumah = 0.25;
+            }else{
+                $indeksrumah = 1;
+            }
+            $biayaRetribusiBangunanUtama = ($indeks2persen * ($luas * $HargaBangunan->harga)) * $indeksrumah ;
         }
 
         $biayaRetribusiBangunanPrasarana = 0;
@@ -68,18 +73,57 @@ class HomeDepanController extends Controller
                 # code...
                 $volume = (!empty($request->volume[$key])?$request->volume[$key]:1);
                 $HargaBangunanPrasarana = HargaBangunan::find($value);
-                $biayaRetribusiBangunanPrasarana = $indeks2persen * $volume * $HargaBangunanPrasarana->harga;
+                $biayaRetribusiBangunanPrasarana = $biayaRetribusiBangunanPrasarana + ($indeks2persen * $volume * $HargaBangunanPrasarana->harga);
             }
         }
 
         $totalbiaya = $biayaRetribusiBangunanUtama + $biayaRetribusiBangunanPrasarana;
+        $terbilang = $this->terbilang($totalbiaya);
 
         session()->flash('biayaRetribusiBangunanUtama',$biayaRetribusiBangunanUtama);
         session()->flash('biayaRetribusiBangunanPrasarana',$biayaRetribusiBangunanPrasarana);
         session()->flash('totalbiaya',$totalbiaya);
+        session()->flash('terbilang',$terbilang);
 
         // echo $totalbiaya; exit;
 
         return redirect('/simulasi');
+    }
+
+    public function penyebut($nilai) {
+        $nilai = abs($nilai);
+        $huruf = array("", "Satu", "Dua", "Tiga", "Empat", "Lima", "Enam", "Tujuh", "Delapan", "Sembilan", "Sepuluh", "Sebelas");
+        $temp = "";
+        if ($nilai < 12) {
+            $temp = " ". $huruf[$nilai];
+        } else if ($nilai <20) {
+            $temp = $this->penyebut($nilai - 10). " Belas";
+        } else if ($nilai < 100) {
+            $temp = $this->penyebut($nilai/10)." Puluh". $this->penyebut($nilai % 10);
+        } else if ($nilai < 200) {
+            $temp = " Seratus" . $this->penyebut($nilai - 100);
+        } else if ($nilai < 1000) {
+            $temp = $this->penyebut($nilai/100) . " Ratus" . $this->penyebut($nilai % 100);
+        } else if ($nilai < 2000) {
+            $temp = " Seribu" . $this->penyebut($nilai - 1000);
+        } else if ($nilai < 1000000) {
+            $temp = $this->penyebut($nilai/1000) . " Ribu" . $this->penyebut($nilai % 1000);
+        } else if ($nilai < 1000000000) {
+            $temp = $this->penyebut($nilai/1000000) . " Juta" . $this->penyebut($nilai % 1000000);
+        } else if ($nilai < 1000000000000) {
+            $temp = $this->penyebut($nilai/1000000000) . " Milyar" . $this->penyebut(fmod($nilai,1000000000));
+        } else if ($nilai < 1000000000000000) {
+            $temp = $this->penyebut($nilai/1000000000000) . " Trilyun" . $this->penyebut(fmod($nilai,1000000000000));
+        }     
+        return $temp;
+    }
+
+    public function terbilang($nilai) {
+        if($nilai<0) {
+            $hasil = "Minus ". trim($this->penyebut($nilai));
+        } else {
+            $hasil = trim($this->penyebut($nilai));
+        }           
+        return $hasil;
     }
 }

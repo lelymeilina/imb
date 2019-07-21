@@ -40,9 +40,9 @@
                                           3. Klasifikasi Bangunan
                                       </td>
                                       <td rowspan="{{count($PengajuanParameter) - 1}}">
-                                          1. {{$pengajuan->getHargaBangunan->getFungsi->nama}}<br/>
+                                          1. {{$pengajuan->getJenisKlasifikasiBangunan->getJenisBangunan->getFungsi->nama}}<br/>
                                           2. {{$pengajuan->getJenisImb->nama}}<br/>
-                                          3. {{$pengajuan->getHargaBangunan->getKlasifikasiBangunan->nama}}
+                                          3. {{$pengajuan->getJenisKlasifikasiBangunan->getKlasifikasi->nama}}
                                       </td>
                                       <td rowspan="{{count($PengajuanParameter) - 1}}">
                                           Indeks <br/>
@@ -50,7 +50,7 @@
                                           Indeks 
                                       </td>
                                       <td rowspan="{{count($PengajuanParameter) - 1}}" style="border: 1px solid #f4f4f4;">
-                                          {{$pengajuan->getHargaBangunan->getFungsi->indeks}}<br/>
+                                          {{$pengajuan->getJenisKlasifikasiBangunan->getJenisBangunan->getFungsi->indeks}}<br/>
                                           {{$pengajuan->getJenisImb->indeks}}<br/>
                                           -
                                       </td>
@@ -118,7 +118,7 @@
                                     </tr>
                                     <tr>
                                         <!-- indeks -->
-                                        <td>{{$pengajuan->getHargaBangunan->getFungsi->indeks}}</td>
+                                        <td>{{$pengajuan->getJenisKlasifikasiBangunan->getJenisBangunan->getFungsi->indeks}}</td>
                                         <td>x</td>
                                         <td>{{$totalbobot}}</td>
                                         <td>x</td>
@@ -128,11 +128,11 @@
 
                                         <!-- kode -->
                                         <td>=</td>
-                                        <td>{{\App\HargaBangunan::round($pengajuan->getHargaBangunan->getFungsi->indeks * $totalbobot * $indekswaktu * $indeksjalan,2)}}</td>
+                                        <td>{{\App\HargaBangunan::round($pengajuan->getJenisKlasifikasiBangunan->getJenisBangunan->getFungsi->indeks * $totalbobot * $indekswaktu * $indeksjalan,2)}}</td>
                                     </tr>
                                     <tr>
-                                        <!-- indeks -->
-                                        <td rowspan="3">Retribusi {{$pengajuan->getJenisImb->nama}} {{($pengajuan->getHargaBangunan->getFungsi->is_bertingkat == 0?"Tidak Bertingkat":"Bertingkat")}}</td>
+                                        <!-- indeks tidak bertingkat-->
+                                        <td >Retribusi {{$pengajuan->getJenisImb->nama}} </td>
                                         <td class="info">2%</td>
                                         <td class="info">x</td>
                                         <td class="info">Indeks</td>
@@ -147,22 +147,60 @@
                                     </tr>
                                     <tr>
                                         <!-- indeks -->
+                                        <td><strong>Tidak Bertingkat</strong></td>
                                         <td>0.02</td>
                                         <td>x</td>
                                         <td>{{$pengajuan->getJenisImb->indeks}}</td>
                                         <td>x</td>
-                                        <td>{{$pengajuan->luas}}</td>
+                                        <td>{{$pengajuan->luas_tidakbertingkat}}</td>
                                         <td>x</td>
-                                        <td>{{\App\HargaBangunan::round($pengajuan->getHargaBangunan->getFungsi->indeks * $totalbobot * $indekswaktu * $indeksjalan,2)}}</td>
+                                        <td>{{\App\HargaBangunan::round($pengajuan->getJenisKlasifikasiBangunan->getJenisBangunan->getFungsi->indeks * $totalbobot * $indekswaktu * $indeksjalan,2)}}</td>
 
                                         <!-- kode -->
                                         <td>x</td>
-                                        <td>Rp. {{number_format($pengajuan->getHargaBangunan->harga)}}</td>
+                                        <td>Rp. {{number_format(App\HargaBangunan::getHargaBangunan($pengajuan->id_jenis_klasifikasi_bangunan,0)->harga)}}</td>
                                     </tr>
+
                                     <tr>
-                                        <td colspan="8" class="danger">Total Biaya Retribusi {{$pengajuan->getJenisImb->nama}} {{($pengajuan->getHargaBangunan->getFungsi->is_bertingkat == 0?"Tidak Bertingkat":"Bertingkat")}}</td>
-                                        <td class="danger">Rp. {{ number_format( \App\HargaBangunan::pembulatan((0.02 * $pengajuan->getJenisImb->indeks * $pengajuan->luas * \App\HargaBangunan::round($pengajuan->getHargaBangunan->getFungsi->indeks * $totalbobot * $indekswaktu * $indeksjalan,2) *  $pengajuan->getHargaBangunan->harga)) ) }}</td>
-                                        <input type="hidden" name="jumlah_biaya" value="{{ (0.02 * $pengajuan->getJenisImb->indeks * $pengajuan->luas * \App\HargaBangunan::round($pengajuan->getHargaBangunan->getFungsi->indeks * $totalbobot * $indekswaktu * $indeksjalan,2) *  $pengajuan->getHargaBangunan->harga) }}">
+                                        <!-- indeks bertingkat-->
+                                        <td > <strong>Bertingkat</strong></td>
+                                        <td>0.02</td>
+                                        <td>x</td>
+                                        <td>{{$pengajuan->getJenisImb->indeks}}</td>
+                                        <td>x</td>
+                                        <td>{{$pengajuan->luas_bertingkat}}</td>
+                                        <td>x</td>
+                                        <td>{{\App\HargaBangunan::round($pengajuan->getJenisKlasifikasiBangunan->getJenisBangunan->getFungsi->indeks * $totalbobot * $indekswaktu * $indeksjalan,2)}}</td>
+
+                                        <!-- kode -->
+                                        <td>x</td>
+                                        <td>Rp. {{number_format(App\HargaBangunan::getHargaBangunan($pengajuan->id_jenis_klasifikasi_bangunan,1)->harga)}}</td>
+                                    </tr>
+
+                                    <tr>
+                                        <!-- indeks basement-->
+                                        <td > <strong>Basement</strong></td>
+                                        <td>0.02</td>
+                                        <td>x</td>
+                                        <td>1.3</td>
+                                        <td>x</td>
+                                        <td>{{$pengajuan->luas_basement}}</td>
+                                        <td>x</td>
+                                        <td>{{\App\HargaBangunan::round($pengajuan->getJenisKlasifikasiBangunan->getJenisBangunan->getFungsi->indeks * $totalbobot * $indekswaktu * $indeksjalan,2)}}</td>
+
+                                        <!-- kode -->
+                                        <td>x</td>
+                                        <td>Rp. {{number_format(3000000)}}</td>
+                                    </tr>
+
+                                    <tr>
+                                        <!-- total all-->
+                                        <td > </td>
+                                        <td colspan="8" class="danger">Total Biaya Retribusi {{$pengajuan->getJenisImb->nama}} </td>
+                                        <td class="danger">Rp. {{ number_format( \App\HargaBangunan::pembulatan( (0.02 * $pengajuan->getJenisImb->indeks * $pengajuan->luas_tidakbertingkat * \App\HargaBangunan::round($pengajuan->getJenisKlasifikasiBangunan->getJenisBangunan->getFungsi->indeks * $totalbobot * $indekswaktu * $indeksjalan,2) *  App\HargaBangunan::getHargaBangunan($pengajuan->id_jenis_klasifikasi_bangunan,0)->harga) + (0.02 * $pengajuan->getJenisImb->indeks * $pengajuan->luas_bertingkat * \App\HargaBangunan::round($pengajuan->getJenisKlasifikasiBangunan->getJenisBangunan->getFungsi->indeks * $totalbobot * $indekswaktu * $indeksjalan,2) *  App\HargaBangunan::getHargaBangunan($pengajuan->id_jenis_klasifikasi_bangunan,1)->harga) + (0.02 * 1.3 * $pengajuan->luas_basement * \App\HargaBangunan::round($pengajuan->getJenisKlasifikasiBangunan->getJenisBangunan->getFungsi->indeks * $totalbobot * $indekswaktu * $indeksjalan,2) *  3000000) ) ) }}</td>
+                                        <input type="hidden" name="jumlah_biaya" value="{{ \App\HargaBangunan::pembulatan( (0.02 * $pengajuan->getJenisImb->indeks * $pengajuan->luas_tidakbertingkat * \App\HargaBangunan::round($pengajuan->getJenisKlasifikasiBangunan->getJenisBangunan->getFungsi->indeks * $totalbobot * $indekswaktu * $indeksjalan,2) *  App\HargaBangunan::getHargaBangunan($pengajuan->id_jenis_klasifikasi_bangunan,0)->harga) + (0.02 * $pengajuan->getJenisImb->indeks * $pengajuan->luas_bertingkat * \App\HargaBangunan::round($pengajuan->getJenisKlasifikasiBangunan->getJenisBangunan->getFungsi->indeks * $totalbobot * $indekswaktu * $indeksjalan,2) *  App\HargaBangunan::getHargaBangunan($pengajuan->id_jenis_klasifikasi_bangunan,1)->harga) + (0.02 * 1.3 * $pengajuan->luas_basement * \App\HargaBangunan::round($pengajuan->getJenisKlasifikasiBangunan->getJenisBangunan->getFungsi->indeks * $totalbobot * $indekswaktu * $indeksjalan,2) *  3000000) ) }}">
+
+                                        <!-- {{$jumlah_biaya = \App\HargaBangunan::pembulatan( (0.02 * $pengajuan->getJenisImb->indeks * $pengajuan->luas_tidakbertingkat * \App\HargaBangunan::round($pengajuan->getJenisKlasifikasiBangunan->getJenisBangunan->getFungsi->indeks * $totalbobot * $indekswaktu * $indeksjalan,2) *  App\HargaBangunan::getHargaBangunan($pengajuan->id_jenis_klasifikasi_bangunan,0)->harga) + (0.02 * $pengajuan->getJenisImb->indeks * $pengajuan->luas_bertingkat * \App\HargaBangunan::round($pengajuan->getJenisKlasifikasiBangunan->getJenisBangunan->getFungsi->indeks * $totalbobot * $indekswaktu * $indeksjalan,2) *  App\HargaBangunan::getHargaBangunan($pengajuan->id_jenis_klasifikasi_bangunan,1)->harga) + (0.02 * 1.3 * $pengajuan->luas_basement * \App\HargaBangunan::round($pengajuan->getJenisKlasifikasiBangunan->getJenisBangunan->getFungsi->indeks * $totalbobot * $indekswaktu * $indeksjalan,2) *  3000000) ) }} -->
                                     </tr>
 
                                   </tbody>
@@ -222,6 +260,20 @@
                                     </tr>
                                   </tbody>
                               </table>
+                          </div>
+
+                          <div class="form-group">
+                            {!! Form::label('nama', 'Jumlah Total',['class' => 'col-md-3 control-label']) !!}
+                            <div class="col-md-8">
+                                   {!! Form::text('total_all', number_format($jumlah_biaya + \App\HargaBangunan::pembulatan($jumlahPrasarana)), ['class' => 'form-control', 'placeholder' => 'Biaya B + C','disabled'=>'disabled']) !!}
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                            {!! Form::label('nama', 'Pembulatan Total Manual',['class' => 'col-md-3 control-label']) !!}
+                            <div class="col-md-8">
+                                   {!! Form::text('total_biaya_pembulatan', null, ['class' => 'form-control', 'placeholder' => 'Masukkan Total Biaya Pembulatan','required'=>'required']) !!}
+                            </div>
                           </div>
 
                           <div class="form-group">

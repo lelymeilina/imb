@@ -45,42 +45,42 @@
                           <div class="form-group">
                             {!! Form::label('nama', 'NIP Kepala Bidang',['class' => 'col-md-3 control-label']) !!}
                             <div class="col-md-8">
-                                   {!! Form::text('nip_kepala_bidang', null, ['class' => 'form-control', 'placeholder' => 'Masukkan NIP Kepala Bidang','required'=>'required','id'=>'nip_kepala_bidang','onChange'=>'btncetak()']) !!}
+                                   {!! Form::text('nip_kepala_bidang', (!empty($pengajuan->nip_kepala_bidang)?$pengajuan->nip_kepala_bidang:$pejabat->nip_kepala_bidang), ['class' => 'form-control', 'placeholder' => 'Masukkan NIP Kepala Bidang','required'=>'required','id'=>'nip_kepala_bidang','onChange'=>'btncetak()']) !!}
                             </div>
                           </div>
 
                           <div class="form-group">
                             {!! Form::label('nama', 'Nama Kepala Bidang',['class' => 'col-md-3 control-label']) !!}
                             <div class="col-md-8">
-                                   {!! Form::text('kepala_bidang', null, ['class' => 'form-control', 'placeholder' => 'Masukkan Nama Kepala Bidang','required'=>'required','id'=>'kepala_bidang','onChange'=>'btncetak()']) !!}
+                                   {!! Form::text('kepala_bidang', (!empty($pengajuan->kepala_bidang)?$pengajuan->kepala_bidang:$pejabat->kepala_bidang), ['class' => 'form-control', 'placeholder' => 'Masukkan Nama Kepala Bidang','required'=>'required','id'=>'kepala_bidang','onChange'=>'btncetak()']) !!}
                             </div>
                           </div>
 
                           <div class="form-group">
                             {!! Form::label('nama', 'Pangkat/Gol Kepala Bidang',['class' => 'col-md-3 control-label']) !!}
                             <div class="col-md-8">
-                                   {!! Form::text('pangkat_kepala_bidang', null, ['class' => 'form-control', 'placeholder' => 'Masukkan Pangkat/Gol Kepala Bidang','required'=>'required','id'=>'pangkat_kepala_bidang','onChange'=>'btncetak()']) !!}
+                                   {!! Form::text('pangkat_kepala_bidang', (!empty($pengajuan->pangkat_kepala_bidang)?$pengajuan->pangkat_kepala_bidang:$pejabat->pangkat_kepala_bidang), ['class' => 'form-control', 'placeholder' => 'Masukkan Pangkat/Gol Kepala Bidang','required'=>'required','id'=>'pangkat_kepala_bidang','onChange'=>'btncetak()']) !!}
                             </div>
                           </div>
 
                           <div class="form-group">
                             {!! Form::label('nama', 'NIP Kasi',['class' => 'col-md-3 control-label']) !!}
                             <div class="col-md-8">
-                                   {!! Form::text('nip_kasi', null, ['class' => 'form-control', 'placeholder' => 'Masukkan NIP Kasi','required'=>'required','id'=>'nip_kasi','onChange'=>'btncetak()']) !!}
+                                   {!! Form::text('nip_kasi', (!empty($pengajuan->nip_kasi)?$pengajuan->nip_kasi:$pejabat->nip_kasi), ['class' => 'form-control', 'placeholder' => 'Masukkan NIP Kasi','required'=>'required','id'=>'nip_kasi','onChange'=>'btncetak()']) !!}
                             </div>
                           </div>
 
                           <div class="form-group">
                             {!! Form::label('nama', 'Nama Kasi',['class' => 'col-md-3 control-label']) !!}
                             <div class="col-md-8">
-                                   {!! Form::text('kasi', null, ['class' => 'form-control', 'placeholder' => 'Masukkan Nama Kasi','required'=>'required','id'=>'kasi','onChange'=>'btncetak()']) !!}
+                                   {!! Form::text('kasi', (!empty($pengajuan->kasi)?$pengajuan->kasi:$pejabat->kasi), ['class' => 'form-control', 'placeholder' => 'Masukkan Nama Kasi','required'=>'required','id'=>'kasi','onChange'=>'btncetak()']) !!}
                             </div>
                           </div>
 
                           <div class="form-group">
                             {!! Form::label('nama', 'Pangkat/Gol Kasi',['class' => 'col-md-3 control-label']) !!}
                             <div class="col-md-8">
-                                   {!! Form::text('pangkat_kasi', null, ['class' => 'form-control', 'placeholder' => 'Masukkan Pangkat/Gol Kepala Bidang','required'=>'required','id'=>'pangkat_kasi','onChange'=>'btncetak()']) !!}
+                                   {!! Form::text('pangkat_kasi', (!empty($pengajuan->pangkat_kasi)?$pengajuan->pangkat_kasi:$pejabat->pangkat_kasi), ['class' => 'form-control', 'placeholder' => 'Masukkan Pangkat/Gol Kepala Bidang','required'=>'required','id'=>'pangkat_kasi','onChange'=>'btncetak()']) !!}
                             </div>
                           </div>
 

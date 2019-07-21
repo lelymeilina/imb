@@ -63,13 +63,14 @@ class userController extends Controller
         $user->name = $request->name;
         $user->email = $request->email;
         $user->username = $request->username;
+        $user->identifier = $request->username;
         $user->password = bcrypt($request->password);
         $user->telp = $request->telp;
         $user->save();
 
         $leveluser = new rbacRoleUser();
         $leveluser->user_id = $user->username;
-        $leveluser->role_id = 1;
+        $leveluser->role_id = 3;
         $leveluser->save();
 
 

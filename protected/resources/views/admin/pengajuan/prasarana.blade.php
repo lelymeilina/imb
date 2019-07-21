@@ -57,12 +57,12 @@
                                   <tbody>
                                     <!-- {{ $no = 1 }} -->
                                     @foreach($PengajuanPrasarana AS $d)
-                                    <tr>
+                                    <tr class="{{($d->volume <> 0?'danger':'')}}">
                                       <td>{{$no}}</td>
                                       <td>{{$d->nama}}</td>
                                       
                                       <td>
-                                        {!! Form::select('id_harga_bangunan['.$d->id.']',[""=>"Pilih Hasil Survey"]+ \App\PengajuanPrasarana::getPrasarana($d->id_fungsi,$d->nama), $d->id_harga_bangunan, ['class' => 'form-control select2','style'=>'width:100%']) !!}
+                                        {!! Form::select('id_harga_bangunan['.$d->id.']',[""=>"Pilih Hasil Survey"]+ \App\PengajuanPrasarana::getPrasarana($d->id_fungsi,$d->nama), $d->id_jenis_klasifikasi_bangunan, ['class' => 'form-control select2','style'=>'width:100%']) !!}
                                       </td>
 
                                       <td>
@@ -72,7 +72,7 @@
                                       <td>
                                         {!! Form::text('volume['.$d->id.']', $d->volume, ['class' => 'form-control', 'placeholder' => 'Contoh 235.5']) !!}
                                       </td>
-                                      <td>
+                                      <td class="well">
                                         {{$d->satuan}}
                                       </td>
 

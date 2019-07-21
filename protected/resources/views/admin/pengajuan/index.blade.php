@@ -37,13 +37,13 @@
     <thead>
                     <tr>
                         <th width="1%">No.</th>
-                        <th width="7%">NIK</th>
-                        <th width="13%">Nama</th>
+                        <th width="7%">NIK/Kitas/Paspor</th>
+                        <th width="10%">Nama</th>
                         <th width="13%">Jenis</th>
                         <th width="13%">Fungsi Klasifikasi</th>
                         <th width="13%">Surveyor</th>
-                        <th width="10%">Status</th>
-                        <th width="30%">Action</th>
+                        <th width="8%">Status</th>
+                        <th width="35%">Action</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -113,7 +113,7 @@
                           <div class="form-group">
                             {!! Form::label('nama', 'Fungsi Bangunan',['class' => 'col-md-3 control-label']) !!}
                             <div class="col-md-8">
-                                   {!! Form::select('id_harga_bangunan',[""=>"Pilih Fungsi Bangunan"]+$hargaBangunan, null, ['class' => 'form-control select2','style'=>'width:100%','required'=>'required']) !!}
+                                   {!! Form::select('id_jenis_klasifikasi_bangunan',[""=>"Pilih Fungsi Bangunan"]+$jenisKlasifikasiBangunan, null, ['class' => 'form-control select2','style'=>'width:100%','required'=>'required']) !!}
                             </div>
                           </div>
 

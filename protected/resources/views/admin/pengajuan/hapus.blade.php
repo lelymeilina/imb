@@ -1,7 +1,7 @@
 <!-- Button trigger modal -->
 <!-- Modal -->
 
-{!! Form::model($pengajuan, [ 'method' => 'PUT','id' => 'hapusfungsi','class' => 'form-horizontal','role' => 'form']) !!}
+{!! Form::model($pengajuan, [ 'method' => 'PUT','id' => 'hapuspengajuan','class' => 'form-horizontal','role' => 'form']) !!}
 
 {!! Form::hidden('id', null, ['class' => 'form-control', 'placeholder' => 'Id Fungsi', 'id' => 'id']) !!}
 

@@ -22,6 +22,20 @@
 	}
 </style>
 
+<div class="container" style="padding-top:0px !important;">
+	<div class="post-content" style="padding-left:0px !important;">
+		<div class="author-info clearfix">
+			<div class="col-md-12">
+				<div class="alert alert-danger" role="alert">
+				Simulasi ini berdasarkan acuan perhitungan tertinggi - 
+				Nilai estimasi bukan merupakan biaya retribusi resmi - 
+				Untuk lebih jelasnya, silahkan hubungi kontak Dinas PUPR Karangasem : 0363 21757
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
 @if(Session::has('totalbiaya'))
 <div class="container blog-post gallery-post " style="padding-top:0px !important;">
 	<div class="post-content" style="padding-left:0px !important;">
@@ -56,12 +70,12 @@
 							<td colspan="2">- Dibulatkan </td>
 							<td>-</td>
 							<td>Rp. {{number_format(Session::get('totalbiaya'))}} <br/>
-								Rp. {{number_format(\App\HargaBangunan::pembulatan(Session::get('totalbiaya')))}}
+								<!-- Rp. {{number_format(\App\HargaBangunan::pembulatan(Session::get('totalbiaya')))}} -->
 							</td>
 							<td>-</td>
 						</tr>
 						<tr class="success">
-							<td colspan="5">- Terbilang : </td>
+							<td colspan="5">- Terbilang : {{Session::get('terbilang')}}</td>
 						</tr>
 					</tbody>
 				</table>

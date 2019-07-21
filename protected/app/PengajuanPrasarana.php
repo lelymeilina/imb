@@ -24,13 +24,23 @@ class PengajuanPrasarana extends Model
     }
 
     public static function getPrasarana($id,$nama){
-		$hargaBangunan = DB::table('m_harga_bangunan AS h')->where('h.flag_delete','=',0)
-                                        ->where('h.is_bangunan_tambahan','=',1)
-                                        ->where('h.id_fungsi','=',$id)
-										->where('h.nama','=',$nama)
-                                        ->join('m_fungsi AS f','f.id','=','h.id_fungsi')
-                                        ->join('m_klasifikasi_bangunan AS k','k.id','=','h.id_klasifikasi')
-                                        ->pluck(DB::raw('k.nama AS fungsi_klasifikasi'),'h.id');
+		// $hargaBangunan = DB::table('m_harga_bangunan AS h')->where('h.flag_delete','=',0)
+  //                                       ->where('h.is_bangunan_tambahan','=',1)
+  //                                       ->where('h.id_fungsi','=',$id)
+		// 								->where('h.nama','=',$nama)
+  //                                       ->join('m_fungsi AS f','f.id','=','h.id_fungsi')
+  //                                       ->join('m_klasifikasi_bangunan AS k','k.id','=','h.id_klasifikasi')
+  //                                       ->pluck(DB::raw('k.nama AS fungsi_klasifikasi'),'h.id');
+
+        $hargaBangunan = DB::table('m_harga_bangunan AS a')
+            ->join('m_jenis_klasifikasi_bangunan AS k','k.id','=','a.id_klasifikasi_bangunan')
+            ->join('m_jenis_bangunan AS j','j.id','=','k.id_jenis_bangunan')
+            ->join('m_fungsi AS f','f.id','=','j.id_fungsi')
+            ->join('m_klasifikasi_bangunan AS b','b.id','=','k.id_klasifikasi')
+            ->where('f.id','=',$id)
+            ->where('a.nama','=',$nama)
+            ->pluck(DB::raw('b.nama AS fungsi_klasifikasi'),'a.id');
+
         return $hargaBangunan;
 	}
 }

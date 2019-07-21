@@ -230,7 +230,15 @@
                         {data: 'telp', name: 'telp'},
                         {data: 'role_title', name: 'role_title'},
                         {data: 'action', name: 'id',orderable: false, searchable: false}
-                    ]
+                    ],
+                          rowCallback: function( row, data, iDisplayIndex ) {
+                          var api = this.api();
+                          var info = api.page.info();
+                          var page = info.page;
+                          var length = info.length;
+                          var index = (page * length + (iDisplayIndex +1));
+                          $('td:eq(0)', row).html(index);
+                      }
 
             } );
                         

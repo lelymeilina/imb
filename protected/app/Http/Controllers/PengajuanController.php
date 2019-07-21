@@ -8,6 +8,7 @@ use App\Http\Requests;
 use DB;
 use Datatables;
 use App\Pengajuan;
+use App\Pejabat;
 use App\PengajuanPersyaratan;
 use App\PengajuanParameter;
 use App\PengajuanPrasarana;
@@ -38,18 +39,24 @@ class PengajuanController extends Controller
     {
         //
         $jenisImb = JenisImb::where('flag_delete','=',0)->pluck('nama','id')->toArray();
-        $hargaBangunan = DB::table('m_harga_bangunan AS h')->where('h.flag_delete','=',0)
-        								->join('m_fungsi AS f','f.id','=','h.id_fungsi')
-        								->join('m_klasifikasi_bangunan AS k','k.id','=','h.id_klasifikasi')
-                                        ->where('h.is_bangunan_tambahan','=',0)
-        								->pluck(DB::raw('CONCAT(f.nama," - ",h.nama," - ",k.nama," - ",IF(h.is_bertingkat = 0,"Tidak Bertingkat","Bertingkat")) AS fungsi_klasifikasi'),'h.id');
+        // $hargaBangunan = DB::table('m_harga_bangunan AS h')->where('h.flag_delete','=',0)
+        // 								->join('m_fungsi AS f','f.id','=','h.id_fungsi')
+        // 								->join('m_klasifikasi_bangunan AS k','k.id','=','h.id_klasifikasi')
+        //                                 ->where('h.is_bangunan_tambahan','=',0)
+        // 								->pluck(DB::raw('CONCAT(f.nama," - ",h.nama," - ",k.nama," - ",IF(h.is_bertingkat = 0,"Tidak Bertingkat","Bertingkat")) AS fungsi_klasifikasi'),'h.id');
+
+        $jenisKlasifikasiBangunan = DB::table('m_jenis_klasifikasi_bangunan AS k')
+                            ->join('m_jenis_bangunan AS j','j.id','=','k.id_jenis_bangunan')
+                            ->join('m_fungsi AS f','f.id','=','j.id_fungsi')
+                            ->join('m_klasifikasi_bangunan AS b','b.id','=','k.id_klasifikasi')
+                            ->pluck(DB::raw('CONCAT(f.nama," - ",j.nama," - ",b.nama) AS fungsi_klasifikasi'),'k.id');
         for($i=date('Y')+1; $i>=date('Y')-1; $i--){
             // $tahuns = $i+1;
             // $tahun[$i]=$i.'/'.$tahuns;
             $tahun[$i]=$i;
         }
         // dd($tahun);
-        return view('admin.pengajuan.index',compact('jenisImb','hargaBangunan','tahun'));
+        return view('admin.pengajuan.index',compact('jenisImb','jenisKlasifikasiBangunan','tahun'));
     }
 
     /**
@@ -71,24 +78,28 @@ class PengajuanController extends Controller
     public function store(Request $request)
     {
     	$no_urut = Pengajuan::where('id_jenis_imb','=',$request->id_jenis_imb)
-    						->where('id_harga_bangunan','=',$request->id_harga_bangunan)
+    						->where('id_jenis_klasifikasi_bangunan','=',$request->id_jenis_klasifikasi_bangunan)
     						->count();
 
     	$no_urut = $no_urut+1;
     	$no_urut_new = sprintf("%04d", $no_urut);
     	$no_imb = sprintf("%02d",$request->id_jenis_imb);
-    	$no_hb = sprintf("%03d",$request->id_harga_bangunan);
+    	$no_hb = sprintf("%03d",$request->id_jenis_klasifikasi_bangunan);
     	$no_registrasi = $request->tahun.$no_imb.$no_hb.$no_urut_new;
 
         $Pengajuan = new Pengajuan();
         $Pengajuan->no_registrasi = $no_registrasi;
         $Pengajuan->tahun = $request->tahun;
+        $Pengajuan->id_jenis_identitas = $request->id_jenis_identitas;
         $Pengajuan->nik = $request->nik;
         $Pengajuan->nama = $request->nama;
         $Pengajuan->id_jenis_imb = $request->id_jenis_imb;
-        $Pengajuan->id_harga_bangunan = $request->id_harga_bangunan;
+        $Pengajuan->id_jenis_klasifikasi_bangunan = $request->id_jenis_klasifikasi_bangunan;
         $Pengajuan->deskripsi_bangunan = $request->deskripsi_bangunan;
         $Pengajuan->lokasi = $request->lokasi;
+        $Pengajuan->no_nib = $request->no_nib;
+        $Pengajuan->latitude = $request->latitude;
+        $Pengajuan->longitude = $request->longitude;
         $Pengajuan->save();
 
         $PersyaratanTeknis = PersyaratanTeknis::where('flag_delete','=','0')->get();
@@ -112,7 +123,15 @@ class PengajuanController extends Controller
         	PengajuanParameter::updateOrCreate($PengajuanParameter,$PengajuanParameter);
         }
 
-        $Prasarana = HargaBangunan::where('flag_delete','=','0')->where('is_bangunan_tambahan','=',1)->groupBy('nama')->orderBy('id')->get();
+        $Prasarana = HargaBangunan::select('m_harga_bangunan.nama','m_harga_bangunan.satuan','f.id as id_fungsi')
+                                    ->where('m_harga_bangunan.flag_delete','=','0')
+                                    ->join('m_jenis_klasifikasi_bangunan AS k','k.id','=','m_harga_bangunan.id_klasifikasi_bangunan')
+                                    ->join('m_jenis_bangunan AS j','j.id','=','k.id_jenis_bangunan')
+                                    ->join('m_fungsi AS f','f.id','=','j.id_fungsi')
+                                    ->where('m_harga_bangunan.is_bangunan_tambahan','=',1)
+                                    ->groupBy('m_harga_bangunan.id_klasifikasi_bangunan')
+                                    ->orderBy('m_harga_bangunan.id')
+                                    ->get();
         $PengajuanPrasarana = array();
         //disini
         foreach ($Prasarana as $d) {
@@ -147,11 +166,11 @@ class PengajuanController extends Controller
     public function edit($id)
     {
     	$jenisImb = JenisImb::where('flag_delete','=',0)->pluck('nama','id')->toArray();
-        $hargaBangunan = DB::table('m_harga_bangunan AS h')->where('h.flag_delete','=',0)
-        								->join('m_fungsi AS f','f.id','=','h.id_fungsi')
-        								->join('m_klasifikasi_bangunan AS k','k.id','=','h.id_klasifikasi')
-                                        ->where('h.is_bangunan_tambahan','=',0)
-        								->pluck(DB::raw('CONCAT(f.nama," - ",h.nama," - ",k.nama," - ",IF(h.is_bertingkat = 0,"Tidak Bertingkat","Bertingkat")) AS fungsi_klasifikasi'),'h.id');
+        $jenisKlasifikasiBangunan = DB::table('m_jenis_klasifikasi_bangunan AS k')
+                            ->join('m_jenis_bangunan AS j','j.id','=','k.id_jenis_bangunan')
+                            ->join('m_fungsi AS f','f.id','=','j.id_fungsi')
+                            ->join('m_klasifikasi_bangunan AS b','b.id','=','k.id_klasifikasi')
+                            ->pluck(DB::raw('CONCAT(f.nama," - ",j.nama," - ",b.nama) AS fungsi_klasifikasi'),'k.id');
         for($i=date('Y')+1; $i>=date('Y')-1; $i--){
             // $tahuns = $i+1;
             // $tahun[$i]=$i.'/'.$tahuns;
@@ -159,7 +178,7 @@ class PengajuanController extends Controller
         }
 
         $pengajuan = Pengajuan::find($id);
-        return view('admin.pengajuan.edit', compact('pengajuan','jenisImb','hargaBangunan','tahun'));
+        return view('admin.pengajuan.edit', compact('pengajuan','jenisImb','jenisKlasifikasiBangunan','tahun'));
     }
 
     /**
@@ -200,10 +219,11 @@ class PengajuanController extends Controller
     public function getcetak($id)
     {
         $jenisImb = JenisImb::where('flag_delete','=',0)->pluck('nama','id')->toArray();
-        $hargaBangunan = DB::table('m_harga_bangunan AS h')->where('h.flag_delete','=',0)
-                                        ->join('m_fungsi AS f','f.id','=','h.id_fungsi')
-                                        ->join('m_klasifikasi_bangunan AS k','k.id','=','h.id_klasifikasi')
-                                        ->pluck(DB::raw('CONCAT(f.nama," - ",h.nama," - ",k.nama," - ",IF(h.is_bertingkat = 0,"Tidak Bertingkat","Bertingkat")) AS fungsi_klasifikasi'),'h.id');
+        $jenisKlasifikasiBangunan = DB::table('m_jenis_klasifikasi_bangunan AS k')
+                            ->join('m_jenis_bangunan AS j','j.id','=','k.id_jenis_bangunan')
+                            ->join('m_fungsi AS f','f.id','=','j.id_fungsi')
+                            ->join('m_klasifikasi_bangunan AS b','b.id','=','k.id_klasifikasi')
+                            ->pluck(DB::raw('CONCAT(f.nama," - ",j.nama," - ",b.nama) AS fungsi_klasifikasi'),'k.id');
         for($i=date('Y')+1; $i>=date('Y')-1; $i--){
             // $tahuns = $i+1;
             // $tahun[$i]=$i.'/'.$tahuns;
@@ -211,9 +231,12 @@ class PengajuanController extends Controller
         }
 
         $pengajuan = Pengajuan::find($id);
+        $pejabat = Pejabat::orderBy('id','DESC')->first();
+
+        // dd($pejabat);
 
 
-        return view('admin.pengajuan.getcetak', compact('pengajuan','jenisImb','hargaBangunan','tahun'));
+        return view('admin.pengajuan.getcetak', compact('pengajuan','jenisImb','jenisKlasifikasiBangunan','tahun','pejabat'));
     }
 
 
@@ -226,10 +249,11 @@ class PengajuanController extends Controller
     public function surveyor($id)
     {
     	$jenisImb = JenisImb::where('flag_delete','=',0)->pluck('nama','id')->toArray();
-        $hargaBangunan = DB::table('m_harga_bangunan AS h')->where('h.flag_delete','=',0)
-        								->join('m_fungsi AS f','f.id','=','h.id_fungsi')
-        								->join('m_klasifikasi_bangunan AS k','k.id','=','h.id_klasifikasi')
-        								->pluck(DB::raw('CONCAT(f.nama," - ",h.nama," - ",k.nama," - ",IF(h.is_bertingkat = 0,"Tidak Bertingkat","Bertingkat")) AS fungsi_klasifikasi'),'h.id');
+        $jenisKlasifikasiBangunan = DB::table('m_jenis_klasifikasi_bangunan AS k')
+                            ->join('m_jenis_bangunan AS j','j.id','=','k.id_jenis_bangunan')
+                            ->join('m_fungsi AS f','f.id','=','j.id_fungsi')
+                            ->join('m_klasifikasi_bangunan AS b','b.id','=','k.id_klasifikasi')
+                            ->pluck(DB::raw('CONCAT(f.nama," - ",j.nama," - ",b.nama) AS fungsi_klasifikasi'),'k.id');
         for($i=date('Y')+1; $i>=date('Y')-1; $i--){
             // $tahuns = $i+1;
             // $tahun[$i]=$i.'/'.$tahuns;
@@ -240,7 +264,7 @@ class PengajuanController extends Controller
 
         $surveyor = Surveyor::where('flag_delete','=',0)->pluck('nama','id')->toArray();
 
-        return view('admin.pengajuan.surveyor', compact('pengajuan','jenisImb','hargaBangunan','tahun','surveyor'));
+        return view('admin.pengajuan.surveyor', compact('pengajuan','jenisImb','jenisKlasifikasiBangunan','tahun','surveyor'));
     }
 
     public function updatesurveyor(Request $request, $id)
@@ -250,6 +274,7 @@ class PengajuanController extends Controller
         $pengajuan->update($request->all());
         $pengajuan = Pengajuan::find($id);
         $pengajuan->id_status_pengajuan = 2;
+        $pengajuan->tgl_survey = date('Y-m-d',strtotime($request->tgl_survey));
         $pengajuan->save();
     }
 
@@ -263,10 +288,11 @@ class PengajuanController extends Controller
     public function persyaratan($id)
     {
     	$jenisImb = JenisImb::where('flag_delete','=',0)->pluck('nama','id')->toArray();
-        $hargaBangunan = DB::table('m_harga_bangunan AS h')->where('h.flag_delete','=',0)
-        								->join('m_fungsi AS f','f.id','=','h.id_fungsi')
-        								->join('m_klasifikasi_bangunan AS k','k.id','=','h.id_klasifikasi')
-        								->pluck(DB::raw('CONCAT(f.nama," - ",h.nama," - ",k.nama," - ",IF(h.is_bertingkat = 0,"Tidak Bertingkat","Bertingkat")) AS fungsi_klasifikasi'),'h.id');
+        $jenisKlasifikasiBangunan = DB::table('m_jenis_klasifikasi_bangunan AS k')
+                            ->join('m_jenis_bangunan AS j','j.id','=','k.id_jenis_bangunan')
+                            ->join('m_fungsi AS f','f.id','=','j.id_fungsi')
+                            ->join('m_klasifikasi_bangunan AS b','b.id','=','k.id_klasifikasi')
+                            ->pluck(DB::raw('CONCAT(f.nama," - ",j.nama," - ",b.nama) AS fungsi_klasifikasi'),'k.id');
         for($i=date('Y')+1; $i>=date('Y')-1; $i--){
             // $tahuns = $i+1;
             // $tahun[$i]=$i.'/'.$tahuns;
@@ -275,9 +301,17 @@ class PengajuanController extends Controller
 
         $pengajuan = Pengajuan::find($id);
 
+        $kdb_klb = "";
+        $kdb_klb .= "KDB Lama : ".$pengajuan->kdb_lama."&#13;&#10;";
+        $kdb_klb .= "KLB Lama : ".$pengajuan->klb_lama."&#13;&#10;";
+        $kdb_klb .= "KDB Baru : ".$pengajuan->kdb_baru."&#13;&#10;";
+        $kdb_klb .= "KLB Baru : ".$pengajuan->klb_baru."&#13;&#10;";
+        $kdb_klb .= "KDB Total : ".$pengajuan->total_kdb."&#13;&#10;";
+        $kdb_klb .= "KLB Total : ".$pengajuan->total_klb."";
+
         $PengajuanPersyaratan = PengajuanPersyaratan::where('no_registrasi','=',$pengajuan->no_registrasi)->get();
 
-        return view('admin.pengajuan.persyaratan', compact('pengajuan','jenisImb','hargaBangunan','tahun','PengajuanPersyaratan'));
+        return view('admin.pengajuan.persyaratan', compact('pengajuan','jenisImb','jenisKlasifikasiBangunan','tahun','PengajuanPersyaratan','kdb_klb'));
     }
 
 
@@ -301,10 +335,11 @@ class PengajuanController extends Controller
     public function parameter($id)
     {
     	$jenisImb = JenisImb::where('flag_delete','=',0)->pluck('nama','id')->toArray();
-        $hargaBangunan = DB::table('m_harga_bangunan AS h')->where('h.flag_delete','=',0)
-        								->join('m_fungsi AS f','f.id','=','h.id_fungsi')
-        								->join('m_klasifikasi_bangunan AS k','k.id','=','h.id_klasifikasi')
-        								->pluck(DB::raw('CONCAT(f.nama," - ",h.nama," - ",k.nama," - ",IF(h.is_bertingkat = 0,"Tidak Bertingkat","Bertingkat")) AS fungsi_klasifikasi'),'h.id');
+        $jenisKlasifikasiBangunan = DB::table('m_jenis_klasifikasi_bangunan AS k')
+                            ->join('m_jenis_bangunan AS j','j.id','=','k.id_jenis_bangunan')
+                            ->join('m_fungsi AS f','f.id','=','j.id_fungsi')
+                            ->join('m_klasifikasi_bangunan AS b','b.id','=','k.id_klasifikasi')
+                            ->pluck(DB::raw('CONCAT(f.nama," - ",j.nama," - ",b.nama) AS fungsi_klasifikasi'),'k.id');
         for($i=date('Y')+1; $i>=date('Y')-1; $i--){
             // $tahuns = $i+1;
             // $tahun[$i]=$i.'/'.$tahuns;
@@ -313,7 +348,7 @@ class PengajuanController extends Controller
 
         $pengajuan = Pengajuan::find($id);
         $PengajuanParameter = PengajuanParameter::where('no_registrasi','=',$pengajuan->no_registrasi)->get();
-        return view('admin.pengajuan.parameter', compact('pengajuan','jenisImb','hargaBangunan','tahun','PengajuanParameter'));
+        return view('admin.pengajuan.parameter', compact('pengajuan','jenisImb','jenisKlasifikasiBangunan','tahun','PengajuanParameter'));
     }
 
    	public function updateparameter(Request $request, $id)
@@ -328,33 +363,41 @@ class PengajuanController extends Controller
         												->update(['id_klasifikasi_parameter_detail'=>$request->id_klasifikasi_parameter_detail[$key],'keterangan'=>$value]);
         }
         $pengajuan = Pengajuan::find($id);
-        $pengajuan->luas = str_replace(',','.',$request->luas);
-        $pengajuan->luas_tanah = str_replace(',','.',$request->luas_tanah);
-        if($request->jenis_kdb_klb == 1){
-            $i = 0;
-            foreach ($request->hasil as $d) {
-                # code...
-                $PengajuanKdbKlb = new PengajuanKdbKlb();
-                $PengajuanKdbKlb->id_pengajuan = $pengajuan->id;
-                $PengajuanKdbKlb->no_registrasi = $pengajuan->no_registrasi;
-                $PengajuanKdbKlb->is_hasil = $request->is_hasil[$i];
-                $PengajuanKdbKlb->tidak_bertingkat = $request->tidak_bertingkat[$i];
-                $PengajuanKdbKlb->bertingkat = $request->bertingkat[$i];
-                $PengajuanKdbKlb->basement = $request->basement[$i];
-                $PengajuanKdbKlb->hasil = $request->hasil[$i];
-                $PengajuanKdbKlb->save();
-                $i++;
-            }
-            $pengajuan->kdb = str_replace(',','.',$request->total_kdb);
-            $pengajuan->klb = str_replace(',','.',$request->total_kdb);
-        }else{
-            $pengajuan->kdb = str_replace(',','.',$request->kdb);
-            $pengajuan->klb = str_replace(',','.',$request->kdb);
-            $pengajuan->no_sk_kdb = $request->no_sk_kdb;
-            $pengajuan->no_sk_klb = $request->no_sk_klb;
+        $pengajuan->luas_tidakbertingkat = str_replace(',','.',$request->luas_tidakbertingkat);
+        $pengajuan->luas_bertingkat = str_replace(',','.',$request->luas_bertingkat);
+        $pengajuan->luas_basement = str_replace(',','.',$request->luas_basement);
+        // $pengajuan->luas_tanah = str_replace(',','.',$request->luas_tanah);
+        // if($request->jenis_kdb_klb == 1){
+        //     $i = 0;
+        //     foreach ($request->hasil as $d) {
+        //         # code...
+        //         $PengajuanKdbKlb = new PengajuanKdbKlb();
+        //         $PengajuanKdbKlb->id_pengajuan = $pengajuan->id;
+        //         $PengajuanKdbKlb->no_registrasi = $pengajuan->no_registrasi;
+        //         $PengajuanKdbKlb->is_hasil = $request->is_hasil[$i];
+        //         $PengajuanKdbKlb->tidak_bertingkat = $request->tidak_bertingkat[$i];
+        //         $PengajuanKdbKlb->bertingkat = $request->bertingkat[$i];
+        //         $PengajuanKdbKlb->basement = $request->basement[$i];
+        //         $PengajuanKdbKlb->hasil = $request->hasil[$i];
+        //         $PengajuanKdbKlb->save();
+        //         $i++;
+        //     }
+        //     $pengajuan->kdb = str_replace(',','.',$request->total_kdb);
+        //     $pengajuan->klb = str_replace(',','.',$request->total_kdb);
+        // }else{
+        //     $pengajuan->kdb = str_replace(',','.',$request->kdb);
+        //     $pengajuan->klb = str_replace(',','.',$request->kdb);
+        //     $pengajuan->no_sk_kdb = $request->no_sk_kdb;
+        //     $pengajuan->no_sk_klb = $request->no_sk_klb;
 
-        }
-        $pengajuan->jenis_kdb_klb = $request->jenis_kdb_klb;
+        // }
+        // $pengajuan->jenis_kdb_klb = $request->jenis_kdb_klb;
+        $pengajuan->kdb_lama = $request->kdb_lama;
+        $pengajuan->klb_lama = $request->klb_lama;
+        $pengajuan->kdb_baru = $request->kdb_baru;
+        $pengajuan->klb_baru = $request->klb_baru;
+        $pengajuan->total_klb = $request->total_klb;
+        $pengajuan->total_kdb = $request->total_kdb;
         $pengajuan->id_status_pengajuan = 3;
         $pengajuan->save();
     }
@@ -364,10 +407,11 @@ class PengajuanController extends Controller
     public function prasarana($id)
     {
         $jenisImb = JenisImb::where('flag_delete','=',0)->pluck('nama','id')->toArray();
-        $hargaBangunan = DB::table('m_harga_bangunan AS h')->where('h.flag_delete','=',0)
-                                        ->join('m_fungsi AS f','f.id','=','h.id_fungsi')
-                                        ->join('m_klasifikasi_bangunan AS k','k.id','=','h.id_klasifikasi')
-                                        ->pluck(DB::raw('CONCAT(f.nama," - ",h.nama," - ",k.nama," - ",IF(h.is_bertingkat = 0,"Tidak Bertingkat","Bertingkat")) AS fungsi_klasifikasi'),'h.id');
+        $jenisKlasifikasiBangunan = DB::table('m_jenis_klasifikasi_bangunan AS k')
+                    ->join('m_jenis_bangunan AS j','j.id','=','k.id_jenis_bangunan')
+                    ->join('m_fungsi AS f','f.id','=','j.id_fungsi')
+                    ->join('m_klasifikasi_bangunan AS b','b.id','=','k.id_klasifikasi')
+                    ->pluck(DB::raw('CONCAT(f.nama," - ",j.nama," - ",b.nama) AS fungsi_klasifikasi'),'k.id');
         for($i=date('Y')+1; $i>=date('Y')-1; $i--){
             // $tahuns = $i+1;
             // $tahun[$i]=$i.'/'.$tahuns;
@@ -376,8 +420,9 @@ class PengajuanController extends Controller
 
         $pengajuan = Pengajuan::find($id);
         $PengajuanPrasarana = PengajuanPrasarana::where('no_registrasi','=',$pengajuan->no_registrasi)->get();
+        // echo "string"; exit;
 
-        return view('admin.pengajuan.prasarana', compact('pengajuan','jenisImb','hargaBangunan','tahun','PengajuanPrasarana'));
+        return view('admin.pengajuan.prasarana', compact('pengajuan','jenisImb','jenisKlasifikasiBangunan','tahun','PengajuanPrasarana'));
     }
 
     public function updateprasarana(Request $request, $id)
@@ -398,10 +443,11 @@ class PengajuanController extends Controller
     public function perhitungan($id)
     {
         $jenisImb = JenisImb::where('flag_delete','=',0)->pluck('nama','id')->toArray();
-        $hargaBangunan = DB::table('m_harga_bangunan AS h')->where('h.flag_delete','=',0)
-                                        ->join('m_fungsi AS f','f.id','=','h.id_fungsi')
-                                        ->join('m_klasifikasi_bangunan AS k','k.id','=','h.id_klasifikasi')
-                                        ->pluck(DB::raw('CONCAT(f.nama," - ",h.nama," - ",k.nama," - ",IF(h.is_bertingkat = 0,"Tidak Bertingkat","Bertingkat")) AS fungsi_klasifikasi'),'h.id');
+        $jenisKlasifikasiBangunan = DB::table('m_jenis_klasifikasi_bangunan AS k')
+                    ->join('m_jenis_bangunan AS j','j.id','=','k.id_jenis_bangunan')
+                    ->join('m_fungsi AS f','f.id','=','j.id_fungsi')
+                    ->join('m_klasifikasi_bangunan AS b','b.id','=','k.id_klasifikasi')
+                    ->pluck(DB::raw('CONCAT(f.nama," - ",j.nama," - ",b.nama) AS fungsi_klasifikasi'),'k.id');
         for($i=date('Y')+1; $i>=date('Y')-1; $i--){
             // $tahuns = $i+1;
             // $tahun[$i]=$i.'/'.$tahuns;
@@ -416,7 +462,7 @@ class PengajuanController extends Controller
         $PengajuanParameter = PengajuanParameter::where('no_registrasi','=',$pengajuan->no_registrasi)->get();
         $PengajuanPrasarana = PengajuanPrasarana::where('no_registrasi','=',$pengajuan->no_registrasi)->get();
 
-        return view('admin.pengajuan.perhitungan', compact('pengajuan','jenisImb','hargaBangunan','tahun','PengajuanPrasarana','PengajuanParameter','PengajuanPersyaratan','statusPengajuan'));
+        return view('admin.pengajuan.perhitungan', compact('pengajuan','jenisImb','jenisKlasifikasiBangunan','tahun','PengajuanPrasarana','PengajuanParameter','PengajuanPersyaratan','statusPengajuan'));
     }
 
     public function updateperhitungan(Request $request, $id)
@@ -433,6 +479,7 @@ class PengajuanController extends Controller
         $pengajuan->id_status_pengajuan = $request->status_pengajuan_id;
         $pengajuan->jumlah_biaya = $request->jumlah_biaya;
         $pengajuan->jumlah_biaya_prasarana = $request->total_biaya_prasarana;
+        $pengajuan->total_biaya_pembulatan = $request->total_biaya_pembulatan;
         $pengajuan->save();
     }
     
@@ -440,10 +487,11 @@ class PengajuanController extends Controller
     public function cetak($id,Request $request)
     {
         $jenisImb = JenisImb::where('flag_delete','=',0)->pluck('nama','id')->toArray();
-        $hargaBangunan = DB::table('m_harga_bangunan AS h')->where('h.flag_delete','=',0)
-                                        ->join('m_fungsi AS f','f.id','=','h.id_fungsi')
-                                        ->join('m_klasifikasi_bangunan AS k','k.id','=','h.id_klasifikasi')
-                                        ->pluck(DB::raw('CONCAT(f.nama," - ",h.nama," - ",k.nama," - ",IF(h.is_bertingkat = 0,"Tidak Bertingkat","Bertingkat")) AS fungsi_klasifikasi'),'h.id');
+        $jenisKlasifikasiBangunan = DB::table('m_jenis_klasifikasi_bangunan AS k')
+                            ->join('m_jenis_bangunan AS j','j.id','=','k.id_jenis_bangunan')
+                            ->join('m_fungsi AS f','f.id','=','j.id_fungsi')
+                            ->join('m_klasifikasi_bangunan AS b','b.id','=','k.id_klasifikasi')
+                            ->pluck(DB::raw('CONCAT(f.nama," - ",j.nama," - ",b.nama) AS fungsi_klasifikasi'),'k.id');
         for($i=date('Y')+1; $i>=date('Y')-1; $i--){
             // $tahuns = $i+1;
             // $tahun[$i]=$i.'/'.$tahuns;
@@ -454,6 +502,23 @@ class PengajuanController extends Controller
 
 
         $pengajuan = Pengajuan::find($id);
+        $pengajuan->nip_kepala_bidang = $request->nip_kepala_bidang;
+        $pengajuan->kepala_bidang = $request->kepala_bidang;
+        $pengajuan->pangkat_kepala_bidang = $request->pangkat_kepala_bidang;
+        $pengajuan->nip_kasi = $request->nip_kasi;
+        $pengajuan->kasi = $request->kasi;
+        $pengajuan->pangkat_kasi = $request->pangkat_kasi;
+        $pengajuan->save();
+
+        $Pejabat = new Pejabat();
+        $Pejabat->nip_kepala_bidang = $request->nip_kepala_bidang;
+        $Pejabat->kepala_bidang = $request->kepala_bidang;
+        $Pejabat->pangkat_kepala_bidang = $request->pangkat_kepala_bidang;
+        $Pejabat->nip_kasi = $request->nip_kasi;
+        $Pejabat->kasi = $request->kasi;
+        $Pejabat->pangkat_kasi = $request->pangkat_kasi;
+        $Pejabat->save();
+
         $PengajuanPersyaratan = PengajuanPersyaratan::where('no_registrasi','=',$pengajuan->no_registrasi)->get();
         $PengajuanParameter = PengajuanParameter::where('no_registrasi','=',$pengajuan->no_registrasi)->get();
         $PengajuanPrasarana = PengajuanPrasarana::where('no_registrasi','=',$pengajuan->no_registrasi)->get();
@@ -518,18 +583,33 @@ class PengajuanController extends Controller
 
     public function getData(Request $request){
 
+        // DB::statement(DB::raw('set @rownum = 0'));
+        // $data = DB::table('t_pengajuan As a')
+        // ->join('m_harga_bangunan AS b','b.id','=','a.id_harga_bangunan')
+        // ->join('m_status_pengajuan AS c','c.id','=','a.id_status_pengajuan')
+        // ->leftjoin('m_surveyor AS d','d.id','=','a.id_surveyor_1')
+        // ->leftjoin('m_surveyor AS e','e.id','=','a.id_surveyor_2')
+        // ->join('m_jenis_imb AS f','f.id','=','a.id_jenis_imb')
+        // ->join('m_fungsi AS g','g.id','=','b.id_fungsi')
+        // ->join('m_klasifikasi_bangunan AS h','h.id','=','b.id_klasifikasi')
+        // ->select([DB::raw('@rownum  := @rownum  + 1 AS no'),'a.id','a.tahun','a.nik','a.nama','f.nama AS jenis_imb',DB::raw('CONCAT(g.nama," - ",b.nama," - ",h.nama," - ",IF(b.is_bertingkat = 0,"Tidak Bertingkat","Bertingkat")) AS fungsi_klasifikasi'),DB::raw('if(a.id_surveyor_1 = 0,"Belum Ada Survey",CONCAT("1. ",d.nama,"<br/> 2. ",e.nama)) As surveyor'),DB::raw('CONCAT(\'<small><span class="\',c.label,\'">\',c.nama,"</span></small>") as status_pengajuan')])
+        // ->where('a.flag_delete','=','0')
+        // ->orderBy('a.id','DESC');
+        //debug($data);
+
         DB::statement(DB::raw('set @rownum = 0'));
         $data = DB::table('t_pengajuan As a')
-        ->join('m_harga_bangunan AS b','b.id','=','a.id_harga_bangunan')
+        ->join('m_jenis_klasifikasi_bangunan AS b','b.id','=','a.id_jenis_klasifikasi_bangunan')
         ->join('m_status_pengajuan AS c','c.id','=','a.id_status_pengajuan')
         ->leftjoin('m_surveyor AS d','d.id','=','a.id_surveyor_1')
         ->leftjoin('m_surveyor AS e','e.id','=','a.id_surveyor_2')
         ->join('m_jenis_imb AS f','f.id','=','a.id_jenis_imb')
-        ->join('m_fungsi AS g','g.id','=','b.id_fungsi')
+        ->join('m_jenis_bangunan AS j','j.id','=','b.id_jenis_bangunan')
+        ->join('m_fungsi AS g','g.id','=','j.id_fungsi')
         ->join('m_klasifikasi_bangunan AS h','h.id','=','b.id_klasifikasi')
-        ->select([DB::raw('@rownum  := @rownum  + 1 AS no'),'a.id','a.tahun','a.nik','a.nama','f.nama AS jenis_imb',DB::raw('CONCAT(g.nama," - ",b.nama," - ",h.nama," - ",IF(b.is_bertingkat = 0,"Tidak Bertingkat","Bertingkat")) AS fungsi_klasifikasi'),DB::raw('if(a.id_surveyor_1 = 0,"Belum Ada Survey",CONCAT("1. ",d.nama,"<br/> 2. ",e.nama)) As surveyor'),DB::raw('CONCAT(\'<small><span class="\',c.label,\'">\',c.nama,"</span></small>") as status_pengajuan')])
-        ->where('a.flag_delete','=','0');
-        //debug($data);
+        ->select([DB::raw('@rownum  := @rownum  + 1 AS no'),'a.id','a.tahun','a.nik','a.nama','f.nama AS jenis_imb',DB::raw('CONCAT(g.nama," - ",j.nama," - ",h.nama) AS fungsi_klasifikasi'),DB::raw('if(a.id_surveyor_1 = 0,"Belum Ada Survey",CONCAT("1. ",d.nama,"<br/> 2. ",e.nama)) As surveyor'),DB::raw('CONCAT(\'<small><span class="\',c.label,\'">\',c.nama,"</span></small>") as status_pengajuan')])
+        ->where('a.flag_delete','=','0')
+        ->orderBy('a.id','DESC');
 
         $datatables = Datatables::of($data);
         if ($keyword = $request->get('search')['value']) {
