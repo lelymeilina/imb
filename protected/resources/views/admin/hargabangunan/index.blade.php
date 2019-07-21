@@ -76,17 +76,10 @@
                             </div>
                           </div>
 
-                          <div class="form-group">
-                            {!! Form::label('nama', 'Fungsi',['class' => 'col-md-3 control-label']) !!}
-                            <div class="col-md-8">
-                              {!! Form::select('id_fungsi',['' => 'Pilih Fungsi'] + $fungsi, null, ['class' => 'form-control select2', 'id' => 'fungsi','style' => 'width:100%']) !!}
-                            </div>
-                          </div>
-
                            <div class="form-group">
                             {!! Form::label('nama', 'Nama Klasifikasi',['class' => 'col-md-3 control-label']) !!}
                             <div class="col-md-8">
-                              {!! Form::select('id_klasifikasi',['' => 'Pilih Klasifikasi'] + $kb, null, ['class' => 'form-control select2', 'id' => 'klasifikasi','style' => 'width:100%']) !!}
+                              {!! Form::select('id_klasifikasi_bangunan',['' => 'Pilih Klasifikasi'] + $kb, null, ['class' => 'form-control select2', 'id' => 'klasifikasi','style' => 'width:100%']) !!}
                             </div>
                           </div>
 
